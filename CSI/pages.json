@@ -1,0 +1,76 @@
+{
+
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/passage/passageMain",
+			"style": {
+				"navigationBarTitleText": "文章广场"
+			}
+		},
+		{
+			"path": "pages/myself/myselfMain",
+			"style": {
+				"navigationBarTitleText": "与我相关"
+			}
+		},
+		{
+			"path": "pages/set/setMain",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},{
+			"path": "pages/set/userInfo",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
+		},
+		{
+			"path": "pages/set/voiceSet",
+			"style": {
+				"navigationBarTitleText": "语音设置"
+			}
+		},{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/login/logon",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#8967D3",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/passage/passageMain",
+			"iconPath": "static/广场_2.png",
+			"selectedIconPath": "static/广场_1.png",
+			"text": "文章广场"
+		}, {
+			"pagePath": "pages/myself/myselfMain",
+			"iconPath": "static/我的_2.png",
+			"selectedIconPath": "static/我的_1.png",
+			"text": "与我相关"
+		}, {
+			"pagePath": "pages/set/setMain",
+			"iconPath": "static/设置_2.png",
+			"selectedIconPath": "static/设置_1.png",
+			"text": "设置"
+		}]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"easycom": {
+		"^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
+	}
+}
