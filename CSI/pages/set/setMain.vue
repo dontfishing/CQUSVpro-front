@@ -6,7 +6,7 @@
 				<view class="userName">
 					{{userName}}
 				</view>
-				<u-button color="#08e7e7" shape="circle" class="button" text="修改头像" type="primary" size="mini"
+				<u-button color="#8967D3" shape="circle" class="button" text="修改头像" type="primary" size="mini"
 					@click="gotoPhoto()">
 				</u-button>
 			</view>
