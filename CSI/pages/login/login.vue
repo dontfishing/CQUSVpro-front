@@ -33,7 +33,7 @@
 			return {
 				account: '',
 				password: '',
-			 value: false
+				value: false
 			}
 		},
 
