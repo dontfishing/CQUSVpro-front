@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<u-cell-group>
-			<u-cell  title="用户名" isLink @click="userName()">
+			<u-cell title="用户名" isLink @click="userName()">
 				<u-icon slot="icon" size="32" name="account-fill"></u-icon>
 			</u-cell>
 			<u-cell title="性别" isLink @click="gender()">
@@ -24,21 +24,10 @@
 					<u-input placeholder="请输入新用户名"></u-input>
 				</view>
 				<view class="yesOrNot">
-					<u-button
-						class="cancleClass" 
-						type="primary" 
-						text="取消" 
-						shape="circle" 
-						@click="cancle()"
-						size="small">				
-					</u-button>
-					<u-button
-				 		class="yesClass" 
-						type="primary" 
-						text="确定" 
-						shape="circle" 
-						@click="yes()" 
+					<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()"
 						size="small">
+					</u-button>
+					<u-button class="yesClass" type="primary" text="确定" shape="circle" @click="yes()" size="small">
 					</u-button>
 				</view>
 			</u-popup>
@@ -50,21 +39,10 @@
 					<u-input placeholder="请输入您的性别"></u-input>
 				</view>
 				<view class="yesOrNot">
-					<u-button
-						class="cancleClass" 
-						type="primary" 
-						text="取消" 
-						shape="circle" 
-						@click="cancle()"
-						size="small">				
-					</u-button>
-					<u-button
-				 		class="yesClass" 
-						type="primary" 
-						text="确定" 
-						shape="circle" 
-						@click="yes()" 
+					<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()"
 						size="small">
+					</u-button>
+					<u-button class="yesClass" type="primary" text="确定" shape="circle" @click="yes()" size="small">
 					</u-button>
 				</view>
 			</u-popup>
@@ -76,35 +54,35 @@
 	export default {
 		data() {
 			return {
-				show : false
+				show: false
 			}
 		},
-		
-		methods : {
+
+		methods: {
 			userName() {
 				this.show = true
 			},
-			
+
 			close() {
 				this.show = false
 			},
-			
+
 			open() {
-				
+
 			},
-			
+
 			cancle() {
 				this.show = false
 			},
-			
+
 			yes() {
 				this.show = false
 				uni.request({
-					
+
 				})
 			}
-			
-			
+
+
 		}
 	}
 </script>
@@ -117,7 +95,7 @@
 		margin-left: 5%;
 		margin-right: 5%;
 	}
-	
+
 	.yesOrNot {
 		display: flex;
 		flex-direction: row;
@@ -126,15 +104,15 @@
 		margin-right: 5%;
 		margin-bottom: 10%;
 	}
-	
+
 	.cancleClass {
 		margin-right: 40%;
 	}
-	
+
 	.popLayer {
 		border-radius: 5%;
 	}
-	
+
 	text {
 		margin-top: 4%;
 		margin-right: 5%;
