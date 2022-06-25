@@ -1,5 +1,6 @@
 <template>
 	<view class="passageGround">
+
 		<!-- 搜索区域 -->
 		<view class="searchArea">
 			<!-- 搜索栏 -->
@@ -12,48 +13,52 @@
 		<!-- 具体内容 -->
 		<view class="contentArea">
 			<view v-for="(item, index) in passageList" :key="index">
-				<uni-card title="'title" sub-title="简介" :extra="getAcAndTime()"
+				<uni-card title="用户名" sub-title="时间" :extra="getAcAndTime()"
 					thumbnail="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png">
-					<!-- 语音播放条 -->
+					<!-- 语音播放 -->
 					<view class="player">
-						<!-- 播放图标 -->
-						<u-icon name="play-circle-fill" size="25" @click="play()"></u-icon>
-						<!-- 播放进度信息 -->
-						<view class="progressInfo">
-							<text>0/1</text>
-						</view>
-						<!-- 进度条 -->
-						<view class="progressLine">
-							<u-line-progress :percentage="30" activeColor="gray" :showText="false" height="8">
-							</u-line-progress>
-						</view>
-						<u-icon name="volume" size="25"></u-icon>
+						<audio style="text-align: left" :src="current.src" :poster="current.poster" :name="current.name"
+							:author="current.author" :loop="true" :action="audioAction" controls @play="play()"></audio>
 					</view>
 					<!-- 点赞评论栏 -->
 					<view class="comAndLikes">
 						<!-- 评论 -->
 						<view class="Comment">
 							<u-icon name="chat" size="25"></u-icon>
-							<u--text v-text="commentSum"></u--text>
+							<u--text v-text="passageList.commentSum"></u--text>
 						</view>
 						<!-- 点赞 -->
 						<view class="Likes">
 							<u-icon name="thumb-up" size="25"></u-icon>
-							<u--text v-text="likesSum"></u--text>
+							<u--text v-text="passageList.likesSum"></u--text>
 						</view>
 					</view>
 				</uni-card>
 			</view>
 		</view>
 
+		<!-- 加载页 -->
+		<view class="loadmore">
+			<uni-load-more :status="loadMoreStatus"></uni-load-more>
+		</view>
 	</view>
 </template>
 <script>
+	import uniLoadMore from '@/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue'
 	export default {
 		data() {
 			return {
 				keyword: "",
-
+				current: {
+					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png',
+					name: '文章标题',
+					author: '简介',
+					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
+					loop: 'true',
+				},
+				audioAction: {
+					method: 'pause'
+				},
 				passageList: [{
 					title: "1",
 					resume: "1",
@@ -69,6 +74,8 @@
 					likesSum: 40,
 					commentSum: 5
 				}],
+				loadMoreStatus: 'more',
+
 			}
 		},
 		methods: {
@@ -79,7 +86,75 @@
 				// 	};
 				// 	return valueAc+"\n"+time;
 			},
+			
+			play() {
 
+			},
+			// loadmore(){
+			// 	this.loadMoreStatus='loading';
+			// }
+			
+		},
+		
+		onLoad: function(options) {
+			setTimeout(function() {
+				console.log('start pulldown');
+			}, 1000);
+			uni.startPullDownRefresh();
+		},
+		
+		onPullDownRefresh() {
+			console.log('refresh');
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
+		onReachBottom() {
+			let _self = this
+			this.status = 'loading'
+			uni.showNavigationBarLoading()
+			this.pageNumber++
+			uni.request({
+				url: "",
+				method: 'GET',
+				header: {
+					'content-type': 'application/json',
+					'appCode': getApp().globalData.appCode
+				},
+				data: {
+					"pageNumber":this.pageNumber,
+					"pageSize":this.pageSize
+				},
+				success: (res) => {
+					uni.hideLoading();
+					const state = res.data.code;
+					if (state == 0) {
+						if (res.data) {
+							this.upLoadData = res.data.data;
+							// console.log(this.upLoadData.length)
+							if(Math.ceil(res.data.total/this.pageSize) +1 <= this.pageNumber){
+								_self.status = 'noMore'
+							}else{
+								setTimeout(function() {
+									for (var i = 0; i < _self.upLoadData.length; i++) {
+										_self.listData.push(_self.upLoadData[i])
+									}
+									console.log(_self.listData.length)
+									_self.status = 'more'
+									uni.hideNavigationBarLoading()
+								}, 1000);
+							}
+						} else {
+							this.showMore = false;
+						}
+					} else {
+						uni.showToast({
+							icon: 'none',
+							title: res.data.msg
+						});
+					}
+				}
+			});
 		},
 	}
 </script>
@@ -91,7 +166,7 @@
 	}
 
 	.searchBar {
-		margin: 5px 10px 10px 5px;
+		margin: 5px 10px 20px 5px;
 	}
 
 	.contentArea {}
@@ -99,7 +174,6 @@
 	.player {
 		display: flex;
 		flex-direction: row;
-		background-color: gainsboro;
 	}
 
 	/* 	.progressLine{
@@ -111,11 +185,17 @@
 	.comAndLikes {
 		display: flex;
 		flex-direction: row;
-		margin: 2px 2px 2px 2px;
+		margin: 2px 10% 2px 2px;
 	}
 
 	.Comment {
-		margin: 0px 30% 0px 0px;
+		margin: 0px 80% 0px 5%;
 
+	}
+
+	.loadmore {
+		display: flexbox;
+		flex-direction: column-reverse;
+		margin-top: 20%;
 	}
 </style>
