@@ -11,17 +11,17 @@
 			<audio style="text-align: left" :src="current.src" :poster="current.poster" :name="current.name"
 				:author="current.author" :loop="true" :action="audioAction" controls @play="play()"></audio>
 		</view>
-		
+
 		<!-- 按钮区域 -->
 		<view class="btn">
-			
+
 			<!--取消按钮-->
 			<view class="btnQuit">
 				<navigator url="/pages/login/login">
 					<u-button type="primary" text="取消"></u-button>
 				</navigator>
 			</view>
-			
+
 			<!--发表按钮-->
 			<view class="btnPublish">
 				<u-button type="primary" color="#" text="发表" @click="publish()"></u-button>
@@ -49,11 +49,12 @@
 				},
 				audioAction: {
 					method: 'pause'
-				},
-			},
-		methods:{
-			
+				}
+			}
 		},
+		methods: {
+
+		}
 	}
 </script>
 
