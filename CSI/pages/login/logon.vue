@@ -40,7 +40,7 @@
 				 	-->
 				</u--input></br>
 				<!-- 年龄 -->
-				<u--input class="infoAge" placeholder="年龄" border="surround" v-model="valueAge">
+				<u--input class="infoAge" type="number" placeholder="年龄" border="surround" v-model="valueAge">
 				</u--input></br>
 				<!-- 邮箱 -->
 				<u--input class="infoEmail" placeholder="邮箱" border="surround" v-model="valueEmail" clearable>
