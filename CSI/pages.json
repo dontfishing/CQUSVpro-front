@@ -4,7 +4,20 @@
 		{
 			"path": "pages/passage/passageMain",
 			"style": {
-				"navigationBarTitleText": "文章广场"
+				"navigationBarTitleText": "文章广场",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/passage/passageDetails",
+			"style": {
+				"navigationBarTitleText": "文章详情"
+			}
+		},
+		{
+			"path": "pages/passage/pssageWriting",
+			"style": {
+				"navigationBarTitleText": "写文章"
 			}
 		},
 		{

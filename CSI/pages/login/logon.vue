@@ -1,5 +1,5 @@
 <template>
-	<view class="reg" :style="{background: 'url('+imageURL+')'}">
+	<view class="reg" > <!-- style="{background: 'url('+imageURL+')'}" -->
 		<!-- 如果是设置background-image则写成：<view class="content" :style="{backgroundImage: 'url('+imageURL+')'}"> -->
 		<!-- 注册页面 -->
 		<view class="title">
@@ -40,7 +40,7 @@
 				 	-->
 				</u--input></br>
 				<!-- 年龄 -->
-				<u--input class="infoAge" type="number" placeholder="年龄" border="surround" v-model="valueAge">
+				<u--input class="infoAge" placeholder="年龄" border="surround" v-model="valueAge">
 				</u--input></br>
 				<!-- 邮箱 -->
 				<u--input class="infoEmail" placeholder="邮箱" border="surround" v-model="valueEmail" clearable>
@@ -96,11 +96,11 @@
 					email: this.valueEmail
 				};
 				// 判断输入不为空
-				if (data.valueAc == null && data.password == null && data.passwordAgain == null && data.valueGend ==
-					null && data.valueAge == null && data.valueEmail == null) {
+				if (data.valueAc == "" ||   data.password == "" ||   data.passwordAgain == "" ||   data.valueGend ==
+					"" ||   data.valueAge == "" ||   data.valueEmail == "") {
 					uni.showToast({
 						icon: 'none',
-						title: '输入不可以为空',
+						title: '输入不可以为空'
 					});
 				}
 
@@ -108,7 +108,7 @@
 				else if (data.password != data.passwordAgain) {
 					uni.showToast({
 						icon: 'none',
-						title: '确认密码与密码不一致',
+						title: '确认密码与密码不一致'
 					});
 				} else {
 					uni.request({
@@ -161,6 +161,7 @@
 	.reg {
 		color: black;
 		text-decoration-color: white;
+/* 		background-color: #f5f5f0; */
 	}
 
 	/* 注册标题 */
@@ -168,6 +169,7 @@
 		text-align: left;
 		font-size: 90rpx;
 		color: #0f0f0f;
+		margin: 10% 0rpx 10% 5%;
 	}
 
 	/* 注册信息总界面 */
