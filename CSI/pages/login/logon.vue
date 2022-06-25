@@ -47,13 +47,6 @@
 				</u--input>
 
 			</view>
-			<!-- <editor id="editor" class="info_ac" :placeholder="用户名" @ready="onEditorReady"></editor>
-				<editor id="editor" class="info_psw" :placeholder="密码" @ready="onEditorReady"></editor>
-				<editor id="editor" class="info_pw_again" :placeholder="确认密码" @ready="onEditorReady"></editor>
-				<editor id="editor" class="info_sex" :placeholder="性别" @ready="onEditorReady"></editor>
-				<editor id="editor" class="info_age" :placeholder="年龄" @ready="onEditorReady"></editor>
-				<editor id="editor" class="info_email" :placeholder="邮箱" @ready="onEditorReady"></editor> -->
-
 		</view>
 
 		<!--按钮界面-->
