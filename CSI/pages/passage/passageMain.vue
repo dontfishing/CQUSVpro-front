@@ -13,24 +13,27 @@
 		<!-- 具体内容 -->
 		<view class="contentArea">
 			<view v-for="(item, index) in passageList" :key="index">
-				<uni-card title="用户名" sub-title="时间" :extra="getAcAndTime()"
+				<uni-card :title="passageList[index].userName" :sub-title="passageList[index].time"
 					thumbnail="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png">
 					<!-- 语音播放 -->
 					<view class="player">
-						<audio style="text-align: left" :src="current.src" :poster="current.poster" :name="current.name"
-							:author="current.author" :loop="true" :action="audioAction" controls @play="play()"></audio>
+						<audio style="text-align: left" :src="passageList[index].src"
+							:poster="passageList[index].poster" :name="passageList[index].title"
+							:author="passageList[index].abstract" :loop="false" controls @play="play()"></audio>
 					</view>
 					<!-- 点赞评论栏 -->
 					<view class="comAndLikes">
 						<!-- 评论 -->
 						<view class="Comment">
 							<u-icon name="chat" size="25"></u-icon>
-							<u--text v-text="passageList.commentSum"></u--text>
+							<!-- 评论数 -->
+							<u--text v-text="passageList[index].commentSum"></u--text>
 						</view>
 						<!-- 点赞 -->
 						<view class="Likes">
 							<u-icon name="thumb-up" size="25"></u-icon>
-							<u--text v-text="passageList.likesSum"></u--text>
+							<!-- 点赞数 -->
+							<u--text v-text="passageList[index].likesSum"></u--text>
 						</view>
 					</view>
 				</uni-card>
@@ -45,117 +48,143 @@
 </template>
 <script>
 	import uniLoadMore from '@/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue'
+
 	export default {
 		data() {
 			return {
-				keyword: "",
-				current: {
-					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png',
-					name: '文章标题',
-					author: '简介',
-					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
-					loop: 'true',
-				},
-				audioAction: {
-					method: 'pause'
-				},
-				passageList: [{
-					title: "1",
-					resume: "1",
-					account: "lsw",
-					time: "2022.3.3",
-					likesSum: 55,
-					commentSum: 10
+				keyword: "", // 搜索关键词
+				passageList: [{ // 文章列表
+					passId: "1",
+					userName: "123", //用户名
+					time: "2022.1.3 1:10", // 发布时间
+					title: "1", // 标题
+					abstract: "1", // 简介
+					likesSum: 55, // 点赞数
+					commentSum: 10, // 评论数
+					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png', // 播放背景图片,默认为用户头像
+					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3', // 音频来源
 				}, {
-					title: "2",
-					resume: "2",
-					account: "smc",
-					time: "2022.4.5",
-					likesSum: 40,
-					commentSum: 5
+					// 同上
+					passId: "1",
+					userName: "345", //用户名
+					title: "2", // 标题
+					abstract: "2", // 简介
+					time: "2022.1.3 1:10", // 发布时间
+					likesSum: 25, // 点赞数
+					commentSum: 40, // 评论数
+					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png', // 播放背景图片,默认为用户头像
+					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3', // 音频来源
 				}],
-				loadMoreStatus: 'more',
+				loadMoreStatus: 'more', // 加载更多的状态：可加载、正在加载、没有更多
 
 			}
 		},
 		methods: {
-			getAcAndTime() {
-				// 	var data = {
-				// 		account: this.passageList.account,
-				// 		time: this.passageList.time
-				// 	};
-				// 	return valueAc+"\n"+time;
-			},
-			
-			play() {
+			play() { // 播放音频
 
 			},
-			// loadmore(){
-			// 	this.loadMoreStatus='loading';
-			// }
-			
-		},
-		
-		onLoad: function(options) {
-			setTimeout(function() {
-				console.log('start pulldown');
-			}, 1000);
-			uni.startPullDownRefresh();
-		},
-		
-		onPullDownRefresh() {
-			console.log('refresh');
-			setTimeout(function() {
-				uni.stopPullDownRefresh();
-			}, 1000);
-		},
-		onReachBottom() {
-			let _self = this
-			this.status = 'loading'
-			uni.showNavigationBarLoading()
-			this.pageNumber++
-			uni.request({
-				url: "",
-				method: 'GET',
-				header: {
-					'content-type': 'application/json',
-					'appCode': getApp().globalData.appCode
-				},
-				data: {
-					"pageNumber":this.pageNumber,
-					"pageSize":this.pageSize
-				},
-				success: (res) => {
-					uni.hideLoading();
-					const state = res.data.code;
-					if (state == 0) {
-						if (res.data) {
-							this.upLoadData = res.data.data;
-							// console.log(this.upLoadData.length)
-							if(Math.ceil(res.data.total/this.pageSize) +1 <= this.pageNumber){
-								_self.status = 'noMore'
-							}else{
-								setTimeout(function() {
-									for (var i = 0; i < _self.upLoadData.length; i++) {
-										_self.listData.push(_self.upLoadData[i])
-									}
-									console.log(_self.listData.length)
-									_self.status = 'more'
-									uni.hideNavigationBarLoading()
-								}, 1000);
-							}
+			updatePass(ob) {
+				var tmp;
+				tmp.userName = ob.userName; //用户名
+				tmp.title = ob.postTitlem; //文章标题
+				tmp.abstract = ob.postSummary; // 简介
+				tmp.time = ob.postTime; // 发布时间
+				tmp.likesSum = ob.postLike; // 点赞数
+				tmp.commentSum = ob.postComment; // 评论数
+				tmp.id = ob.postId; //文章id
+				tmp.poster =
+					'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
+				tmp.src =
+					'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
+				this.passageList.push(tmp); //更新文章列表
+			},
+			refresh(ob) { //下拉加载更多的函数
+				let _this = this;
+				uni.request({	//获取远端数据
+					url: 'http://106.14.62.110:8080/essay/afterRefresh',
+					data: {
+						postId: ob.postId
+					},
+					success: (res) => {
+						console.log(res.data);
+						if (res.data.infoAmount == 0) {
+							uni.showToast({
+								title: '刷新成功',
+								duration: 2000
+							});
+						} else if (res.data.infoAmount == 1) {
+							_this.updatePass(res.data.essay1);
+							uni.showToast({
+								title: '刷新成功',
+								duration: 2000
+							});
+						} else if (res.data.infoAmount == 2) {
+							_this.updatePass(res.data.essay1);
+							_this.updatePass(res.data.essay2);
+							uni.showToast({
+								title: '刷新成功',
+								duration: 2000
+							});
 						} else {
-							this.showMore = false;
+							_this.updatePass(res.data.essay1);
+							_this.updatePass(res.data.essay2);
+							_this.updatePass(res.data.essay3);
+							uni.showToast({
+								title: '刷新成功',
+								duration: 2000
+							});
 						}
-					} else {
-						uni.showToast({
-							icon: 'none',
-							title: res.data.msg
-						});
 					}
-				}
-			});
-		},
+				})
+			},
+			pullDownRefresh() { //上拉刷新的函数
+				let _this = this;
+				uni.request({
+					url: 'http://106.14.62.110:8080/essay/refresh',
+					success: (res) => {
+						console.log(res.data);
+						if (res.data.infoAmount == 0) {
+							uni.showToast({
+								title: '刷新成功',
+								duration: 2000
+							});
+						} else if (res.data.infoAmount == 1) {
+							_this.updatePass(res.data.essay1);
+							uni.showToast({
+								title: '刷新成功',
+								duration: 2000
+							});
+						} else if (res.data.infoAmount == 2) {
+							_this.updatePass(res.data.essay1);
+							_this.updatePass(res.data.essay2);
+							uni.showToast({
+								title: '刷新成功',
+								duration: 2000
+							});
+						} else {
+							_this.updatePass(res.data.essay1);
+							_this.updatePass(res.data.essay2);
+							_this.updatePass(res.data.essay3);
+							uni.showToast({
+								title: '刷新成功',
+								duration: 2000
+							});
+						}
+					}
+				})
+			},
+			onLoad() { //每次加载都会重新刷新
+				let that = this;
+				that.pullDownRefresh();
+			},
+			onPullDownRefresh() { // 下拉刷新
+				this.pullDownRefresh();
+			},
+
+			onReachBottom() { // 上划加载
+				this.refresh(this.passageList[this.passageList.length - 1]);
+			},
+		}
 	}
 </script>
 <style>
@@ -197,5 +226,15 @@
 		display: flexbox;
 		flex-direction: column-reverse;
 		margin-top: 20%;
+	}
+
+	.Likes {
+		//点赞数
+		display: flex;
+	}
+
+	.Comment {
+		//评论数
+		display: flex;
 	}
 </style>

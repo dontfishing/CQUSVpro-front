@@ -144,7 +144,7 @@
 				}
 
 				// 判断邮箱是否符号要求
-				else if (!(/^[a-zA-Z0-9_.-]+@+[a-zA-Z0-9_.-]$/.test(this.valueEmail))) {
+				else if (!(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.valueEmail))) {
 					uni.showToast({
 						icon: 'error',
 						title: '邮箱不符合要求'
