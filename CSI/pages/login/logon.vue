@@ -1,5 +1,6 @@
 <template>
-	<view class="reg" > <!-- style="{background: 'url('+imageURL+')'}" -->
+	<view class="reg">
+		<!-- style="{background: 'url('+imageURL+')'}" -->
 		<!-- 如果是设置background-image则写成：<view class="content" :style="{backgroundImage: 'url('+imageURL+')'}"> -->
 		<!-- 注册页面 -->
 		<view class="title">
@@ -22,23 +23,25 @@
 			<!-- 输入框 -->
 			<view class="input">
 				<!-- 用户名 -->
-				<u--input class="infoAc" placeholder="用户名" border="surround" v-model="valueAc" clearable>
+				<u--input class="infoAc" placeholder="只支持大小写英文字母与数字" border="surround" v-model="valueAc" clearable>
 				</u--input></br>
 				<!-- 密码 -->
-				<u--input class="infoPsw" type="password" placeholder="密码" border="surround" v-model="valuePsw"
-					clearable></u--input></br>
+				<u--input class="infoPsw" type="password" placeholder="6-16位,大小写字母、数字" border="surround"
+					v-model="valuePsw" clearable></u--input></br>
 
 				<!-- 确认密码 -->
 				<u--input class="infoPwAgain" type="password" placeholder="确认密码" border="surround"
 					v-model="valuePwAgain" clearable>
 				</u--input></br>
 				<!-- 性别 -->
-				<u--input class="infoGend" placeholder="性别" border="surround" v-model="valueGend"></br>
-					<!-- 
-				 	<u-picker :show="show" :columns="columns"></u-picker>
-				 	<u-button @click="show = true">打开</u-button> 
-				 	-->
-				</u--input></br>
+				<u-radio-group v-model="valueGend" placement="row">
+					<u-radio :customStyle="{margin:'10px 60% 10px 0px'}" v-for="(item, index) in genderList"
+						:key="index" :label="item.name" :name="item.name">
+					</u-radio>
+				</u-radio-group>
+				<!-- <u--input class="infoGend" placeholder="性别" border="surround" v-model="valueGend"></br>
+				</u--input> -->
+				</br>
 				<!-- 年龄 -->
 				<u--input class="infoAge" type="number" placeholder="年龄" border="surround" v-model="valueAge">
 				</u--input></br>
@@ -75,63 +78,122 @@
 				valueGend: "",
 				valueAge: "",
 				valueEmail: "",
-				imageURL: 'E:\\1\\codelearn\\前端\\0-init\\web\\data\\pic\\pic-1.png'
+				genderList: [{
+					name: '女',
+					disabled: true
+				}, {
+					name: '男',
+					disabled: false
+				}],
+				valueGend: '女',
+				// imageURL: 'E:\\1\\codelearn\\前端\\0-init\\web\\data\\pic\\pic-1.png'
 			};
 		},
 		methods: {
+
 			register() {
 				var data = {
-					account: this.valueAc,
+					useraccount: this.valueAc,
 					password: this.valuePsw,
 					passwordAgain: this.valuePwAgain,
 					gender: this.valueGend,
-					age: this.valueAge,
+					age: this.valueAge.toString(),
 					email: this.valueEmail
 				};
+
 				// 判断输入不为空
-				if (data.valueAc == "" ||   data.password == "" ||   data.passwordAgain == "" ||   data.valueGend ==
-					"" ||   data.valueAge == "" ||   data.valueEmail == "") {
+				if (data.useraccount == "" || data.password == "" || data.passwordAgain == "" || data.valueAge == "" ||
+					data
+					.valueEmail == "") {
 					uni.showToast({
-						icon: 'none',
+						icon: 'error',
 						title: '输入不可以为空'
+					});
+				}
+
+				// 判断用户名是否符号要求
+				else if (!(/^[A-Za-z\d]{5,24}$/.test(this.valueAc))) {
+					uni.showToast({
+						icon: 'error',
+						title: '用户名不符合要求'
+					});
+				}
+
+
+				// 判断密码是否符号要求
+				else if (!(/^[A-Za-z\d]{6,16}$/.test(this.valuePsw))) {
+					uni.showToast({
+						icon: 'error',
+						title: '密码不符合要求'
+					});
+				}
+
+				// 判断年龄是否符号要求
+				else if (this.valueAge <= 0) {
+					uni.showToast({
+						icon: 'error',
+						title: '年龄不符合要求'
+					});
+				}
+
+				// 判断邮箱是否符号要求
+				else if (!(/^[a-zA-Z0-9_.-]+@+[\S]$/.test(this.valueEmail))) {
+					uni.showToast({
+						icon: 'error',
+						title: '邮箱不符合要求'
 					});
 				}
 
 				// 判断确认密码与密码是否一致
 				else if (data.password != data.passwordAgain) {
 					uni.showToast({
-						icon: 'none',
+						icon: 'error',
 						title: '确认密码与密码不一致'
 					});
 				} else {
 					uni.request({
-						url: 'https://console-mock.apipost.cn/app/mock/project/116fc457-f384-4c81-d11c-1c4c6fbe62bf/regs', //api地址
+						url: 'http://106.14.62.110:8080/userRegister', //api地址
 						method: "POST",
 						data: {
-							account: this.valueAc,
+							useraccount: this.valueAc,
 							password: this.valuePsw,
 							gender: this.valueGend,
-							age: this.valueAge,
+							age: this.valueAge.toString(),
 							email: this.valueEmail
 						},
 						success: res => {
+							console.log(res.data);
 							if (res.statusCode == 404) { //返回的状态码
 								uni.showToast({
-									icon: 'none',
-									title: '用户名已存在',
+									icon: 'error',
+									title: '网页失踪了',
 								});
 							}
+							// 用户名已存在
+							else if (res.data == 2) {
+								uni.showToast({
+									icon: 'error',
+									title: '用户名已被占用'
+								});
+							}
+							// 服务器错误
+							else if (res.data == 1) {
+								uni.showToast({
+									icon: 'error',
+									title: '发生错误，请稍后再试'
+								});
+							} else {
 
-							uni.showToast({
-								icon: 'none',
-								title: '注册成功',
-								duration: 2000
-							});
+								uni.showToast({
+									icon: 'none',
+									title: '注册成功',
+									duration: 2000
+								});
 
-							uni.navigateTo({
-								url: '/pages/login/login'
-							});
-
+								uni.navigateTo({
+									url: '/pages/login/login'
+								});
+							}
 						},
 
 						fail: () => {
@@ -154,7 +216,7 @@
 	.reg {
 		color: black;
 		text-decoration-color: white;
-/* 		background-color: #f5f5f0; */
+		/* 		background-color: #f5f5f0; */
 	}
 
 	/* 注册标题 */
