@@ -36,7 +36,7 @@
 			
 			gotoMyW () {
 				uni.navigateTo({
-					url: 'writePassage'
+					url: 'passageWriting'
 				})
 			}
 		}

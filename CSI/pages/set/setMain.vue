@@ -51,13 +51,19 @@
 				uni.chooseImage({
 					count: 1,
 					sizeType: ['original', 'compressed'],
-					sourceType: ['camera','album'], //这要注意，camera掉拍照，album是打开手机相册
+					sourceType: ['camera','album'], //这要注意，camera调拍照，album是打开手机相册
 					success: (res)=> {
 					// console.log(res);
 						const tempFilePaths = res.tempFilePaths;
 						this.Imgs = res.tempFilePaths[0]
 						// this.$forceUpdate();
 						// console.log(this.Imgs)
+						uni.uploadFile({
+							url: '',
+							filePath: this.Imgs,
+							fileType: 'image',
+							name: 'file'
+						})
 					}
 				});
 			},
