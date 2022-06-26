@@ -15,7 +15,7 @@
 			}
 		},
 		{
-			"path": "pages/myself/pssageWriting",
+			"path": "pages/myself/passageWriting",
 			"style": {
 				"navigationBarTitleText": "写文章"
 			}
