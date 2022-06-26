@@ -18,18 +18,20 @@
 					<!-- 语音播放 -->
 					<view class="player">
 						<audio style="text-align: left" :src="current.src" :poster="current.poster" :name="current.name"
-							:author="current.author" :loop="true" :action="audioAction" controls @play="play()"></audio>
+							:author="current.author" :loop="true" controls @play="play()"></audio>
 					</view>
 					<!-- 点赞评论栏 -->
 					<view class="comAndLikes">
 						<!-- 评论 -->
 						<view class="Comment">
 							<u-icon name="chat" size="25"></u-icon>
+							<!-- 评论数 -->
 							<u--text v-text="passageList.commentSum"></u--text>
 						</view>
 						<!-- 点赞 -->
 						<view class="Likes">
 							<u-icon name="thumb-up" size="25"></u-icon>
+							<!-- 点赞数 -->
 							<u--text v-text="passageList.likesSum"></u--text>
 						</view>
 					</view>
@@ -48,25 +50,38 @@
 	export default {
 		data() {
 			return {
+				// 搜索关键词
 				keyword: "",
+				// 当前播放状态
 				current: {
+					// 播放背景图片
 					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png',
+					// 
 					name: '文章标题',
+					// author为自带命名，直接忽略，这个位置放的是简介
 					author: '简介',
+					// 音频来源
 					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
+					// 是否循环播放
 					loop: 'true',
 				},
-				audioAction: {
-					method: 'pause'
-				},
+				
+				// 文章列表
 				passageList: [{
-					title: "1",
+					// 标题
+					title: "1",  
+					// 简介
 					resume: "1",
+					// 用户名或昵称
 					account: "lsw",
+					// 发布时间
 					time: "2022.3.3",
+					// 点赞数
 					likesSum: 55,
+					// 评论数
 					commentSum: 10
 				}, {
+					// 同上
 					title: "2",
 					resume: "2",
 					account: "smc",
@@ -74,11 +89,13 @@
 					likesSum: 40,
 					commentSum: 5
 				}],
+				// 加载更多的状态：可加载、正在加载、没有更多
 				loadMoreStatus: 'more',
 
 			}
 		},
 		methods: {
+			// 获取用户名和时间
 			getAcAndTime() {
 				// 	var data = {
 				// 		account: this.passageList.account,
@@ -86,7 +103,7 @@
 				// 	};
 				// 	return valueAc+"\n"+time;
 			},
-			
+			// 播放音频
 			play() {
 
 			},
@@ -103,12 +120,15 @@
 			uni.startPullDownRefresh();
 		},
 		
+		// 下拉刷新
 		onPullDownRefresh() {
 			console.log('refresh');
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
 		},
+		
+		// 上划加载
 		onReachBottom() {
 			let _self = this
 			this.status = 'loading'
