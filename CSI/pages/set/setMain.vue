@@ -48,6 +48,18 @@
 		methods: {
 
 			gotoPhoto() { //跳转到更改头像
+				uni.chooseImage({
+					count: 1,
+					sizeType: ['original', 'compressed'],
+					sourceType: ['camera','album'], //这要注意，camera掉拍照，album是打开手机相册
+					success: (res)=> {
+					// console.log(res);
+						const tempFilePaths = res.tempFilePaths;
+						this.Imgs = res.tempFilePaths[0]
+						// this.$forceUpdate();
+						// console.log(this.Imgs)
+					}
+				});
 			},
 			changeShowEnd() {	//显示退出登录菜单
 				this.showEnd = true;

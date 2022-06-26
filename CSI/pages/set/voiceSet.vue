@@ -11,7 +11,7 @@
 		<view class="sliderSet">
 			<text>音量</text>
 			<slider value="5" min="0" max="9" @change="sliderChangeV" show-value="true"/>
-		</view>
+		</view></br>
 		<u-cell-group>
 			<u-cell  title="音色选择" isLink @click="voiceChoice()">
 				<u-icon slot="icon" size="30" name="volume-fill"></u-icon>
@@ -22,7 +22,7 @@
             <view>
 				<u-grid
 						:border="true"
-						@click="click"
+						@click="timbreChoice"
 				>
 					<u-grid-item
 							v-for="(baseListItem,baseListIndex) in baseList"
@@ -48,23 +48,47 @@
 			return {
 				show: false,
 				 baseList: [{
-								name: 'photo',
-				                title: '音色1'
+								name: 'volume-fill',
+				                title: '音色1' //度小美
 				            },
 				            {
-								name: 'lock',
-				                title: '音色2'
+								name: 'volume-fill',
+				                title: '音色2' //度小宇
 				            },
 				            {
-				                name: 'star',
-				                title: '音色3'
+				                name: 'volume-fill',
+				                title: '音色3' //度逍遥
 				            },
+							{
+								name: 'volume-fill',
+								title: '音色4' //度丫丫
+							},
+							{
+								name: 'volume-fill',
+								title: '音色5' //度小娇
+							},
+							{
+								name: 'volume-fill',
+								title: '音色6' //度米朵
+							},
+							{
+								name: 'volume-fill',
+								title: '音色7' //度博文
+							},
+							{
+								name: 'volume-fill',
+								title: '音色8' //度小童
+							},
+							{
+								name: 'volume-fill',
+								title: '音色9' //度小萌
+							}
 				           ]
 			}
 		},
 		
 		methods: {
-			sliderChangeS(e) {
+			sliderChangeS(e) { //传语速设置
 				uni.request({
 					url: '',
 					method:"POST",
@@ -74,7 +98,7 @@
 				})
 			},
 			
-			sliderChangeT(e) {
+			sliderChangeT(e) { //传音调设置
 				uni.request({
 					url: '',
 					method:"POST",
@@ -84,7 +108,7 @@
 				})
 			},
 			
-			sliderChangeV(e) {
+			sliderChangeV(e) { //传音量设置
 				uni.request({
 					url: '',
 					method:"POST",
@@ -94,9 +118,8 @@
 				})
 			},
 			
-			voiceChoice() {
-				this.show = true;
-				
+			voiceChoice() { //点击单元格弹出音色选择
+				this.show = true;	
 			},
 			
 			open() {
@@ -105,6 +128,19 @@
 			
 			close() {
 				this.show = false;
+			},
+			
+			timbreChoice(name) { //传音色的选择
+				this.$refs.uToast.success(`设置成功`);
+				console.log(name);
+				uni.request({
+					url: '',
+					method: "POST",
+					data: {
+						"timbre": this.name
+					}
+				})
+				
 			}
 		}
 		
@@ -112,9 +148,6 @@
 </script>
 
 <style>
-	view {
-		margin-top: 5%;
-	}
 	
 	text {
 		margin-top: 6%;
@@ -127,6 +160,7 @@
 		border-radius: 5%;
 		margin-left: 3%;
 		margin-right: 3%;
+		margin-top: 5%;
 	}
 	
 	.grid-text {
