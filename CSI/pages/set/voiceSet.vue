@@ -13,16 +13,18 @@
 			<slider value="5" min="0" max="9" @change="sliderChangeV" show-value="true"/>
 		</view></br>
 		<u-cell-group>
-			<u-cell  title="音色选择" isLink @click="voiceChoice()">
+			<u-cell  title="音色选择" isLink @click="voiceChoice()"  :value="timbreDisplay">
 				<u-icon slot="icon" size="30" name="volume-fill"></u-icon>
 				<!-- <u-badge count="99" :absolute="false" slot="right-icon"></u-badge> -->
 			</u-cell>
 		</u-cell-group>
+		<u-button text="确定" type="primary" @click="allSet()"></u-button>
 		<u-popup :show="show" @close="close" @open="open">
             <view>
 				<u-grid
 						:border="true"
 						@click="timbreChoice"
+						v-model="timbreDisplay"
 				>
 					<u-grid-item
 							v-for="(baseListItem,baseListIndex) in baseList"
@@ -46,7 +48,12 @@
 	export default {
 		data () {
 			return {
-				show: false,
+				show: false, //弹出层默认不显示
+				timbreDisplay: '音色1', //单元格右边显示选择的音色，默认音色1
+				speed: 5, //语速
+				tune: 5, //音调
+				volume: 4, //音量 
+				timbre: 0, //音色
 				 baseList: [{
 								name: 'volume-fill',
 				                title: '音色1' //度小美
@@ -89,33 +96,15 @@
 		
 		methods: {
 			sliderChangeS(e) { //传语速设置
-				uni.request({
-					url: '',
-					method:"POST",
-					data:{
-						"speed": e.detail.value
-					}
-				})
+				this.speed = e.detail.value;
 			},
 			
 			sliderChangeT(e) { //传音调设置
-				uni.request({
-					url: '',
-					method:"POST",
-					data:{
-						"tune": e.detail.value
-					}	
-				})
+				this.tune = e.detail.value;
 			},
 			
 			sliderChangeV(e) { //传音量设置
-				uni.request({
-					url: '',
-					method:"POST",
-					data:{
-						"volume": e.detail.value
-					}	
-				})
+				this.volume = e.detail.value;
 			},
 			
 			voiceChoice() { //点击单元格弹出音色选择
@@ -133,14 +122,25 @@
 			timbreChoice(name) { //传音色的选择
 				this.$refs.uToast.success(`设置成功`);
 				console.log(name);
+				this.timbre = name;
+				this.timbreDisplay = "音色"+(name+1);
+			},
+			
+			allSet() {
 				uni.request({
 					url: '',
-					method: "POST",
-					data: {
-						"timbre": this.name
+					method:"POST",
+					data:{
+						speed : this.speed,
+						tune : this.tune,
+						volume : this.volume,
+						timbre : this.timbre
 					}
 				})
 				
+				uni.showToast({
+					
+				})
 			}
 		}
 		
@@ -170,5 +170,11 @@
 	    /* #ifndef APP-PLUS */
 	    box-sizing: border-box;
 	    /* #endif */
+	}
+
+	.u-button {
+		margin-top: 30%;
+		margin-left: 35%;
+		width: 30%;
 	}
 </style>

@@ -53,6 +53,12 @@
 			"style": {
 				"navigationBarTitleText": "注册"
 			}
+		},
+		{
+			"path": "pages/myself/myPassage",
+			"style": {
+				"navigationBarTitleText": "我的文章"
+			}
 		}
 	],
 	"tabBar": {

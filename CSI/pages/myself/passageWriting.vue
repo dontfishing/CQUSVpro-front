@@ -7,19 +7,24 @@
 			</u--input>
 			<u--input class="infoAge" placeholder="请输入文章简介" border="surround" v-model="abstract">
 			</u--input>
-			<u--textarea placeholder="请输入内容" height=180 maxlength=512 adjustPosition count></u--textarea>
+			<u--textarea v-model="passageContent" placeholder="请输入内容" height=180 maxlength=512 adjustPosition count></u--textarea>
 		</view>
 
 		<!-- 试听区域 -->
-		<view class="player">
-			<audio style="text-align: left" :src="current.src" :poster="current.poster" :name="current.name"
-				:author="current.author" :loop="true" :action="audioAction" controls @pause="pause()" @timeupdate="timeupdate()" @play="play()"></audio>
+		<view class="player"  v-show="show">
+			<audio style="text-align: left" :src="current.src" :poster="current.poster" :name="title"
+				:author="abstract" :loop="true" :action="audioAction" controls @pause="pause()" @timeupdate="timeupdate()" @play="play()"></audio>
+		</view>
+
+		<!--选择显示还是不显示-->
+		<view class="voiceGenerate">
+			<u-button text="生成音频" color="#8967D3" @click="generate()"></u-button>
 		</view>
 
 		<!-- 声音设置区域 -->
 		<view class="voiceChoice">
 			<navigator url="/pages/set/voiceSet">
-				<u-button type="primary" color="rgb(135,206,250)" text="声音设置"></u-button>
+				<u-button type="primary" color="#8967D3" text="声音设置"></u-button>
 			</navigator>
 		</view>
 
@@ -33,7 +38,7 @@
 
 			<!--发表按钮-->
 			<view class="btnPublish">
-				<u-button type="primary" text="发表" @click="publish()"></u-button>
+				<u-button type="primary" text="发表" @click="publish()" color="#8967D3"></u-button>
 			</view>
 		</view>
 
@@ -46,29 +51,70 @@
 	export default {
 		data() {
 			return {
-				title: '标题',
-				abstract: '',
-				passageContent: '',
-				current: {
+				title: '', //文章标题
+				abstract: '', //文章简介
+				passageContent: '', //文章内容
+				current: { //提供播放器的标题，作者，资源
 					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png',
-					name: '文章标题',
-					author: '简介',
 					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
 					loop: 'true',
 				},
 				audioAction: {
-					method: 'pause'
+					method: 'pause' //默认暂停
 				},
+				show: false //播放器默认不显示
 			}
 		},
 		methods: {
-			quit() {
-				uni.navigateTo({
+			quit() { //取消后跳回与我相关界面
+				uni.switchTab({
 					url: './myselfMain'
-				});
+				})
 			},
-			publish() {
-
+			
+			publish() { //发表，成功后返回与我相关
+				uni.showToast({
+					icon:"success",
+					title:"发表成功!",
+					duration: 1000,
+					success: function () {
+					  setTimeout(function() {
+						uni.switchTab({
+						  url: './myselfMain',
+						})
+					  }, 2000);
+					}
+				})
+			},
+			
+			generate() { //生成音频
+				if(this.passageContent == "") {
+					uni.showToast({
+						icon:"error",
+						title:'文章内容不能为空!'
+					});
+					return;
+				}
+				this.show = true;
+				console.log(this.title);
+				console.log(this.abstract);
+				uni.request({
+					url: '',
+					method:"POST",
+					data: {
+						passageContent: this.passageContent,
+						title: this.title,
+						abstract: this.abstract
+					}
+				})
+			},
+			
+			play() { //播放
+				
+			},
+			
+			pause() { //暂停
+				
 			}
 		}
 	}
@@ -118,5 +164,12 @@
 		margin-bottom: 10px;
 		margin-left: 30%;
 		text-align: right;
+	}
+	
+	/*生成音频按钮*/
+	.voiceGenerate {
+		margin-left: 30%;
+		margin-right: 30%;
+		margin-top: 5%;
 	}
 </style>
