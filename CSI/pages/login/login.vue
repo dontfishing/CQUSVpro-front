@@ -41,11 +41,11 @@
 
 		methods: {
 			userLogin() {
-				const data = {
-					account: this.account,
-					password: this.password,
-					remember: this.remember
-				};
+				// const data = {
+				// 	account: this.account,
+				// 	password: this.password,
+				// 	remember: this.remember
+				// };
 				uni.request({
 					url: 'http://106.14.62.110:8080/userLogin', //api地址
 					method: "POST",
@@ -56,7 +56,7 @@
 					},
 
 					success: res => {
-						console.log(data);
+						//console.log(data);
 						console.log(JSON.stringify(res.data));
 						if (res.statusCode == 404) { //返回的状态码
 							uni.showToast({
