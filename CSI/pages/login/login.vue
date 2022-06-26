@@ -18,7 +18,8 @@
 				<u-switch v-model="value" @change="change"></u-switch>
 			</view>
 			<view>
-				<u-button class="uReg" type="primary" text="注册" color="#8967D3" :plain="true" shape="circle" size="mini" @click="reg()"></u-button>
+				<u-button class="uReg" type="primary" text="注册" color="#8967D3" :plain="true" shape="circle" size="mini"
+					@click="reg()"></u-button>
 			</view>
 		</view>
 		<view style="padding-top: 20px; width: 30%;" class="uButton">
@@ -31,9 +32,10 @@
 	export default {
 		data() {
 			return {
-				account: '',
-				password: '',
-				value: false
+				account: "",
+				password: "",
+				value: false,
+				remember: "0"
 			}
 		},
 
@@ -41,33 +43,43 @@
 			userLogin() {
 				const data = {
 					account: this.account,
-					password: this.password
+					password: this.password,
+					remember: this.remember
 				};
-
 				uni.request({
-					url: 'http://127.0.0.1:4523/m1/1152037-0-default/userLogin', //api地址，要改
+					url: 'http://106.14.62.110:8080/userLogin', //api地址
 					method: "POST",
 					data: {
 						account: this.account,
-						password: this.password
+						password: this.password,
+						remember: this.remember
 					},
+
 					success: res => {
+						console.log(data);
+						console.log(JSON.stringify(res.data));
 						if (res.statusCode == 404) { //返回的状态码
 							uni.showToast({
 								icon: 'none',
 								title: '密码或用户名错误',
 							});
-							return;
+							//return;
+						} else if ("error" in res.data && res.data["error"] == "can not found") {
+							uni.showToast({
+								icon: 'none',
+								title: '密码或用户名错误',
+							});
+							//return;
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '登录成功'
+							});
+
+							uni.reLaunch({
+								url: '/pages/set/setMain'
+							});
 						}
-
-						uni.showToast({
-							icon: 'none',
-							title: '登录成功'
-						});
-
-						uni.reLaunch({
-							url: '/pages/set/setMain'
-						});
 					},
 
 					fail: () => {
@@ -81,7 +93,10 @@
 			},
 
 			change(e) {
+				this.remember = "0";
 				if (e) {
+					this.value = true;
+					this.remember = "1";
 					uni.setStorage({
 						key: "remPassword",
 						data: this.password,
@@ -89,6 +104,14 @@
 							console.log("success!");
 						}
 					})
+
+					// uni.request({
+					// 	url: 'http://106.14.62.110:8080/userLogin',
+					// 	method:"POST";
+					// 	data : {
+					// 		"value" : value;
+					// 	}
+					// })
 				}
 			},
 
@@ -155,8 +178,8 @@
 		margin-top: 80rpx;
 		margin-left: 40rpx;
 	}
-	
-	.uReg{
+
+	.uReg {
 		margin-right: 8%;
 	}
 </style>
