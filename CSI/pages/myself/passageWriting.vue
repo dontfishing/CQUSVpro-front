@@ -3,9 +3,9 @@
 
 		<!-- 编辑文章内容区域 -->
 		<view class="writingArea">
-			<u--input class="infoAge" type="number" placeholder="请输入文章标题" border="surround" v-model="title">
+			<u--input class="infoAge"  placeholder="请输入文章标题" border="surround" v-model="title">
 			</u--input>
-			<u--input class="infoAge" type="number" placeholder="请输入文章简介" border="surround" v-model="abstract">
+			<u--input class="infoAge" placeholder="请输入文章简介" border="surround" v-model="abstract">
 			</u--input>
 			<u--textarea placeholder="请输入内容" height=180 maxlength=512 adjustPosition count></u--textarea>
 		</view>

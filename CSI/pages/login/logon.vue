@@ -100,7 +100,14 @@
 					age: this.valueAge.toString(),
 					email: this.valueEmail
 				};
-
+				// 切换性别
+				if(this.valueGend=="女"){
+					this.valueGend="f";
+				}
+				else{
+					this.valueGend="m";
+				}
+				
 				// 判断输入不为空
 				if (data.useraccount == "" || data.password == "" || data.passwordAgain == "" || data.valueAge == "" ||
 					data
@@ -137,7 +144,7 @@
 				}
 
 				// 判断邮箱是否符号要求
-				else if (!(/^[a-zA-Z0-9_.-]+@+[\S]$/.test(this.valueEmail))) {
+				else if (!(/^[a-zA-Z0-9_.-]+@+[a-zA-Z0-9_.-]$/.test(this.valueEmail))) {
 					uni.showToast({
 						icon: 'error',
 						title: '邮箱不符合要求'
@@ -162,7 +169,6 @@
 							email: this.valueEmail
 						},
 						success: res => {
-							console.log(res.data);
 							if (res.statusCode == 404) { //返回的状态码
 								uni.showToast({
 									icon: 'error',
