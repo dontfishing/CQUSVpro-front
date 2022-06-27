@@ -75,12 +75,12 @@
 								title: '网页失踪了',
 							});
 						} else {
-							this.userName=res.data["userName"];
-							this.portraitSrc=res.data["userImg"];
-							this.submitTime=res.data["postTime"];
-							this.current.src=res.data["postTts"];
-							this.current.poster=res.data["userImg"];
-							this.psgContent=res.data["postContent"];
+							this.userName = res.data["userName"];
+							this.portraitSrc = res.data["userImg"];
+							this.submitTime = res.data["postTime"];
+							this.current.src = res.data["postTts"];
+							this.current.poster = res.data["userImg"];
+							this.psgContent = res.data["postContent"];
 						}
 					},
 
@@ -114,12 +114,21 @@
 					this.dislikeIcon = "thumb-down-fill";
 				}
 			},
-
+			onload() { //加载时获取数据
+				uni.getStorage({
+					key: 'passage_detail',
+					success: function(res) {
+						console.log(res.data);
+					}
+				})
+			},
 			loadmore() {
 				this.loadMoreStatus = 'loading';
 			}
 
+
 		},
+
 	}
 </script>
 

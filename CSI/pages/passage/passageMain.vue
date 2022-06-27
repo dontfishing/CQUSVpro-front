@@ -14,6 +14,7 @@
 		<view class="contentArea">
 			<view v-for="(item, index) in passageList" :key="index">
 				<uni-card :title="passageList[index].userName" :sub-title="passageList[index].time"
+					@click="goToDetail(index)"
 					thumbnail="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png">
 					<!-- 语音播放 -->
 					<view class="player">
@@ -53,28 +54,7 @@
 		data() {
 			return {
 				keyword: "", // 搜索关键词
-				passageList: [{ // 文章列表
-					passId: "1",
-					userName: "123", //用户名
-					time: "2022.1.3 1:10", // 发布时间
-					title: "1", // 标题
-					abstract: "1", // 简介
-					likesSum: 55, // 点赞数
-					commentSum: 10, // 评论数
-					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png', // 播放背景图片,默认为用户头像
-					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3', // 音频来源
-				}, {
-					// 同上
-					passId: "1",
-					userName: "345", //用户名
-					title: "2", // 标题
-					abstract: "2", // 简介
-					time: "2022.1.3 1:10", // 发布时间
-					likesSum: 25, // 点赞数
-					commentSum: 40, // 评论数
-					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png', // 播放背景图片,默认为用户头像
-					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3', // 音频来源
-				}],
+				passageList: [],
 				loadMoreStatus: 'more', // 加载更多的状态：可加载、正在加载、没有更多
 
 			}
@@ -84,56 +64,92 @@
 
 			},
 			updatePass(ob) {
-				var tmp;
-				tmp.userName = ob.userName; //用户名
-				tmp.title = ob.postTitlem; //文章标题
-				tmp.abstract = ob.postSummary; // 简介
-				tmp.time = ob.postTime; // 发布时间
-				tmp.likesSum = ob.postLike; // 点赞数
-				tmp.commentSum = ob.postComment; // 评论数
-				tmp.id = ob.postId; //文章id
-				tmp.poster =
-					'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
-				tmp.src =
-					'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
-				this.passageList.push(tmp); //更新文章列表
+				if (ob.infoAmount > 0) { //更新第一篇
+					var tmp3 = {
+						userName: "",
+						time: "",
+						title: "",
+						abstract: "",
+						likesSum: 0,
+						commentSum: 0,
+						poster: '',
+						src: ''
+					};
+					tmp3.userName = ob.essayUserName3; //用户名
+					tmp3.title = ob.essayTitle3; //文章标题
+					tmp3.abstract = ob.essaySummary3; // 简介
+					tmp3.time = ob.essayPostTime3; // 发布时间
+					tmp3.likesSum = ob.essayPostLike3; // 点赞数
+					tmp3.commentSum = ob.essayComment3; // 评论数
+					tmp3.id = ob.essayPostId3; //文章id
+					tmp3.poster =
+						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
+					tmp3.src =
+						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
+					this.passageList.push(tmp3); //更新文章列表
+				}
+				if (ob.infoAmount > 1) { //更新第二篇
+					var tmp2 = {
+						userName: "",
+						time: "",
+						title: "",
+						abstract: "",
+						likesSum: 0,
+						commentSum: 0,
+						poster: '',
+						src: ''
+					};
+					tmp2.userName = ob.essayUserName2; //用户名
+					tmp2.title = ob.essayTitle2; //文章标题
+					tmp2.abstract = ob.essaySummary2; // 简介
+					tmp2.time = ob.essayPostTime2; // 发布时间
+					tmp2.likesSum = ob.essayPostLike2; // 点赞数
+					tmp2.commentSum = ob.essayComment2; // 评论数
+					tmp2.id = ob.essayPostId2; //文章id
+					tmp2.poster =
+						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
+					tmp2.src =
+						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
+					this.passageList.push(tmp2); //更新文章列表
+				}
+				if (ob.infoAmount > 2) { //	更新第三篇
+					var tmp1 = {
+						userName: "",
+						time: "",
+						title: "",
+						abstract: "",
+						likesSum: 0,
+						commentSum: 0,
+						poster: '',
+						src: ''
+					};
+					tmp1.userName = ob.essayUserName1; //用户名
+					tmp1.title = ob.essayTitle1; //文章标题
+					tmp1.abstract = ob.essaySummary1; // 简介
+					tmp1.time = ob.essayPostTime1; // 发布时间
+					tmp1.likesSum = ob.essayPostLike1; // 点赞数
+					tmp1.commentSum = ob.essayComment1; // 评论数
+					tmp1.id = ob.essayPostId1; //文章id
+					tmp1.poster =
+						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
+					tmp1.src =
+						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
+					this.passageList.push(tmp1); //更新文章列表
+				}
+
+
 			},
-			refresh(ob) { //下拉加载更多的函数
+			refresh(ob) { //下拉加载更多的函数，会传入最下面文章的id
 				let _this = this;
-				uni.request({	//获取远端数据
+				const postId = ob.id;
+				uni.request({ //获取远端数据
 					url: 'http://106.14.62.110:8080/essay/afterRefresh',
 					data: {
-						postId: ob.postId
+						postId: postId
 					},
 					success: (res) => {
 						console.log(res.data);
-						if (res.data.infoAmount == 0) {
-							uni.showToast({
-								title: '刷新成功',
-								duration: 2000
-							});
-						} else if (res.data.infoAmount == 1) {
-							_this.updatePass(res.data.essay1);
-							uni.showToast({
-								title: '刷新成功',
-								duration: 2000
-							});
-						} else if (res.data.infoAmount == 2) {
-							_this.updatePass(res.data.essay1);
-							_this.updatePass(res.data.essay2);
-							uni.showToast({
-								title: '刷新成功',
-								duration: 2000
-							});
-						} else {
-							_this.updatePass(res.data.essay1);
-							_this.updatePass(res.data.essay2);
-							_this.updatePass(res.data.essay3);
-							uni.showToast({
-								title: '刷新成功',
-								duration: 2000
-							});
-						}
+						_this.updatePass(res.data);
 					}
 				})
 			},
@@ -142,35 +158,32 @@
 				uni.request({
 					url: 'http://106.14.62.110:8080/essay/refresh',
 					success: (res) => {
-						console.log(res.data);
+						_this.updatePass(res.data);
 						if (res.data.infoAmount == 0) {
-							uni.showToast({
-								title: '刷新成功',
+							un.showToast({
+								title: '没有更多了QAQ',
 								duration: 2000
-							});
-						} else if (res.data.infoAmount == 1) {
-							_this.updatePass(res.data.essay1);
-							uni.showToast({
-								title: '刷新成功',
-								duration: 2000
-							});
-						} else if (res.data.infoAmount == 2) {
-							_this.updatePass(res.data.essay1);
-							_this.updatePass(res.data.essay2);
-							uni.showToast({
-								title: '刷新成功',
-								duration: 2000
-							});
+							})
 						} else {
-							_this.updatePass(res.data.essay1);
-							_this.updatePass(res.data.essay2);
-							_this.updatePass(res.data.essay3);
 							uni.showToast({
 								title: '刷新成功',
 								duration: 2000
-							});
+							})
 						}
 					}
+				})
+			},
+			goToDetail(index) { //加载文章详情页
+				let tmp =this.passageList[index];
+				uni.setStorage({
+					key: 'passage_detail',
+					data: tmp,
+					success: function() {
+						console.log(JSON.stringify(tmp));
+					}
+				});
+				uni.navigateTo({
+					url:'./passageDetails'
 				})
 			},
 			onLoad() { //每次加载都会重新刷新
@@ -178,11 +191,14 @@
 				that.pullDownRefresh();
 			},
 			onPullDownRefresh() { // 下拉刷新
+				this.passageList = [];
 				this.pullDownRefresh();
 			},
 
 			onReachBottom() { // 上划加载
-				this.refresh(this.passageList[this.passageList.length - 1]);
+				var len = this.passageList.length;
+				console.log(JSON.stringify(this.passageList[len - 1]));
+				this.refresh(this.passageList[len - 1]);
 			},
 		}
 	}

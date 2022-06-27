@@ -75,7 +75,10 @@
 								icon: 'none',
 								title: '登录成功'
 							});
-
+							uni.setStorage({
+								key: 'login_token',
+								data: res.data.token,
+							});
 							uni.reLaunch({
 								url: '/pages/set/setMain'
 							});

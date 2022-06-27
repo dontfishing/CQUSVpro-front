@@ -1,10 +1,11 @@
 <template>
 	<view>
-		<u-cell-group> <!--界面单元格-->
-			<u-cell  title="用户名" isLink @click="pop(0)">
+		<u-cell-group>
+			<!--界面单元格-->
+			<u-cell title="用户名" isLink @click="pop(0)">
 				<u-icon slot="icon" size="32" name="account-fill"></u-icon>
 			</u-cell>
-			<u-cell title="性别" isLink @click="pop(1)">
+			<u-cell title="性别" isLink @click="showSexPop(1)">
 				<u-icon slot="icon" size="32" name="man"></u-icon>
 			</u-cell>
 			<u-cell title="年龄" isLink @click="pop(2)">
@@ -13,70 +14,77 @@
 			<u-cell title="邮箱" isLink @click="pop(3)">
 				<u-icon slot="icon" size="32" name="email-fill"></u-icon>
 			</u-cell>
-			<u-cell title="密码" isLink @click="modify()">
+			<u-cell title="密码" isLink @click="showPasswordPop()">
 				<u-icon slot="icon" size="32" name="lock-fill"></u-icon>
 			</u-cell>
 		</u-cell-group>
-		<view class="popLayer"> <!--除密码外其余单元格的弹出层-->
+		<view class="popLayer">
+			<!--除密码和性别外其余单元格的弹出层-->
 			<!--用showCommon控制是否弹出-->
 			<u-popup :show="showCommom" @close="close" @open="open" mode="center">
-				<view class="popInput"> <!--指示和输入-->
+				<view class="popInput">
+					<!--指示和输入-->
 					<text>{{modifyValue[popNum].newInfo}}</text>
-					<u-input v-model="modifyValue[popNum]"></u-input>
+					<u-input v-model="modifyValue[popNum].newInput"></u-input>
 				</view>
 				<!--取消和确认按钮-->
 				<view class="yesOrNot">
-					<u-button
-						class="cancleClass" 
-						type="primary" 
-						text="取消" 
-						shape="circle" 
-						@click="cancle()"
-						size="small">			
+					<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()"
+						size="small">
 					</u-button>
-					<u-button
-				 		class="yesClass" 
-						type="primary" 
-						text="确定" 
-						shape="circle" 
-						@click="yes(modifyValue[popNum])" 
+					<u-button class="yesClass" type="primary" text="确定" shape="circle" @click="yes(modifyValue[popNum])"
 						size="small">
 					</u-button>
 				</view>
 			</u-popup>
 		</view>
-		<view class="popLayer"> <!--=密码单元格的弹出层-->
+		<view >
+			<!--性别单元格的弹出层-->
+			<!--用showSex控制是否弹出-->
+			<u-popup :show="showSex" @close="close" @open="open" mode="center">
+				<view class="popInput">
+					<!--指示和输入-->
+					<text>{{modifyValue[popNum].newInfo}}</text>
+					<u-radio-group style="width:240px" v-model="modifyValue[popNum].newInput" placement="row">
+						<u-radio :customStyle="{margin:'10px 60% 10px 0px'}" v-for="(item, index) in genderList"
+							:key="index" :label="item.name" :name="item.name">
+						</u-radio>
+					</u-radio-group>
+				</view>
+				<!--取消和确认按钮-->
+				<view class="yesOrNot">
+					<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()"
+						size="small">
+					</u-button>
+					<u-button class="yesClass" type="primary" text="确定" shape="circle" @click="yes(modifyValue[popNum])"
+						size="small">
+					</u-button>
+				</view>
+			</u-popup>
+		</view>
+		<view class="popLayer">
+			<!--=密码单元格的弹出层-->
 			<!--用showPassword控制是否弹出-->
 			<u-popup :show="showPassword" @close="close" @open="open" mode="center">
 				<view class="popPassword">
 					<view class="inputPassword">
 						<text>旧密码</text>
-						<u-input></u-input>
+						<u-input v-model="oldPassword"></u-input>
 					</view>
 					<view class="inputPassword">
 						<text>新密码</text>
-						<u-input v-model="newPassword"></u-input>
+						<u-input v-model="password"></u-input>
 					</view>
 					<view class="inputPassword">
 						<text>确认密码</text>
-						<u-input v-model="newPasswordAgain"></u-input>
+						<u-input v-model="passwordAgain"></u-input>
 					</view>
 					<!--取消和确认按钮-->
 					<view class="yesOrNot">
-						<u-button
-							class="cancleClass" 
-							type="primary" 
-							text="取消" 
-							shape="circle" 
-							@click="cancle()"
-							size="small">				
+						<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()"
+							size="small">
 						</u-button>
-						<u-button
-							class="yesClass" 
-							type="primary" 
-							text="确定" 
-							shape="circle" 
-							@click="yesPass()" 
+						<u-button class="yesClass" type="primary" text="确定" shape="circle" @click="yesPass()"
 							size="small">
 						</u-button>
 					</view>
@@ -90,160 +98,199 @@
 	export default {
 		data() {
 			return {
-				showCommom : false, //除密码外的弹出层控制
-				showPassword : false, //密码的弹出层控制
-				popNum : 0, //索引
-				newName : "", //新用户名
-				newGender : "" , //新性别
-				newAge : "", //新年龄
-				newMail : "" , //新邮箱地址
-				newPassword : "", //新密码
-				password : "", //输入的新密码
-				passwordAgain : "", //再次输入的新密码
-				modifyValue : [{ //输入绑定的对象
-					newInfo : "新用户",
-					newInput : ""
-				},{
-					newInfo : "性别",
-					newInput : ""
-				},{
-					newInfo : "年龄",
-					newInput : ""
-				},{
-					newInfo : "邮箱",
-					newInput : ""
+				token: "",
+				showCommom: false, //除密码和性别外的弹出层控制
+				showSex: false,
+				showPassword: false, //密码的弹出层控制
+				popNum: 0, //索引
+				newName: "", //新用户名
+				newGender: "", //新性别
+				newAge: "", //新年龄
+				newMail: "", //新邮箱地址
+				oldPassword: "", //旧密码
+				password: "", //输入的新密码
+				passwordAgain: "", //再次输入的新密码
+				genderList: [{
+					name: '女',
+					disabled: true
+				}, {
+					name: '男',
+					disabled: false
+				}], //性别列表
+				modifyValue: [{ //输入绑定的对象
+					newInfo: "新用户名",
+					newInput: ""
+				}, {
+					newInfo: "性别",
+					newInput: ""
+				}, {
+					newInfo: "年龄",
+					newInput: ""
+				}, {
+					newInfo: "邮箱",
+					newInput: ""
 				}]
 			}
 		},
-		
-		methods : {
+
+		methods: {
 			pop(num) { //弹出层信息根据传入的参数改变
-				this.showCommom = true
-				this.showPassword = false
-				this.popNum = num
+				this.showCommom = true;
+				this.showPassword = false;
+				this.showSex = false;
+				this.popNum = num;
+				uni.getStorage({
+					key: 'login_token',
+					success: function(res) {
+						this.token = res.data;
+						console.log(res.data);
+					}
+				});
 			},
-			
+			showSexPop(num) { //弹出层信息根据传入的参数改变
+				this.showCommom = false;
+				this.showPassword = false;
+				this.showSex = true;
+				this.popNum = num;
+				uni.getStorage({
+					key: 'login_token',
+					success: function(res) {
+						this.token = res.data;
+						console.log(res.data);
+					}
+				});
+			},
 			close() { //直接关闭弹出层
-				this.showCommom = false
-				this.showPassword = false
+				this.showCommom = false;
+				this.showPassword = false;
+				this.showSex = false;
 			},
-			
+
 			open() {
-				
+
 			},
-			
+
 			cancle() { //直接关闭弹出层
-				this.showCommom = false
-				this.showPassword = false
+				this.showCommom = false;
+				this.showPassword = false;
+				this.showSex = false;
 			},
-			
+
 			yes(modifyObj) { //点击确认，传递参数
-				this.showCommom = false
-				this.showPassword = false
-				
-				switch(popNum) { //根据popNum判断修改的哪个信息
-					case 0 :
+				this.showCommom = false;
+				this.showPassword = false;
+				switch (this.popNum) { //根据popNum判断修改的哪个信息
+					case 0: //用户名
 						uni.request({
 							url: '',
-							method:"POST",
-							data : {
-								newName : modifyObj.newInput
+							method: "POST",
+							data: {
+								token: this.token,
+								newName: modifyObj.newInput
 							},
 							success: res => {
-								if(res.statusCode == 404) {
+								console.log(res);
+								if (res.statusCode == 404) {
 									uni.showToast({
-										icon:"none",
-										title:"修改失败"
+										icon: "none",
+										title: "修改失败"
+									})
+								} else {
+									uni.showToast({
+										icon: "none",
+										title: "修改成功"
 									})
 								}
-								
-								uni.showToast({
-									icon:"none",
-									title:"修改成功"
-								})
-								
 							}
 						})
-					case 1 :
+					case 1: //性别
+						var sex = "m";
+						if (modifyObj.newInput == "女")
+							sex = "f";
 						uni.request({
 							url: '',
-							data : {
-								newGender : modifyObj.newInput
+							data: {
+								token: this.token,
+								newGender: sex
 							},
 							success: res => {
-								if(res.statusCode == 404) {
+								if (res.statusCode == 404) {
 									uni.showToast({
-										icon:"none",
-										title:"修改失败"
+										icon: "none",
+										title: "修改失败"
+									})
+								} else {
+									uni.showToast({
+										icon: "none",
+										title: "修改成功"
 									})
 								}
-								
-								uni.showToast({
-									icon:"none",
-									title:"修改成功"
-								})
-								
+
 							}
 						})
-					case 2 :
+					case 2:
 						uni.request({
 							url: '',
-							data : {
-								newAge : modifyObj.newInput
+							data: {
+								token: this.token,
+								newAge: modifyObj.newInput
 							},
 							success: res => {
-								if(res.statusCode == 404) {
+								if (res.statusCode == 404) {
 									uni.showToast({
-										icon:"none",
-										title:"修改失败"
+										icon: "none",
+										title: "修改失败"
+									})
+								} else {
+									uni.showToast({
+										icon: "none",
+										title: "修改成功"
 									})
 								}
-								
-								uni.showToast({
-									icon:"none",
-									title:"修改成功"
-								})
-								
+
 							}
 						})
-					case 3 : 
+					case 3:
 						uni.request({
 							url: '',
-							data : {
-								newMail : modifyObj.newInput
+							data: {
+								token: this.token,
+								newMail: modifyObj.newInput
 							},
 							success: res => {
-								if(res.statusCode == 404) {
+								if (res.statusCode == 404) {
 									uni.showToast({
-										icon:"none",
-										title:"修改失败"
+										icon: "none",
+										title: "修改失败"
+									})
+								} else {
+									uni.showToast({
+										icon: "none",
+										title: "修改成功"
 									})
 								}
-								
-								uni.showToast({
-									icon:"none",
-									title:"修改成功"
-								})
-								
 							}
 						})
 				}
 			},
-			
-			modify() {
-				this.showPassword = true
-				this.showCommom = false
+
+			showPasswordPop() {
+				this.showPassword = true;
+				this.showCommom = false;
+				uni.getStorage({
+					key: 'login_token',
+					success: function(res) {
+						this.token = res.data;
+						console.log(res.data);
+					}
+				});
 			},
-			
-			yesPass() {
-				if(password == passwordAgain) {
-					uni.request({
-						url:'',
-						data: {
-							newPassword : password
-						}
-					})
-				}
+
+			yesPass() { //提交修改密码请求
+				var password = this.password;
+				var passwordAgain = this.passwordAgain;
+				var old = this.oldPassword;
+
 			}
 		}
 	}
@@ -257,7 +304,7 @@
 		margin-left: 5%;
 		margin-right: 5%;
 	}
-	
+
 	.yesOrNot {
 		display: flex;
 		flex-direction: row;
@@ -266,20 +313,25 @@
 		margin-right: 5%;
 		margin-bottom: 10%;
 	}
-	
+
 	.cancleClass {
 		margin-right: 40%;
 	}
-	
+
 	.popLayer {
 		border-radius: 5%;
 	}
-	
+
+	.popSex{
+		border-radius: 5%;
+		width: 300rpx;
+		height: 100rpx;
+	}
 	text {
 		margin-top: 4%;
 		margin-right: 5%;
 	}
-	
+
 	.popPassword {
 		display: flex;
 		flex-direction: column;
@@ -288,8 +340,18 @@
 		margin-left: 5%;
 	}
 	
+	.popSex{
+		display: flex;
+		flex-direction: column;
+		margin-top: 5%;
+		margin-right: 5%;
+		margin-left: 5%;
+		width: 100px;
+	}
+	
 	.inputPassword {
 		display: flex;
 		flex-direction: row;
+		margin: 10rpx;
 	}
 </style>
