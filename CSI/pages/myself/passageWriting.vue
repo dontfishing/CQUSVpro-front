@@ -3,17 +3,19 @@
 
 		<!-- 编辑文章内容区域 -->
 		<view class="writingArea">
-			<u--input class="infoAge"  placeholder="请输入文章标题" border="surround" v-model="title">
+			<u--input class="infoAge" placeholder="请输入文章标题" border="surround" v-model="title">
 			</u--input>
 			<u--input class="infoAge" placeholder="请输入文章简介" border="surround" v-model="abstract">
 			</u--input>
-			<u--textarea v-model="passageContent" placeholder="请输入内容" height=180 maxlength=512 adjustPosition count></u--textarea>
+			<u--textarea v-model="passageContent" placeholder="请输入内容" height=180 maxlength=512 adjustPosition count>
+			</u--textarea>
 		</view>
 
 		<!-- 试听区域 -->
-		<view class="player"  v-show="show">
-			<audio style="text-align: left" :src="current.src" :poster="current.poster" :name="title"
-				:author="abstract" :loop="true" :action="audioAction" controls @pause="pause()" @timeupdate="timeupdate()" @play="play()"></audio>
+		<view class="player" v-show="show">
+			<audio style="text-align: left" :src="current.src" :poster="current.poster" :name="title" :author="abstract"
+				:loop="true" :action="audioAction" controls @pause="pause()" @timeupdate="timeupdate()"
+				@play="play()"></audio>
 		</view>
 
 		<!--选择显示还是不显示-->
@@ -54,6 +56,12 @@
 				title: '', //文章标题
 				abstract: '', //文章简介
 				passageContent: '', //文章内容
+				voiceSetting:{
+					ttsSpd:5,
+					ttsPit:5,
+					ttsVol:5,
+					ttsPer:5
+				},
 				current: { //提供播放器的标题，作者，资源
 					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png',
 					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
@@ -71,64 +79,105 @@
 					url: './myselfMain'
 				})
 			},
-			
-			publish() { //发表，成功后返回与我相关
-				uni.showToast({
-					icon:"success",
-					title:"发表成功!",
-					duration: 1000,
-					success: function () {
-					  setTimeout(function() {
-						uni.switchTab({
-						  url: './myselfMain',
-						})
-					  }, 2000);
-					}
-				})
-			},
-			
 			generate() { //生成音频
-				if(this.passageContent == "") {
+				if (this.passageContent == "") {
 					uni.showToast({
-						icon:"error",
-						title:'文章内容不能为空!'
+						icon: "error",
+						title: '文章内容不能为空!'
 					});
 					return;
 				}
-				this.show = true;
-				console.log(this.title);
-				console.log(this.abstract);
-				uni.request({
-					url: '',
-					method:"POST",
-					data: {
-						passageContent: this.passageContent,
-						title: this.title,
-						abstract: this.abstract
+				else{
+					let passPer = this.voiceSetting.ttsPer;
+					let passSpd = this.voiceSetting.ttsSpd;
+					let passPit = this.voiceSetting.ttsPit;
+					let passVol = this.voiceSetting.ttsVol;
+					let passContent = this.passageContent;
+					uni.request({	//请求音频
+						url: 'http://106.14.62.110:8080/sound/generate',
+						method:"POST",
+						data: {
+							ttsPer : passPer,
+							ttsSpd : passSpd,
+							ttsPit : passPit,
+							ttsVol : passVol,
+							postContent : passContent
+						},
+						success: (res) => {
+							this.current.src = res.data.postTts;
+						}
+					})
+				}
+				
+			},
+			publish() { //发表，成功后返回与我相关
+				this.generate(); 	//先生成音频
+				let passTitle = this.title;
+				let passAb = this.abstract;
+				let text = this.passageContent;
+				let passTts = this.current.src;
+				var Token;
+				uni.getStorage({
+					key: 'login_token',
+					success(res) {
+						Token = res.data;
 					}
-				})
+				});
+				uni.request({	//请求发表文章
+					url: 'http://106.14.62.110:8080/sound/post',
+					method: "POST",
+					data: {
+						token: Token,
+						postContent: text,
+						postSummary: passAb,
+						postTitle: passTitle,
+						postTts: passTts
+					},
+					success: (res) => {
+						if ("success" in res.data) {
+							uni.showToast({
+								icon: "success",
+								title: "发表成功!",
+								duration: 1000,
+								success: function() {
+									setTimeout(function() {
+										uni.switchTab({
+											url: './myselfMain',
+										})
+									}, 2000);
+								}
+							})
+						} else {
+							uni.showToast({
+								title: "发表失败"
+							})
+						}
+					}
+				});
+
 			},
-			
+
+
 			play() { //播放
-				
+
 			},
-			
+
 			pause() { //暂停
-				
+
 			}
 		}
 	}
 </script>
 
 <style>
-	.player{
+	.player {
 		margin: 5% 2% 5% 2%;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-		
+
 	}
-	
+
 	.voiceChoice {
 		margin: 5% 5% 50% 5%;
 
@@ -165,7 +214,7 @@
 		margin-left: 30%;
 		text-align: right;
 	}
-	
+
 	/*生成音频按钮*/
 	.voiceGenerate {
 		margin-left: 30%;
