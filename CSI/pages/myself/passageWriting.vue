@@ -3,17 +3,19 @@
 
 		<!-- 编辑文章内容区域 -->
 		<view class="writingArea">
-			<u--input class="infoAge"  placeholder="请输入文章标题" border="surround" v-model="title">
+			<u--input class="infoAge" placeholder="请输入文章标题" border="surround" v-model="title">
 			</u--input>
 			<u--input class="infoAge" placeholder="请输入文章简介" border="surround" v-model="abstract">
 			</u--input>
-			<u--textarea v-model="passageContent" placeholder="请输入内容" height=180 maxlength=512 adjustPosition count></u--textarea>
+			<u--textarea v-model="passageContent" placeholder="请输入内容" height=180 maxlength=512 adjustPosition count>
+			</u--textarea>
 		</view>
 
 		<!-- 试听区域 -->
-		<view class="player"  v-show="show">
-			<audio style="text-align: left" :src="current.src" :poster="current.poster" :name="title"
-				:author="abstract" :loop="true" :action="audioAction" controls @pause="pause()" @timeupdate="timeupdate()" @play="play()"></audio>
+		<view class="player" v-show="show">
+			<audio style="text-align: left" :src="current.src" :poster="current.poster" :name="title" :author="abstract"
+				:loop="true" :action="audioAction" controls @pause="pause()" @timeupdate="timeupdate()"
+				@play="play()"></audio>
 		</view>
 
 		<!--选择显示还是不显示-->
@@ -71,27 +73,27 @@
 					url: './myselfMain'
 				})
 			},
-			
+
 			publish() { //发表，成功后返回与我相关
 				uni.showToast({
-					icon:"success",
-					title:"发表成功!",
+					icon: "success",
+					title: "发表成功!",
 					duration: 1000,
-					success: function () {
-					  setTimeout(function() {
-						uni.switchTab({
-						  url: './myselfMain',
-						})
-					  }, 2000);
+					success: function() {
+						setTimeout(function() {
+							uni.switchTab({
+								url: './myselfMain',
+							})
+						}, 2000);
 					}
 				})
 			},
-			
+
 			generate() { //生成音频
-				if(this.passageContent == "") {
+				if (this.passageContent == "") {
 					uni.showToast({
-						icon:"error",
-						title:'文章内容不能为空!'
+						icon: "error",
+						title: '文章内容不能为空!'
 					});
 					return;
 				}
@@ -99,36 +101,63 @@
 				console.log(this.title);
 				console.log(this.abstract);
 				uni.request({
-					url: '',
-					method:"POST",
+					url: 'http://106.14.62.110:8080/sound/post',
+					method: "POST",
 					data: {
 						passageContent: this.passageContent,
 						title: this.title,
 						abstract: this.abstract
-					}
+					},
+
+					success: res => {
+						//console.log(data);
+						console.log(JSON.stringify(res.data));
+						if (res.statusCode == 404) { //返回的状态码
+							uni.showToast({
+								icon: 'none',
+								title: '生成音频失败',
+							});
+							//return;
+						} else if ("error" in res.data && res.data["error"] == "post failed") {
+							uni.showToast({
+								icon: 'none',
+								title: '生成音频失败',
+							});
+							//return;
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '生成音频成功!'
+							});
+
+							uni.reLaunch({
+								url: '/pages/set/setMain'
+							});
+						}
+					},
 				})
 			},
-			
+
 			play() { //播放
-				
+
 			},
-			
+
 			pause() { //暂停
-				
+
 			}
 		}
 	}
 </script>
 
 <style>
-	.player{
+	.player {
 		margin: 5% 2% 5% 2%;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-		
+
 	}
-	
+
 	.voiceChoice {
 		margin: 5% 5% 50% 5%;
 
@@ -165,7 +194,7 @@
 		margin-left: 30%;
 		text-align: right;
 	}
-	
+
 	/*生成音频按钮*/
 	.voiceGenerate {
 		margin-left: 30%;
