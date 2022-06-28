@@ -27,7 +27,7 @@
 							<!-- 点赞数 -->
 							<u--text v-text="passageList[index].likesSum"></u--text>
 						</view>
-						<u-button class="deleteBtn" type="primary" size="mini" color="#f56c6c" @click="deletePass()"></u-button>
+						<u-button class="deleteBtn" type="primary" size="mini" color="#f56c6c" @click="deletePass(index)"></u-button>
 					</view>
 				</uni-card>
 			</view>
@@ -45,7 +45,6 @@
 	export default {
 		data() {
 			return {
-				postTime: '', //当前页面最后一篇文章发表的时间
 				passageList: [],
 				loadMoreStatus: 'more', // 加载更多的状态：可加载、正在加载、没有更多
 
@@ -132,7 +131,7 @@
 
 
 			},
-			refresh(ob) { //下拉加载更多的函数，会传入最下面文章的id
+			refresh(ob) { //下拉加载更多的函数，会传入最下面文章的发表时间
 				var Token;
 				uni.getStorage({ //获取login的token
 					key: 'login_token',
@@ -142,12 +141,12 @@
 				});
 				console.log(Token);
 				let _this = this;
-				postTime = ob.time;
 				uni.request({ //获取远端数据
-					url: 'http://106.14.62.110:8080/user/essays',
+					url: 'http://106.14.62.110:8080/user/essays/refresh',
 					method:'POST',
 					data: {
 						token: Token,
+						time: ob.time
 					},
 					success: (res) => {
 						console.log(res.data);
@@ -163,13 +162,13 @@
 						Token = res.data;
 					}
 				});
+				console.log(Token);
 				let _this = this;
 				uni.request({
-					url: 'http://106.14.62.110:8080/user/essays/refresh',
+					url: 'http://106.14.62.110:8080/user/essays',
 					method:"POST",
 					data:{
 						token: Token,
-						time: this.postTime
 					},
 					success: (res) => {
 						console.log(res.data);
@@ -216,8 +215,14 @@
 				this.refresh(this.passageList[len - 1]);
 			},
 			
-			deletePass() {
-				
+			deletePass(index) {
+				uni.request({
+					url:'http://106.14.62.110:8080/user/essays/delete',
+					method:'POST',
+					data:{
+						postId: passageList[index].id
+					}
+				})
 			}
 		}
 	}
@@ -271,5 +276,9 @@
 	.Comment {
 		//评论数
 		display: flex;
+	}
+	
+	.deleteBtn {
+		margin-left: 50%;
 	}
 </style>

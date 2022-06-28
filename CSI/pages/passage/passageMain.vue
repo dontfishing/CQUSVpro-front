@@ -1,4 +1,4 @@
-<template>
+ <template>
 	<view class="passageGround">
 
 		<!-- 搜索区域 -->
@@ -65,7 +65,7 @@
 			},
 			updatePass(ob) {
 				if (ob.infoAmount > 0) { //更新第一篇
-					var tmp3 = {
+					var tmp1 = {
 						userName: "",
 						time: "",
 						title: "",
@@ -73,20 +73,23 @@
 						likesSum: 0,
 						commentSum: 0,
 						poster: '',
-						src: ''
+						src: '',
+						id: 0
+
 					};
-					tmp3.userName = ob.essayUserName3; //用户名
-					tmp3.title = ob.essayTitle3; //文章标题
-					tmp3.abstract = ob.essaySummary3; // 简介
-					tmp3.time = ob.essayPostTime3; // 发布时间
-					tmp3.likesSum = ob.essayPostLike3; // 点赞数
-					tmp3.commentSum = ob.essayComment3; // 评论数
-					tmp3.id = ob.essayPostId3; //文章id
-					tmp3.poster =
+					tmp1.userName = ob.essayUserName1; //用户名
+					tmp1.title = ob.essayTitle1; //文章标题
+					tmp1.abstract = ob.essaySummary1; // 简介
+					tmp1.time = ob.essayPostTime1; // 发布时间
+					tmp1.likesSum = ob.essayPostLike1; // 点赞数
+					tmp1.commentSum = ob.essayComment1; // 评论数
+					tmp1.id = ob.essayPostId1; //文章id
+					tmp1.poster =
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
-					tmp3.src =
+					tmp1.src =
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
-					this.passageList.push(tmp3); //更新文章列表
+					this.passageList.push(tmp1); //更新文章列表
+
 				}
 				if (ob.infoAmount > 1) { //更新第二篇
 					var tmp2 = {
@@ -97,7 +100,9 @@
 						likesSum: 0,
 						commentSum: 0,
 						poster: '',
-						src: ''
+						src: '',
+						id: 0
+
 					};
 					tmp2.userName = ob.essayUserName2; //用户名
 					tmp2.title = ob.essayTitle2; //文章标题
@@ -113,7 +118,7 @@
 					this.passageList.push(tmp2); //更新文章列表
 				}
 				if (ob.infoAmount > 2) { //	更新第三篇
-					var tmp1 = {
+					var tmp3 = {
 						userName: "",
 						time: "",
 						title: "",
@@ -121,29 +126,33 @@
 						likesSum: 0,
 						commentSum: 0,
 						poster: '',
-						src: ''
+						src: '',
+						id: 0
 					};
-					tmp1.userName = ob.essayUserName1; //用户名
-					tmp1.title = ob.essayTitle1; //文章标题
-					tmp1.abstract = ob.essaySummary1; // 简介
-					tmp1.time = ob.essayPostTime1; // 发布时间
-					tmp1.likesSum = ob.essayPostLike1; // 点赞数
-					tmp1.commentSum = ob.essayComment1; // 评论数
-					tmp1.id = ob.essayPostId1; //文章id
-					tmp1.poster =
+					tmp3.userName = ob.essayUserName3; //用户名
+					tmp3.title = ob.essayTitle3; //文章标题
+					tmp3.abstract = ob.essaySummary3; // 简介
+					tmp3.time = ob.essayPostTime3; // 发布时间
+					tmp3.likesSum = ob.essayPostLike3; // 点赞数
+					tmp3.commentSum = ob.essayComment3; // 评论数
+					tmp3.id = ob.essayPostId3; //文章id
+					tmp3.poster =
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
-					tmp1.src =
+					tmp3.src =
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
-					this.passageList.push(tmp1); //更新文章列表
+					this.passageList.push(tmp3); //更新文章列表
+
 				}
 
 
 			},
-			refresh(ob) { //下拉加载更多的函数，会传入最下面文章的id
+			refresh(ob) { //上划加载更多的函数，会传入最下面文章的id
 				let _this = this;
 				const postId = ob.id;
+				console.log(postId);
 				uni.request({ //获取远端数据
 					url: 'http://106.14.62.110:8080/essay/afterRefresh',
+					method: "POST",
 					data: {
 						postId: postId
 					},
@@ -153,7 +162,7 @@
 					}
 				})
 			},
-			pullDownRefresh() { //上拉刷新的函数
+			pullDownRefresh() { //下拉刷新的函数
 				let _this = this;
 				uni.request({
 					url: 'http://106.14.62.110:8080/essay/refresh',
@@ -174,16 +183,16 @@
 				})
 			},
 			goToDetail(index) { //加载文章详情页
-				let tmp =this.passageList[index];
-				uni.setStorage({
-					key: 'passage_detail',
+				let tmp = this.passageList[index].id;
+				uni.setStorage({ //存入缓存
+					key: 'postID',
 					data: tmp,
 					success: function() {
 						console.log(JSON.stringify(tmp));
 					}
 				});
 				uni.navigateTo({
-					url:'./passageDetails'
+					url: './passageDetails'
 				})
 			},
 			onLoad() { //每次加载都会重新刷新

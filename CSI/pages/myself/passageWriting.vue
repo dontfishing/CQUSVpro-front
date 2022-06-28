@@ -61,6 +61,12 @@
 					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
 					loop: 'true',
 				},
+				voiceSetting:{
+					ttsSpd:5,
+					ttsPit:5,
+					ttsVol:5,
+					ttsPer:5
+				},
 				audioAction: {
 					method: 'pause' //默认暂停
 				},
@@ -73,22 +79,6 @@
 					url: './myselfMain'
 				})
 			},
-
-			publish() { //发表，成功后返回与我相关
-				uni.showToast({
-					icon: "success",
-					title: "发表成功!",
-					duration: 1000,
-					success: function() {
-						setTimeout(function() {
-							uni.switchTab({
-								url: './myselfMain',
-							})
-						}, 2000);
-					}
-				})
-			},
-
 			generate() { //生成音频
 				if (this.passageContent == "") {
 					uni.showToast({
@@ -97,45 +87,74 @@
 					});
 					return;
 				}
-				this.show = true;
-				console.log(this.title);
-				console.log(this.abstract);
-				uni.request({
+				else{
+					let passPer = this.voiceSetting.ttsPer;
+					let passSpd = this.voiceSetting.ttsSpd;
+					let passPit = this.voiceSetting.ttsPit;
+					let passVol = this.voiceSetting.ttsVol;
+					let passContent = this.passageContent;
+					uni.request({	//请求音频
+						url: 'http://106.14.62.110:8080/sound/generate',
+						method:"POST",
+						data: {
+							ttsPer : passPer,
+							ttsSpd : passSpd,
+							ttsPit : passPit,
+							ttsVol : passVol,
+							postContent : passContent
+						},
+						success: (res) => {
+							this.current.src = res.data.postTts;
+						}
+					})
+				}
+				
+			},
+			publish() { //发表，成功后返回与我相关
+				this.generate(); 	//先生成音频
+				let passTitle = this.title;
+				let passAb = this.abstract;
+				let text = this.passageContent;
+				let passTts = this.current.src;
+				var Token;
+				uni.getStorage({
+					key: 'login_token',
+					success(res) {
+						Token = res.data;
+					}
+				});
+				uni.request({	//请求发表文章
 					url: 'http://106.14.62.110:8080/sound/post',
 					method: "POST",
 					data: {
-						passageContent: this.passageContent,
-						title: this.title,
-						abstract: this.abstract
+						token: Token,
+						postContent: text,
+						postSummary: passAb,
+						postTitle: passTitle,
+						postTts: passTts
 					},
-
-					success: res => {
-						//console.log(data);
-						console.log(JSON.stringify(res.data));
-						if (res.statusCode == 404) { //返回的状态码
+					success: (res) => {
+						if ("success" in res.data) {
 							uni.showToast({
-								icon: 'none',
-								title: '生成音频失败',
-							});
-							//return;
-						} else if ("error" in res.data && res.data["error"] == "post failed") {
-							uni.showToast({
-								icon: 'none',
-								title: '生成音频失败',
-							});
-							//return;
+								icon: "success",
+								title: "发表成功!",
+								duration: 1000,
+								success: function() {
+									setTimeout(function() {
+										uni.switchTab({
+											url: './myselfMain',
+										})
+									}, 2000);
+								}
+							})
 						} else {
 							uni.showToast({
-								icon: 'none',
-								title: '生成音频成功!'
-							});
-
-							uni.reLaunch({
-								url: '/pages/set/setMain'
-							});
+								title: "发表失败"
+							})
 						}
-					},
-				})
+					}
+				});
+
 			},
 
 			play() { //播放
