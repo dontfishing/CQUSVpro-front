@@ -65,6 +65,12 @@
 			"style": {
 				"navigationBarTitleText": "我的文章"
 			}
+		},
+		{
+			"path": "pages/myself/myComment",
+			"style": {
+				"navigationBarTitleText": "我的评论"
+			}
 		}
 	],
 	"tabBar": {

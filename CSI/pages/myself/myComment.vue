@@ -1,17 +1,21 @@
-<template>
+ <template>
 	<view class="passageGround">
 
 		<!-- 具体内容 -->
 		<view class="contentArea">
 			<view v-for="(item, index) in passageList" :key="index">
-				<uni-card :title="passageList[index].userName" :sub-title="passageList[index].time"
+				<uni-card :title="passageList[index].commentId" :sub-title="passageList[index].time"
 					@click="goToDetail(index)"
 					thumbnail="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png">
+					<!--对方文章标题-->
+					<u-text v-text="passageList[index].postTitle"></u-text>
+					<!--评论内容-->
+					<u-text v-text="passageList[index].cmtContent"></u-text>
 					<!-- 语音播放 -->
 					<view class="player">
 						<audio style="text-align: left" :src="passageList[index].src"
-							:poster="passageList[index].poster" :name="passageList[index].title"
-							:author="passageList[index].abstract" :loop="false" controls @play="play()"></audio>
+							:poster="passageList[index].poster" :name="passageList[index].postTitle"
+							:author="passageList[index].postId" :loop="false" controls @play="play()"></audio>
 					</view>
 					<!-- 点赞评论栏 -->
 					<view class="comAndLikes">
@@ -27,8 +31,9 @@
 							<!-- 点赞数 -->
 							<u--text v-text="passageList[index].likesSum"></u--text>
 						</view>
-						<u-button class="deleteBtn" type="primary" size="mini" color="#f56c6c" @click="deletePass(index)" text="删除"></u-button>
 					</view>
+					<!--删除-->
+					<u-button class="deleteBtn" type="primary" size="mini" color="#f56c6c" @click="deletePass(index)" text="删除"></u-button>
 				</uni-card>
 			</view>
 		</view>
@@ -57,105 +62,79 @@
 			updatePass(ob) {
 				if (ob.infoAmount > 0) { //更新第一篇
 					var tmp1 = {
-						userName: "",
-						time: "",
-						title: "",
-						abstract: "",
-						likesSum: 0,
-						commentSum: 0,
+						commentId: 0, //评论ID
+						time: "", //发布时间
+						likesSum: 0, //点赞数量
+						dislikesSum: 0, //点踩数量
+						cmtContent: "", //评论内容
+						src: '', //评论音频
+						postId: 0, //评论对应文章的ID
+						postTitle: "", //评论对应文章的标题
 						poster: '',
-						src: ''
+						
 					};
-					tmp1.userName = ob.essayUserName1; //用户名
-					tmp1.title = ob.essayTitle1; //文章标题
-					tmp1.abstract = ob.essaySummary1; // 简介
-					tmp1.time = ob.essayPostTime1; // 发布时间
-					tmp1.likesSum = ob.essayPostLike1; // 点赞数
-					tmp1.commentSum = ob.essayComment1; // 评论数
-					tmp1.id = ob.essayPostId1; //文章id
-					tmp1.poster =
-						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
-					tmp1.src =
-						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
+					tmp1.commentId = ob.cmtId1; //评论ID
+					tmp1.time = ob.cmtTime1; //发布时间
+					tmp1.likesSum = ob.cmtLike1; // 点赞数量
+					tmp1.dislikesSum = ob.cmtDislike1; // 点踩数量
+					tmp1.cmtContent = ob.cmtContent1; // 评论内容
+					tmp1.src = ob.cmtTts1; // 评论音频
+					tmp1.postId = ob.postId1; //评论对应文章的ID
+					tmp1.postTitle =ob.postTitle1; //评论对应文章的标题
+					tmp1.poster = 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png';
 					this.passageList.push(tmp1); //更新文章列表
+					console.log(tmp1.commentId);
 				}
 				if (ob.infoAmount > 1) { //更新第二篇
 					var tmp2 = {
-						userName: "",
-						time: "",
-						title: "",
-						abstract: "",
-						likesSum: 0,
-						commentSum: 0,
-						poster: '',
-						src: ''
+						commentId: 0, //评论ID
+						time: "", //发布时间
+						likesSum: 0, //点赞数量
+						dislikesSum: 0, //点踩数量
+						cmtContent: "", //评论内容
+						src: '', //评论音频
+						postId: 0, //评论对应文章的ID
+						postTitle: "", //评论对应文章的标题
+						poster: ''
 					};
-					tmp2.userName = ob.essayUserName2; //用户名
-					tmp2.title = ob.essayTitle2; //文章标题
-					tmp2.abstract = ob.essaySummary2; // 简介
-					tmp2.time = ob.essayPostTime2; // 发布时间
-					tmp2.likesSum = ob.essayPostLike2; // 点赞数
-					tmp2.commentSum = ob.essayComment2; // 评论数
-					tmp2.id = ob.essayPostId2; //文章id
-					tmp2.poster =
-						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
-					tmp2.src =
-						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
+					tmp2.commentId = ob.cmtId2; //评论ID
+					tmp2.time = ob.cmtTime2; //发布时间
+					tmp2.likesSum = ob.cmtLike2; // 点赞数量
+					tmp2.dislikesSum = ob.cmtDislike2; // 点踩数量
+					tmp2.cmtContent = ob.cmtContent2; // 评论内容
+					tmp2.src = ob.cmtTts2; // 评论音频
+					tmp2.postId = ob.postId2; //评论对应文章的ID
+					tmp2.postTitle =ob.postTitle2; //评论对应文章的标题
+					tmp2.poster = 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png';
 					this.passageList.push(tmp2); //更新文章列表
 				}
 				if (ob.infoAmount > 2) { //	更新第三篇
 					var tmp3 = {
-						userName: "",
-						time: "",
-						title: "",
-						abstract: "",
-						likesSum: 0,
-						commentSum: 0,
-						poster: '',
-						src: ''
+						commentId: 0, //评论ID
+						time: "", //发布时间
+						likesSum: 0, //点赞数量
+						dislikesSum: 0, //点踩数量
+						cmtContent: "", //评论内容
+						src: '', //评论音频
+						postId: 0, //评论对应文章的ID
+						postTitle: "", //评论对应文章的标题
+						poster: ''
 					};
-					tmp3.userName = ob.essayUserName3; //用户名
-					tmp3.title = ob.essayTitle3; //文章标题
-					tmp3.abstract = ob.essaySummary3; // 简介
-					tmp3.time = ob.essayPostTime3; // 发布时间
-					tmp3.likesSum = ob.essayPostLike3; // 点赞数
-					tmp3.commentSum = ob.essayComment3; // 评论数
-					tmp3.id = ob.essayPostId3; //文章id
-					
-					tmp3.poster =
-						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
-					tmp3.src =
-						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
+					tmp3.commentId = ob.cmtId3; //评论ID
+					tmp3.time = ob.cmtTime3; //发布时间
+					tmp3.likesSum = ob.cmtLike3; // 点赞数量
+					tmp3.dislikesSum = ob.cmtDislike3; // 点踩数量
+					tmp3.cmtContent = ob.cmtContent3; // 评论内容
+					tmp3.src = ob.cmtTts3; // 评论音频
+					tmp3.postId = ob.postId3; //评论对应文章的ID
+					tmp3.postTitle =ob.postTitle3; //评论对应文章的标题
+					tmp3.poster = 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png';
 					this.passageList.push(tmp3); //更新文章列表
 				}
 
 
 			},
-			refresh(ob) { //下拉加载更多的函数，会传入最下面文章的发表时间
-				var Token;
-				uni.getStorage({ //获取login的token
-					key: 'login_token',
-					success: function(res) {
-						Token = res.data;
-					}
-				});
-				console.log(Token);
-				console.log(ob.time);
-				let _this = this;
-				uni.request({ //获取远端数据
-					url: 'http://106.14.62.110:8080/user/essays/refresh',
-					method:'POST',
-					data: {
-						token: Token,
-						time: ob.time
-					},
-					success: (res) => {
-						console.log(res.data);
-						_this.updatePass(res.data);
-					}
-				})
-			},
-			pullDownRefresh() { //上拉刷新的函数
+			refresh(ob) { //上划加载更多的函数，会传入最下面文章的id
 				var Token;
 				uni.getStorage({ //获取login的token
 					key: 'login_token',
@@ -168,11 +147,38 @@
 						console.log('获取token fail');
 					}
 				});
-				console.log(Token);
+				let _this = this;
+				
+				uni.request({ //获取远端数据
+					url: 'http://106.14.62.110:8080/user/comment/refresh',
+					method: "POST",
+					data: {
+						token: Token,
+						time: ob.time
+					},
+					success: (res) => {
+						console.log(res.data);
+						_this.updatePass(res.data);
+					}
+				})
+			},
+			pullDownRefresh() { //下拉刷新的函数
+				var Token;
+				uni.getStorage({ //获取login的token
+					key: 'login_token',
+					success: function(res) {
+						Token = res.data;
+						console.log('获取token success');
+						console.log(res.data);
+					},
+					fail: function() {
+						console.log('获取token fail');
+					}
+				});
 				let _this = this;
 				uni.request({
-					url: 'http://106.14.62.110:8080/user/essays',
-					method:"POST",
+					url: 'http://106.14.62.110:8080/user/comments',
+					method: 'POST',
 					data:{
 						token: Token
 					},
@@ -194,16 +200,16 @@
 				})
 			},
 			goToDetail(index) { //加载文章详情页
-				let tmp =this.passageList[index];
-				uni.setStorage({
-					key: 'passage_detail',
+				let tmp = this.passageList[index].postId;
+				uni.setStorage({ //存入缓存
+					key: 'postID',
 					data: tmp,
 					success: function() {
 						console.log(JSON.stringify(tmp));
 					}
 				});
 				uni.navigateTo({
-					url:'./passageDetails'
+					url: './passageDetails'
 				})
 			},
 			onLoad() { //每次加载都会重新刷新
@@ -223,38 +229,37 @@
 			
 			deletePass(index) {
 				uni.request({
-					url:'http://106.14.62.110:8080/user/essays/delete',
+					url:'http://106.14.62.110:8080/comment/delete',
 					method:'POST',
 					data:{
-						postId: this.passageList[index].id
+						cmtId: this.passageList[index].commentId
 					},
 					
 					success: res => {
 						if(res.statusCode == 404) {
 							uni.showToast({
 								icon:'error',
-								title:'删除失败'
+								title:'404 not found'
 							})
-						}
-						else if("error" in res.data){
+						} else if("Info" in res.data && res.data[Info] == "delete failed") {
 							uni.showToast({
 								icon:'error',
 								title:'删除失败'
-							})
-						}
-						else {
+							})		
+						} else {
 							uni.showToast({
 								icon:'success',
 								title:'删除成功'
 							})
-							this.refresh(this.passageList[len - 1]);
 						}
 					}
 				})
+
 			}
 		}
 	}
 </script>
+
 <style>
 	.passageGround {}
 
@@ -286,7 +291,7 @@
 	}
 
 	.Comment {
-		margin: 0px 4% 0px 5%;
+		margin: 0px 6% 0px 5%;
 
 	}
 

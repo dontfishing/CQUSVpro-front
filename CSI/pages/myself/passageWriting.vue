@@ -56,16 +56,16 @@
 				title: '', //文章标题
 				abstract: '', //文章简介
 				passageContent: '', //文章内容
+				current: { //提供播放器的标题，作者，资源
+					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png',
+					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
+					loop: 'true',
+				},
 				voiceSetting:{
 					ttsSpd:5,
 					ttsPit:5,
 					ttsVol:5,
 					ttsPer:5
-				},
-				current: { //提供播放器的标题，作者，资源
-					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png',
-					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
-					loop: 'true',
 				},
 				audioAction: {
 					method: 'pause' //默认暂停
@@ -108,6 +108,7 @@
 						}
 					})
 				}
+
 				
 			},
 			publish() { //发表，成功后返回与我相关
@@ -156,8 +157,6 @@
 				});
 
 			},
-
-
 			play() { //播放
 
 			},
