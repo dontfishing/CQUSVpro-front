@@ -149,7 +149,7 @@
 			refresh(ob) { //上划加载更多的函数，会传入最下面文章的id
 				let _this = this;
 				const postId = ob.id;
-				console.log(postId);
+				console.log("main:",postId);
 				uni.request({ //获取远端数据
 					url: 'http://106.14.62.110:8080/essay/afterRefresh',
 					method: "POST",
@@ -157,7 +157,7 @@
 						postId: postId
 					},
 					success: (res) => {
-						console.log(res.data);
+						// console.log(res.data);
 						_this.updatePass(res.data);
 					}
 				})
@@ -188,7 +188,7 @@
 					key: 'postID',
 					data: tmp,
 					success: function() {
-						console.log(JSON.stringify(tmp));
+						// console.log(tmp);
 					}
 				});
 				uni.navigateTo({
@@ -206,7 +206,7 @@
 
 			onReachBottom() { // 上划加载
 				var len = this.passageList.length;
-				console.log(JSON.stringify(this.passageList[len - 1]));
+				// console.log(JSON.stringify(this.passageList[len - 1]));
 				this.refresh(this.passageList[len - 1]);
 			},
 		}
