@@ -46,7 +46,6 @@
 			};
 		},
 		methods: {
-
 			gotoPhoto() { //跳转到更改头像
 				uni.chooseImage({
 					count: 1,

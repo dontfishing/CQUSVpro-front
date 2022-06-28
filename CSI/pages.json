@@ -15,6 +15,12 @@
 			}
 		},
 		{
+			"path": "pages/passage/commentWriting",
+			"style": {
+				"navigationBarTitleText": "写评论"
+			}
+		},
+		{
 			"path": "pages/myself/passageWriting",
 			"style": {
 				"navigationBarTitleText": "写文章"
@@ -58,6 +64,12 @@
 			"path": "pages/myself/myPassage",
 			"style": {
 				"navigationBarTitleText": "我的文章"
+			}
+		},
+		{
+			"path": "pages/myself/myComment",
+			"style": {
+				"navigationBarTitleText": "我的评论"
 			}
 		}
 	],
