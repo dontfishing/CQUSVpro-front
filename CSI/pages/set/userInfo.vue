@@ -98,6 +98,12 @@
 	export default {
 		data() {
 			return {
+				Info:{	//当前信息
+					userName:"",
+					gender:"",
+					age:"",
+					email:""
+				},
 				token: "",
 				showCommom: false, //除密码和性别外的弹出层控制
 				showSex: false,
@@ -132,8 +138,10 @@
 				}]
 			}
 		},
-
 		methods: {
+			getInfo(){	//获取当前信息
+				
+			},
 			pop(num) { //弹出层信息根据传入的参数改变
 				this.showCommom = true;
 				this.showPassword = false;

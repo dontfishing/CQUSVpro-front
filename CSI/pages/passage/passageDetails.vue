@@ -102,7 +102,6 @@
 					success: function(res) {
 						this.postID = res.data;
 						console.log(JSON.stringify(res.data));
-
 					},
 					fail: () => {
 						console.log(JSON.stringify(res.data));
