@@ -34,8 +34,6 @@
 						:key="index" :label="item.name" :name="item.name">
 					</u-radio>
 				</u-radio-group>
-				<!-- <u--input class="infoGend" placeholder="性别" border="surround" v-model="valueGend"></br>
-				</u--input> -->
 				</br>
 				<!-- 年龄 -->
 				<u--input class="infoAge" type="number" placeholder="年龄" border="surround" v-model="valueAge">
