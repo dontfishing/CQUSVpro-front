@@ -116,6 +116,8 @@
 						postId: _this.postID
 					},
 					success: res => {
+						console.log(res.data);
+						
 						if (res.statusCode == 404) { //返回的状态码
 							uni.showToast({
 								icon: 'error',
@@ -132,7 +134,7 @@
 							this.psgContent = res.data["postContent"]; // 文章内容
 							if (this.infoAmount > 0) {
 								var tmp1 = {
-									cmtId: 0,
+									cmtId: 123,
 									cmtContent: "",
 									cmtTts: "",
 									cmtAuthorName: "",
@@ -147,7 +149,7 @@
 								tmp1.cmtTime=res.data["cmtTime1"];
 								this.commentList.push(tmp1);
 							}
-							 
+							console.log(res.data);
 							// this.commentList.push(res.data); // 评论1
 							// this.commentList.push(res.data["comment2"]); // 评论2
 							// this.commentList.push(res.data["comment3"]); // 评论3
@@ -208,6 +210,7 @@
 						},
 						success: res => {
 							console.log("点赞");
+							console.log(res.data);
 							
 							if (res.statusCode == 404) { //返回的状态码
 								uni.showToast({
@@ -234,6 +237,7 @@
 
 			clickDislikeIcon() { // 点击文章点踩按钮
 				if (this.dislikeIcon == "thumb-down-fill") { //取消点踩
+					console.log(this.postID);
 					uni.request({
 						url: 'http://106.14.62.110:8080/post/dislike/cancel', //api地址
 						method: "POST",
