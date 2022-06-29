@@ -2,22 +2,26 @@
 	<view>
 		<view class="sliderSet">
 			<text>语速</text>
-			<slider value="5" min="0" max="15" @change="sliderChangeS" show-value="true" />
+			<slider :value="speed" min="0" max="15" @change="sliderChangeS" show-value="true" />
 		</view>
 		<view class="sliderSet">
 			<text>音调</text>
-			<slider value="5" min="0" max="15" @change="sliderChangeT" show-value="true" />
+			<slider :value="tune" min="0" max="15" @change="sliderChangeT" show-value="true" />
 		</view>
 		<view class="sliderSet">
 			<text>音量</text>
-			<slider value="5" min="0" max="9" @change="sliderChangeV" show-value="true" />
+			<slider :value="volume" min="0" max="9" @change="sliderChangeV" show-value="true" />
 		</view></br>
 		<u-cell-group>
 			<u-cell title="音色选择" isLink @click="voiceChoice()" :value="timbreDisplay">
 				<u-icon slot="icon" size="30" name="volume-fill"></u-icon>
-				<!-- <u-badge count="99" :absolute="false" slot="right-icon"></u-badge> -->
 			</u-cell>
 		</u-cell-group>
+		<!-- 试听 -->
+		<view class="player">
+			<audio style="text-align: left" :src="testLis.src" :poster="testLis.poster" :name="testLis.name"
+				:author="testLis.author" controls @pause="pause()" @play="play()"></audio>
+		</view>
 		<u-button text="确定" type="primary" @click="allSet()"></u-button>
 		<u-popup :show="show" @close="close" @open="open">
 			<view>
@@ -41,7 +45,7 @@
 				timbreDisplay: '音色1', //单元格右边显示选择的音色，默认音色1
 				speed: 5, //语速
 				tune: 5, //音调
-				volume: 4, //音量 
+				volume: 5, //音量 
 				timbre: 0, //音色
 				baseList: [{
 						name: 'volume-fill',
@@ -79,10 +83,36 @@
 						name: 'volume-fill',
 						title: '音色9' //度小萌
 					}
-				]
+				],
+				testLis: {
+					src: "",
+					poster: "https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png",
+					name: "试听",
+					author: "试听文本"
+				}
 			}
 		},
-
+		onLoad() {
+			let _this = this;
+			uni.getStorage({
+				key: "voice_setting",
+				success(res) {
+					console.log(JSON.stringify(res.data));
+					_this.speed = res.data.ttsSpd;
+					_this.tune = res.data.ttsPit;
+					_this.volume = res.data.ttsVol;
+					_this.timbre = res.data.ttsPer;
+					_this.generate();
+				},
+				fail(){
+					_this.speed = 5;
+					_this.tune = 5;
+					_this.volume = 5;
+					_this.timbre = 4;
+					_this.generate();
+				}
+			})
+		},
 		methods: {
 			sliderChangeS(e) { //传语速设置
 				this.speed = e.detail.value;
@@ -99,7 +129,33 @@
 			voiceChoice() { //点击单元格弹出音色选择
 				this.show = true;
 			},
+			generate() { //生成试听音频
+				let passPer = this.timbre;
+				let passSpd = this.speed;
+				let passPit = this.tune;
+				let passVol = this.volume;
+				let passContent = "衬衫的价格为九镑十五便士，所以你选择C项，并将其标在试卷上。";
+				uni.request({ //请求音频
+					url: 'http://106.14.62.110:8080/sound/generate',
+					method: "POST",
+					data: {
+						ttsPer: passPer,
+						ttsSpd: passSpd,
+						ttsPit: passPit,
+						ttsVol: passVol,
+						postContent: passContent
+					},
+					success: (res) => {
+						this.testLis.src = res.data.postTts;
+						uni.showToast({
+							title: "修改成功，已生成试听音频",
+							icon: "success",
+							duration: 4000
+						});
+					}
+				})
 
+			},
 			open() {
 
 			},
@@ -125,18 +181,16 @@
 				};
 				uni.setStorage({
 					key: 'voice_setting',
-					data : voiceSetting,
-					success() {
-						console.log("success!");
-						uni.showToast({
-							title: "保存成功",
-							icon: "success"
-						})
-					}
-				})
-			}
-		}
+					data: voiceSetting,
+					success() {}
+				});
+				this.generate(); //生成试听
+			},
 
+			play() {},
+
+			pause() {},
+		}
 	}
 </script>
 
@@ -162,6 +216,11 @@
 		/* #ifndef APP-PLUS */
 		box-sizing: border-box;
 		/* #endif */
+	}
+
+	.player {
+		margin-top: 15px;
+		margin-left: 10%;
 	}
 
 	.u-button {

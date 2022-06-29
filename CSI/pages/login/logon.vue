@@ -2,17 +2,12 @@
 	<view class="reg">
 		<!-- style="{background: 'url('+imageURL+')'}" -->
 		<!-- 如果是设置background-image则写成：<view class="content" :style="{backgroundImage: 'url('+imageURL+')'}"> -->
-		<!-- 注册页面 -->
-		<view class="title">
-			<text>注册</text>
-		</view>
-
 		<!-- 注册基本信息填入 -->
 		<view class="info">
 
 			<!-- 输入信息文字提示 -->
 			<view class="infoVal">
-				<text>用户名</text></br>
+				<text>账号</text></br>
 				<text>密码</text></br>
 				<text>确认密码</text></br>
 				<text>性别</text></br>
@@ -23,19 +18,19 @@
 			<!-- 输入框 -->
 			<view class="input">
 				<!-- 用户名 -->
-				<u--input class="infoAc" placeholder="只支持大小写英文字母与数字" border="surround" v-model="valueAc" clearable>
+				<u--input class="infoAc" placeholder="4-16位,大小写字母、数字" border="surround" v-model="valueAc">
 				</u--input></br>
 				<!-- 密码 -->
 				<u--input class="infoPsw" type="password" placeholder="6-16位,大小写字母、数字" border="surround"
-					v-model="valuePsw" clearable></u--input></br>
+					v-model="valuePsw"></u--input></br>
 
 				<!-- 确认密码 -->
 				<u--input class="infoPwAgain" type="password" placeholder="确认密码" border="surround"
-					v-model="valuePwAgain" clearable>
+					v-model="valuePwAgain">
 				</u--input></br>
 				<!-- 性别 -->
 				<u-radio-group v-model="valueGend" placement="row">
-					<u-radio :customStyle="{margin:'10px 60% 10px 0px'}" v-for="(item, index) in genderList"
+					<u-radio :customStyle="{margin:'10px 50% 10px 0px'}" v-for="(item, index) in genderList"
 						:key="index" :label="item.name" :name="item.name">
 					</u-radio>
 				</u-radio-group>
@@ -46,24 +41,14 @@
 				<u--input class="infoAge" type="number" placeholder="年龄" border="surround" v-model="valueAge">
 				</u--input></br>
 				<!-- 邮箱 -->
-				<u--input class="infoEmail" placeholder="邮箱" border="surround" v-model="valueEmail" clearable>
+				<u--input class="infoEmail" placeholder="邮箱" border="surround" v-model="valueEmail">
 				</u--input>
 
 			</view>
 		</view>
-
-		<!--按钮界面-->
-		<view class="btn">
-			<!--注册按钮-->
-			<view class="btnRgs">
-				<u-button type="primary" text="注册" @click="register()"></u-button>
-			</view>
-			<!--返回按钮-->
-			<view class="btnBack">
-				<navigator url="/pages/login/login">
-					<u-button type="primary" text="返回"></u-button>
-				</navigator>
-			</view>
+		<!--注册按钮-->
+		<view class="btnRgs">
+			<u-button type="primary" color="#8967D3" text="注册" @click="register()"></u-button>
 		</view>
 	</view>
 </template>
@@ -79,13 +64,13 @@
 				valueAge: "",
 				valueEmail: "",
 				genderList: [{
-					name: '女',
-					disabled: true
-				}, {
 					name: '男',
 					disabled: false
+				}, {
+					name: '女',
+					disabled: true
 				}],
-				valueGend: '女',
+				valueGend: '男',
 				// imageURL: 'E:\\1\\codelearn\\前端\\0-init\\web\\data\\pic\\pic-1.png'
 			};
 		},
@@ -101,13 +86,12 @@
 					email: this.valueEmail
 				};
 				// 切换性别
-				if(this.valueGend=="女"){
-					this.valueGend="f";
+				if (this.valueGend == "女") {
+					this.valueGend = "f";
+				} else {
+					this.valueGend = "m";
 				}
-				else{
-					this.valueGend="m";
-				}
-				
+
 				// 判断输入不为空
 				if (data.useraccount == "" || data.password == "" || data.passwordAgain == "" || data.valueAge == "" ||
 					data
@@ -119,7 +103,8 @@
 				}
 
 				// 判断用户名是否符号要求
-				else if (!(/^[A-Za-z\d]{5,24}$/.test(this.valueAc))) {
+				else if (!(/^[A-Za-z\d]{5,24}$/.test(this.valueAc)) || this.valueAc.length < 4 || this.valueAc.length >
+					16) {
 					uni.showToast({
 						icon: 'error',
 						title: '用户名不符合要求'
@@ -219,19 +204,19 @@
 
 <style>
 	/* 总页面 */
+	
 	.reg {
 		color: black;
 		text-decoration-color: white;
-		/* 		background-color: #f5f5f0; */
 	}
 
 	/* 注册标题 */
 	.title {
-		text-align: left;
-		font-size: 90rpx;
-		color: #0f0f0f;
-		margin: 10% 0rpx 10% 5%;
+		margin: 10%;
+		margin-left: 36%;
+		font-size: 50px;
 	}
+
 
 	/* 注册信息总界面 */
 	.info {
@@ -239,7 +224,7 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-
+		margin-top: 25%;
 	}
 
 	/* 注册信息文字提示 */
@@ -263,34 +248,13 @@
 
 	}
 
-	/* 按钮总界面 */
-	.btn {
-		display: flex;
-		flex-direction: row;
-		margin-top: 10px;
-		margin-right: 10px;
-		margin-bottom: 10px;
-		margin-left: 10px;
-		align-items: center;
-		justify-content: center;
-	}
-
 	/* 注册按钮 */
 	.btnRgs {
-		margin-top: 10px;
-		margin-right: 30%;
+		margin-top: 40px;
+		margin-right: 10%;
 		margin-bottom: 10px;
 		margin-left: 10%;
 		text-align: right;
 
-	}
-
-	/* 返回按钮 */
-	.btnBack {
-		margin-top: 10px;
-		margin-right: 10%;
-		margin-bottom: 10px;
-		margin-left: 30%;
-		text-align: right;
 	}
 </style>
