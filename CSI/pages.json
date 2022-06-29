@@ -12,6 +12,7 @@
 			"path": "pages/passage/passageDetails",
 			"style": {
 				"navigationBarTitleText": "文章详情"
+
 			}
 		},
 		{
