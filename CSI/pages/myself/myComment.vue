@@ -4,18 +4,17 @@
 		<!-- 具体内容 -->
 		<view class="contentArea">
 			<view v-for="(item, index) in passageList" :key="index">
-				<uni-card :title="passageList[index].commentId" :sub-title="passageList[index].time"
-					@click="goToDetail(index)"
+				<uni-card :title="passageList[index].commentId + ''" :sub-title="passageList[index].time"
 					thumbnail="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png">
 					<!--对方文章标题-->
-					<u-text v-text="passageList[index].postTitle"></u-text>
+					<u-text v-text="passageList[index].postTitle" @click="goToDetail(index)"></u-text>
 					<!--评论内容-->
-					<u-text v-text="passageList[index].cmtContent"></u-text>
+					<u-text v-text="passageList[index].cmtContent" @click="goToDetail(index)"></u-text>
 					<!-- 语音播放 -->
-					<view class="player">
+					<view class="player" @click="goToDetail(index)">
 						<audio style="text-align: left" :src="passageList[index].src"
 							:poster="passageList[index].poster" :name="passageList[index].postTitle"
-							:author="passageList[index].postId" :loop="false" controls @play="play()"></audio>
+							:author="passageList[index].postId + ''" :loop="false" controls @play="play()"></audio>
 					</view>
 					<!-- 点赞评论栏 -->
 					<view class="comAndLikes">
@@ -31,9 +30,9 @@
 							<!-- 点赞数 -->
 							<u--text v-text="passageList[index].likesSum"></u--text>
 						</view>
+						<!--删除-->
+						<u-button class="deleteBtn" type="primary" size="mini" color="#f56c6c" @click="deletePass(index)" text="删除"></u-button>
 					</view>
-					<!--删除-->
-					<u-button class="deleteBtn" type="primary" size="mini" color="#f56c6c" @click="deletePass(index)" text="删除"></u-button>
 				</uni-card>
 			</view>
 		</view>
@@ -83,7 +82,6 @@
 					tmp1.postTitle =ob.postTitle1; //评论对应文章的标题
 					tmp1.poster = 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png';
 					this.passageList.push(tmp1); //更新文章列表
-					console.log(tmp1.commentId);
 				}
 				if (ob.infoAmount > 1) { //更新第二篇
 					var tmp2 = {
@@ -148,7 +146,6 @@
 					}
 				});
 				let _this = this;
-				
 				uni.request({ //获取远端数据
 					url: 'http://106.14.62.110:8080/user/comment/refresh',
 					method: "POST",
@@ -159,6 +156,13 @@
 					success: (res) => {
 						console.log(res.data);
 						_this.updatePass(res.data);
+						console.log(res.data.infoAmount);
+						if (res.data.infoAmount == 0) {
+							uni.showToast({
+								title: '没有更多了QAQ',
+								duration: 2000
+							})
+						}
 					}
 				})
 			},
@@ -186,7 +190,7 @@
 						console.log(res.data);
 						_this.updatePass(res.data);
 						if (res.data.infoAmount == 0) {
-							un.showToast({
+							uni.showToast({
 								title: '没有更多了QAQ',
 								duration: 2000
 							})
@@ -209,7 +213,7 @@
 					}
 				});
 				uni.navigateTo({
-					url: './passageDetails'
+					url: '/pages/passage/passageDetails'
 				})
 			},
 			onLoad() { //每次加载都会重新刷新
@@ -228,6 +232,7 @@
 			},
 			
 			deletePass(index) {
+				var len = this.passageList.length;
 				uni.request({
 					url:'http://106.14.62.110:8080/comment/delete',
 					method:'POST',
@@ -253,8 +258,11 @@
 							})
 						}
 					}
-				})
 
+				})
+					this.passageList=[];
+					this.pullDownRefresh();
+					this.refresh(this.passageList[len-1]);
 			}
 		}
 	}
@@ -313,5 +321,6 @@
 	
 	.deleteBtn {
 		margin-left: 60%;
+		margin-right: 16%;
 	}
 </style>
