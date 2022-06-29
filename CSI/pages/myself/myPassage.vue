@@ -5,10 +5,9 @@
 		<view class="contentArea">
 			<view v-for="(item, index) in passageList" :key="index">
 				<uni-card :title="passageList[index].userName" :sub-title="passageList[index].time"
-					@click="goToDetail(index)"
 					thumbnail="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png">
 					<!-- 语音播放 -->
-					<view class="player">
+					<view class="player" @click="goToDetail(index)">
 						<audio style="text-align: left" :src="passageList[index].src"
 							:poster="passageList[index].poster" :name="passageList[index].title"
 							:author="passageList[index].abstract" :loop="false" controls @play="play()"></audio>
@@ -41,18 +40,15 @@
 </template>
 <script>
 	import uniLoadMore from '@/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue'
-
 	export default {
 		data() {
 			return {
 				passageList: [],
 				loadMoreStatus: 'more', // 加载更多的状态：可加载、正在加载、没有更多
-
 			}
 		},
 		methods: {
 			play() { // 播放音频
-
 			},
 			updatePass(ob) {
 				if (ob.infoAmount > 0) { //更新第一篇
@@ -128,8 +124,6 @@
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
 					this.passageList.push(tmp3); //更新文章列表
 				}
-
-
 			},
 			refresh(ob) { //下拉加载更多的函数，会传入最下面文章的发表时间
 				var Token;
@@ -152,6 +146,12 @@
 					success: (res) => {
 						console.log(res.data);
 						_this.updatePass(res.data);
+						if (res.data.infoAmount == 0) {
+							uni.showToast({
+								title: '没有更多了QAQ',
+								duration: 2000
+							})
+						}
 					}
 				})
 			},
@@ -180,7 +180,7 @@
 						console.log(res.data);
 						_this.updatePass(res.data);
 						if (res.data.infoAmount == 0) {
-							un.showToast({
+							uni.showToast({
 								title: '没有更多了QAQ',
 								duration: 2000
 							})
@@ -203,7 +203,7 @@
 					}
 				});
 				uni.navigateTo({
-					url:'./passageDetails'
+					url:'/pages/passage/passageDetails'
 				})
 			},
 			onLoad() { //每次加载都会重新刷新
@@ -214,7 +214,6 @@
 				this.passageList = [];
 				this.pullDownRefresh();
 			},
-
 			onReachBottom() { // 上划加载
 				var len = this.passageList.length;
 				console.log(JSON.stringify(this.passageList[len - 1]));
@@ -222,6 +221,8 @@
 			},
 			
 			deletePass(index) {
+				var len = this.passageList.length;
+				let _this = this;
 				uni.request({
 					url:'http://106.14.62.110:8080/user/essays/delete',
 					method:'POST',
@@ -243,36 +244,34 @@
 							})
 						}
 						else {
+							_this.passageList=[];
+							_this.pullDownRefresh();
+							_this.refresh(this.passageList[len-1]);
 							uni.showToast({
 								icon:'success',
 								title:'删除成功'
 							})
-							this.refresh(this.passageList[len - 1]);
 						}
 					}
 				})
+
 			}
 		}
 	}
 </script>
 <style>
 	.passageGround {}
-
 	.searchArea {
 		background-color: #e9e9e9;
 	}
-
 	.searchBar {
 		margin: 5px 10px 20px 5px;
 	}
-
 	.contentArea {}
-
 	.player {
 		display: flex;
 		flex-direction: row;
 	}
-
 	/* 	.progressLine{
 		margin: 2px 2px 0px 0px;
 		
@@ -284,23 +283,18 @@
 		flex-direction: row;
 		margin: 2px 10% 2px 2px;
 	}
-
 	.Comment {
 		margin: 0px 4% 0px 5%;
-
 	}
-
 	.loadmore {
 		display: flexbox;
 		flex-direction: column-reverse;
 		margin-top: 20%;
 	}
-
 	.Likes {
 		//点赞数
 		display: flex;
 	}
-
 	.Comment {
 		//评论数
 		display: flex;
