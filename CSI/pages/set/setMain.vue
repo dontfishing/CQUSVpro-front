@@ -43,59 +43,91 @@
 						id: 2
 					}
 				],
-				
+				token: '',
+
 			};
 		},
 		methods: {
+			// obToken() { // 获取缓存中的token
+
+			// },
+			storeImg(img_url) { //头像图片存入缓存
+				uni.setStorage({
+					key: 'ImgUrl',
+					data: img_url,
+					success: function() {
+						// console.log(this.token);
+						console.log('头像图片url已存入缓存');
+					}
+				});
+			},
 			gotoPhoto() { //跳转到更改头像
-				var token;
-				var Imgs;
-				uni.chooseImage({// 选择图片
+				var Token;
+				uni.chooseImage({ // 选择图片
 					count: 1,
-					sizeType: ['original','compressed'],
+					sizeType: ['original', 'compressed'],
 					sourceType: ['camera', 'album'], //这要注意，camera调拍照，album是打开手机相册
-					success: (res) => {
-						console.log('choose:',res);
-						uni.getStorage({ // 获取缓存中的token
-							key: 'login_token',
-							success: function(storageRes) {
-								token = storageRes.data;
-								// console.log('getstorage:',token);
-								
-							},
-							fail: () => {
-								console.log(JSON.stringify(storageRes.data));
-								console.log('fail');
-						
-							}
-						});
-						let tempFilePaths = res.tempFilePaths;
-						// Imgs = res.tempFilePaths[0]
-						// this.$forceUpdate();
-						console.log(JSON.stringify(tempFilePaths[0]));
-						// console.log('choose:',token);
-						
-						uni.uploadFile({// 上传头像图片
+
+					success: (chooseRes) => { // 选择图片成功
+						console.log('chooseRes:', chooseRes);
+
+						// this.obToken(); // 获取缓存中的token 
+
+						let tempImgPath = chooseRes.tempFilePaths[0];
+						console.log('tempImgPathUrl:', tempImgPath);
+
+						uni.uploadFile({ // 上传头像图片
 							url: 'http://106.14.62.110:8080/uploadImg',
-							filePath: tempFilePaths[0],
+							filePath: tempImgPath,
 							fileType: 'image',
-							// name: 'file',
-							formData: {//formData是指除了图片以外，额外加的字段
-								'token': token,
-							},
-							success: (uploadFileRes) => {
-								this.imageURL=uploadFileRes.data["img_url"];
-								uni.setStorage({ //头像图片存入缓存
-									key: 'ImgUrl',
-									data: uploadFileRes.data["img_url"],
-									success: function() {
-										// console.log(token);
-										console.log(JSON.parse(uploadFileRes.data));
-									}
-								});
-								
+							name: 'image',
+							success: (uploadFileRes) => { // 上传头像图片成功
+								this.imageURL = uploadFileRes.data["img_url"];
+								console.log('当前图像url:', this.imageURL);
+								this.storeImg(this.imageURL); //头像图片存入缓存
 							}
 						})
+					}
+				});
+
+				uni.getStorage({ // 获取缓存中的token
+					key: 'login_token',
+					success: function(getTokenRes) {
+						Token = getTokenRes.data;
+						// console.log('getstorage:',Token);
+						// console.log('已获取缓存中的token');
+					},
+					fail: () => {
+						console.log(JSON.stringify(getTokenRes.data));
+						console.log('getstorage fail');
+
+					}
+				});
+				// console.log('Token:', Token);
+				uni.request({ // 传url和token给后端
+					url: 'http://106.14.62.110:8080/confirmImg', //api地址
+					method: "POST",
+					data: {
+						url: this.imageURL,
+						token: Token
+					},
+					success: res => {
+						if (res.statusCode == 404) { //返回的状态码
+							uni.showToast({
+								icon: 'error',
+								title: '网页失踪了',
+							});
+						} else {
+							this.token=Token;
+						}
+					},
+
+					fail: () => {
+
+					},
+
+					complete: () => {
+
 					}
 				});
 
@@ -118,7 +150,67 @@
 							break;
 					};
 				}
-			}
+			},
+			onLoad() { //每次加载都会重新刷新
+				var imgUrl;
+				uni.getStorage({ // 获取缓存中的图片url
+					key: 'ImgUrl',
+					success: function(getImgRes) {
+						imgUrl = getImgRes.data;
+						// console.log('已获取缓存中的图片url');
+					},
+					fail: () => {
+						console.log(JSON.stringify(getImgRes.data));
+						console.log('getImg fail');
+
+					}
+				});
+				this.imageURL=imgUrl;
+				var Token;
+				uni.getStorage({ // 获取缓存中的token
+					key: 'login_token',
+					success: function(getTokenRes) {
+						// this.token = getTokenRes.data;
+						Token = getTokenRes.data;
+						// console.log('getstorage:', this.token);
+						// console.log('已获取缓存中的token');
+					},
+					fail: () => {
+						console.log(JSON.stringify(getTokenRes.data));
+						console.log('getstorage fail');
+
+					}
+				});
+				// console.log(Token);
+				// console.log(this.token);
+
+				uni.request({ //同步更新用户名
+					url: 'http://106.14.62.110:8080/user/name', //api地址
+					method: "POST",
+					data: {
+						token: Token
+					},
+					success: res => {
+						if (res.statusCode == 404) { //返回的状态码
+							uni.showToast({
+								icon: 'error',
+								title: '网页失踪了',
+							});
+						} else {
+							this.userName = res.data['userName'];
+							// console.log(res);
+						}
+					},
+
+					fail: () => {
+
+					},
+
+					complete: () => {
+
+					}
+				});
+			},
 		}
 	}
 </script>
