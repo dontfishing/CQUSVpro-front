@@ -105,7 +105,7 @@
 							uni.showToast({
 								title: "已生成",
 								icon: "success",
-								duration:2000
+								duration: 2000
 							})
 							this.show = true;
 						}
@@ -113,52 +113,59 @@
 				}
 			},
 			publish() { //发表，成功后返回与我相关
-				this.generate(); //先生成音频
-				let passTitle = this.title;
-				let passAb = this.abstract;
-				let text = this.passageContent;
-				let passTts = this.current.src;
-				var Token;
-				uni.getStorage({
-					key: 'login_token',
-					success(res) {
-						Token = res.data;
-					}
-				});
-				console.log(Token);
-				console.log(passTts);
-				uni.request({ //请求发表文章
-					url: 'http://106.14.62.110:8080/sound/post',
-					method: "POST",
-					data: {
-						token: Token,
-						postContent: text,
-						postSummary: passAb,
-						postTitle: passTitle,
-						postTts: passTts
-					},
-					success: (res) => {
-						if ("success" in res.data) {
-							uni.showToast({
-								icon: "success",
-								title: "发表成功!",
-								duration: 1000,
-								success: function() {
-									setTimeout(function() {
-										uni.switchTab({
-											url: './myselfMain',
-										})
-									}, 2000);
-								}
-							})
-						} else {
-							uni.showToast({
-								icon: "error",
-								title: "发表失败"
-							})
+				if (this.passageContent == "") {
+					uni.showToast({
+						icon: "error",
+						title: '文章内容不能为空!'
+					});
+				} else {
+					this.generate(); //先生成音频
+					let passTitle = this.title;
+					let passAb = this.abstract;
+					let text = this.passageContent;
+					let passTts = this.current.src;
+					var Token;
+					uni.getStorage({
+						key: 'login_token',
+						success(res) {
+							Token = res.data;
 						}
-					}
-				});
+					});
+					console.log(Token);
+					console.log(passTts);
+					uni.request({ //请求发表文章
+						url: 'http://106.14.62.110:8080/sound/post',
+						method: "POST",
+						data: {
+							token: Token,
+							postContent: text,
+							postSummary: passAb,
+							postTitle: passTitle,
+							postTts: passTts
+						},
+						success: (res) => {
+							if ("success" in res.data) {
+								uni.showToast({
+									icon: "success",
+									title: "发表成功!",
+									duration: 1000,
+									success: function() {
+										setTimeout(function() {
+											uni.switchTab({
+												url: './myselfMain',
+											})
+										}, 2000);
+									}
+								})
+							} else {
+								uni.showToast({
+									icon: "error",
+									title: "发表失败"
+								})
+							}
+						}
+					});
+				}
 			},
 			play() { //播放
 

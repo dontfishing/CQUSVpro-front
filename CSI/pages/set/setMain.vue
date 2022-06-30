@@ -1,7 +1,10 @@
 <template>
 	<view>
 		<view class="information">
-			<u-image class="photo" width="160rpx" height="160rpx" radius="6rpx" :src="imageURL"></u-image>
+			<avatar class="photo" selWidth="200px" selHeight="200px" ref='avatar' fileType='png' @upload="myUpload"
+				:avatarSrc="imageURL" avatarStyle="width: 160rpx; height: 160rpx; border-radius: 6rpx;">
+			</avatar>
+			<!-- <u-image class="photo" width="160rpx" height="160rpx" radius="6rpx" :src="imageURL"></u-image> -->
 			<view class="userInfo">
 				<view class="userName">
 					{{userName}}
@@ -27,12 +30,12 @@
 </template>
 
 <script>
-	var that = this;
+	import avatar from "../../components/yq-avatar/yq-avatar.vue";
 	export default {
 		data() {
 			return {
-				imageURL: 'https://cdn.uviewui.com/uview/album/1.jpg', //头像
-				userName: "YK Chen", //用户名
+				imageURL: '', //头像
+				userName: "", //用户名
 				showEnd: false, //管理退出登录
 				endList: [{ //退出登录后的操作菜单
 						name: '退出登录',
@@ -43,62 +46,100 @@
 						id: 2
 					}
 				],
-				
+				token: '',
+
 			};
 		},
+		onLoad() { //每次加载都会重新刷新
+			var imgUrl;
+			var name;
+			uni.getStorage({ // 获取缓存中的图片url
+				key: 'ImgUrl',
+				success: function(getImgRes) {
+					imgUrl = getImgRes.data;
+				},
+				fail: () => {
+					console.log(JSON.stringify(getImgRes.data));
+					console.log('getImg fail');
+				}
+			});
+			this.imageURL = imgUrl;
+			var Token;
+			uni.getStorage({ // 获取缓存中的token
+				key: 'login_token',
+				success: function(getTokenRes) {
+					Token = getTokenRes.data;
+				},
+				fail: () => {
+					console.log(JSON.stringify(getTokenRes.data));
+					console.log('getstorage fail');
+				}
+			});
+			uni.getStorage({
+				key: 'user_Name',
+				success: function(res) {
+					name = res.data;
+					console.log(name);
+				}
+			});
+			this.userName = name;
+		},
 		methods: {
-			gotoPhoto() { //跳转到更改头像
-				var token;
-				var Imgs;
-				uni.chooseImage({// 选择图片
-					count: 1,
-					sizeType: ['original','compressed'],
-					sourceType: ['camera', 'album'], //这要注意，camera调拍照，album是打开手机相册
-					success: (res) => {
-						console.log('choose:',res);
-						uni.getStorage({ // 获取缓存中的token
-							key: 'login_token',
-							success: function(storageRes) {
-								token = storageRes.data;
-								// console.log('getstorage:',token);
-								
-							},
-							fail: () => {
-								console.log(JSON.stringify(storageRes.data));
-								console.log('fail');
-						
-							}
-						});
-						let tempFilePaths = res.tempFilePaths;
-						// Imgs = res.tempFilePaths[0]
-						// this.$forceUpdate();
-						console.log(JSON.stringify(tempFilePaths[0]));
-						// console.log('choose:',token);
-						
-						uni.uploadFile({// 上传头像图片
-							url: 'http://106.14.62.110:8080/uploadImg',
-							filePath: tempFilePaths[0],
-							fileType: 'image',
-							// name: 'file',
-							formData: {//formData是指除了图片以外，额外加的字段
-								'token': token,
-							},
-							success: (uploadFileRes) => {
-								this.imageURL=uploadFileRes.data["img_url"];
-								uni.setStorage({ //头像图片存入缓存
-									key: 'ImgUrl',
-									data: uploadFileRes.data["img_url"],
-									success: function() {
-										// console.log(token);
-										console.log(JSON.parse(uploadFileRes.data));
-									}
-								});
-								
-							}
-						})
+			storeImg(img_url) { //头像图片存入缓存
+				uni.setStorage({
+					key: 'ImgUrl',
+					data: img_url,
+					success: function() {
+						console.log(img_url);
 					}
 				});
-
+			},
+			myUpload(rsp) {	//点击头像更改并上传
+				let _this = this;
+				_this.imageURL = rsp.path;
+				let Token;
+				uni.getStorage({
+					key: 'login_token',
+					success(res) {
+						Token = res.data;
+					}
+				})
+				uni.uploadFile({
+					url: 'http://106.14.62.110:8080/uploadImg', //仅为示例，非真实的接口地址
+					filePath: _this.imageURL,
+					name: "avator",
+					success: (uploadFileRes) => {
+						let imgURL = JSON.parse(uploadFileRes.data);
+						uni.request({ // 传url和token给后端
+							url: 'http://106.14.62.110:8080/confirmImg', //api地址
+							method: "POST",
+							data: {
+								url: imgURL.img_url,
+								token: Token
+							},
+							success: (res) => {
+								if (res.statusCode == 404) { //返回的状态码
+									uni.showToast({
+										icon: 'error',
+										title: '网页失踪了',
+									});
+								} else {
+									uni.setStorage({
+										key: 'ImgUrl',
+										data: imgURL.img_url
+									})
+									_this.imageURL = imgURL.img_url;
+								}
+							},
+							fail: () => {},
+							complete: () => {}
+						});
+					}
+				});
+			},
+			gotoPhoto() { //跳转到更改头像
+			let avatar = this.$refs.avatar;
+			avatar.fChooseImg(1, {selWidth: "200px", selHeight: "200px", expWidth: "160rpx", expHeight: "160rpx", inner:false});
 			},
 			changeShowEnd() { //显示退出登录菜单
 				this.showEnd = true;
@@ -118,7 +159,10 @@
 							break;
 					};
 				}
-			}
+			},
+		},
+		components: {
+			avatar
 		}
 	}
 </script>

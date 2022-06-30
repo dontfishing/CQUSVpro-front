@@ -34,7 +34,13 @@
 				remember: "0"
 			}
 		},
-
+		onBackPress(options) {	//禁用返回
+		   if (options.from == 'backbutton') {
+		       return false;
+		   } else if (options.from == 'navigateBack') {
+		       return false;
+		   }
+		},
 		methods: {
 			userLogin() {
 				uni.request({
@@ -47,8 +53,6 @@
 					},
 
 					success: res => {
-						//console.log(data);
-						console.log(JSON.stringify(res.data));
 						if (res.statusCode == 404) { //返回的状态码
 							uni.showToast({
 								icon: 'none',
@@ -68,8 +72,16 @@
 							});
 							uni.setStorage({
 								key: 'login_token',
-								data: res.data.token,
+								data: res.data.token
 							});
+							uni.setStorage({
+								key: 'user_Name',
+								data: res.data.userName
+							});
+							uni.setStorage({
+								key: 'ImgUrl',
+								data: res.data.userImg
+							})
 							uni.reLaunch({
 								url: '/pages/set/setMain'
 							});

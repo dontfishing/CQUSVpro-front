@@ -83,7 +83,6 @@
 		}
 	}
 	export default {
-		components: {},
 		data() {
 			return {
 				info: { //日历的信息
@@ -106,7 +105,6 @@
 					disabled: true
 				}],
 				valueGend: '男',
-				// imageURL: 'E:\\1\\codelearn\\前端\\0-init\\web\\data\\pic\\pic-1.png'
 			};
 		},
 		methods: {

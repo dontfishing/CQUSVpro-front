@@ -57,7 +57,7 @@
 				<!--取消和确认按钮-->
 				<view class="yesOrNot">
 					<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()"
-						size="small">
+						size="small" color="#c4c6c9">
 					</u-button>
 					<u-button class="yesClass" type="primary" text="确定" shape="circle" @click="yes(modifyValue[popNum])"
 						size="small">
@@ -85,7 +85,7 @@
 					<!--取消和确认按钮-->
 					<view class="yesOrNot">
 						<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()"
-							size="small">
+							size="small" color="#c4c6c9">
 						</u-button>
 						<u-button class="yesClass" type="primary" text="确定" shape="circle" @click="yesPass()"
 							size="small">
