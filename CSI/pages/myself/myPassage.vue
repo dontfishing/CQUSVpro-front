@@ -123,16 +123,8 @@
 				}
 			},
 			refresh(ob) { //下拉加载更多的函数，会传入最下面文章的发表时间
-				var Token;
-				uni.getStorage({ //获取login的token
-					key: 'login_token',
-					success: function(res) {
-						Token = res.data;
-					}
-				});
-				console.log(Token);
-				console.log(ob.time);
 				let _this = this;
+				let Token = uni.getStorageSync('login_token');//获取login的token
 				uni.request({ //获取远端数据
 					url: 'http://106.14.62.110:8080/user/essays/refresh',
 					method:'POST',
@@ -141,7 +133,6 @@
 						time: ob.time
 					},
 					success: (res) => {
-						console.log(res.data);
 						_this.updatePass(res.data);
 						if (res.data.infoAmount == 0) {
 							uni.showToast({
@@ -153,20 +144,8 @@
 				})
 			},
 			pullDownRefresh() { //上拉刷新的函数
-				var Token;
-				uni.getStorage({ //获取login的token
-					key: 'login_token',
-					success: function(res) {
-						Token = res.data;
-						console.log('获取token success');
-						console.log(res.data);
-					},
-					fail: function() {
-						console.log('获取token fail');
-					}
-				});
-				console.log(Token);
 				let _this = this;
+				let Token = uni.getStorageSync('login_token');
 				uni.request({
 					url: 'http://106.14.62.110:8080/user/essays',
 					method:"POST",
@@ -174,7 +153,6 @@
 						token: Token
 					},
 					success: (res) => {
-						console.log(res.data);
 						_this.updatePass(res.data);
 						if (res.data.infoAmount == 0) {
 							uni.showToast({
@@ -196,7 +174,7 @@
 					key: 'passage_detail',
 					data: tmp,
 					success: function() {
-						console.log(JSON.stringify(tmp));
+						
 					}
 				});
 				uni.navigateTo({
@@ -213,7 +191,6 @@
 			},
 			onReachBottom() { // 上划加载
 				var len = this.passageList.length;
-				console.log(JSON.stringify(this.passageList[len - 1]));
 				this.refresh(this.passageList[len - 1]);
 			},
 			
@@ -224,9 +201,8 @@
 					url:'http://106.14.62.110:8080/user/essays/delete',
 					method:'POST',
 					data:{
-						postId: this.passageList[index].id
+						postId: _this.passageList[index].id
 					},
-					
 					success: res => {
 						if(res.statusCode == 404) {
 							uni.showToast({

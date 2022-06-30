@@ -69,13 +69,8 @@
 				})
 			},
 			getVoiceSetting() {
-				uni.getStorage({
-					key: 'voice_setting',
-					success(res) {
-						this.voiceSetting = res.data;
-						console.log(JSON.stringify(this.voiceSetting));
-					}
-				})
+				let _this = this;
+				_this.voiceSetting=uni.getStorageSync('voice_setting');
 			},
 			generate() { //生成音频
 				this.getVoiceSetting();
@@ -124,15 +119,8 @@
 					let passAb = this.abstract;
 					let text = this.passageContent;
 					let passTts = this.current.src;
-					var Token;
-					uni.getStorage({
-						key: 'login_token',
-						success(res) {
-							Token = res.data;
-						}
-					});
-					console.log(Token);
-					console.log(passTts);
+					let _this = this;
+					let Token = uni.getStorageSync('login_token');
 					uni.request({ //请求发表文章
 						url: 'http://106.14.62.110:8080/sound/post',
 						method: "POST",

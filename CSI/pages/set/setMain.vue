@@ -23,7 +23,7 @@
 		</view>
 		<view>
 			<u-action-sheet :actions="endList" @select="selectClick" :closeOnClickOverlay="true"
-				:closeOnClickAction="true" :show="showEnd" cancelText="取消">
+				:closeOnClickAction="true" :show="showEnd" cancelText="取消"  @close="showEnd=false">
 			</u-action-sheet>
 		</view>
 	</view>
@@ -51,24 +51,21 @@
 			};
 		},
 		onLoad() { //每次加载都会重新刷新
-			var imgUrl;
-			var name;
+			var _this =this;
 			uni.getStorage({ // 获取缓存中的图片url
 				key: 'ImgUrl',
 				success: function(getImgRes) {
-					imgUrl = getImgRes.data;
+					_this.imageURL = getImgRes.data;
 				},
 				fail: () => {
 					console.log(JSON.stringify(getImgRes.data));
 					console.log('getImg fail');
 				}
 			});
-			this.imageURL = imgUrl;
-			var Token;
 			uni.getStorage({ // 获取缓存中的token
 				key: 'login_token',
 				success: function(getTokenRes) {
-					Token = getTokenRes.data;
+					_this.token = getTokenRes.data;
 				},
 				fail: () => {
 					console.log(JSON.stringify(getTokenRes.data));
@@ -78,11 +75,9 @@
 			uni.getStorage({
 				key: 'user_Name',
 				success: function(res) {
-					name = res.data;
-					console.log(name);
+					_this.userName = res.data;
 				}
 			});
-			this.userName = name;
 		},
 		methods: {
 			storeImg(img_url) { //头像图片存入缓存
@@ -97,11 +92,10 @@
 			myUpload(rsp) {	//点击头像更改并上传
 				let _this = this;
 				_this.imageURL = rsp.path;
-				let Token;
 				uni.getStorage({
 					key: 'login_token',
 					success(res) {
-						Token = res.data;
+						_this.token = res.data;
 					}
 				})
 				uni.uploadFile({
@@ -146,6 +140,7 @@
 			},
 			selectClick(obj) { //操作退出菜单
 				if (obj.id == 1) { //退出登录
+					uni.clearStorage();
 					uni.navigateTo({
 						url: '/pages/login/login'
 					});

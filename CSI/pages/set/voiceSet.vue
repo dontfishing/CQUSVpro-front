@@ -22,7 +22,9 @@
 			<audio style="text-align: left" :src="testLis.src" :poster="testLis.poster" :name="testLis.name"
 				:author="testLis.author" controls @pause="pause()" @play="play()"></audio>
 		</view>
-		<u-button text="确定" type="primary" @click="allSet()"></u-button>
+		<view class="btn">
+			<u-button text="确定" type="primary" @click="allSet()"></u-button>
+		</view>
 		<u-popup :show="show" @close="close" @open="open">
 			<view>
 				<u-grid :border="true" @click="timbreChoice" v-model="timbreDisplay">
@@ -104,7 +106,7 @@
 					_this.timbre = res.data.ttsPer;
 					_this.generate();
 				},
-				fail(){
+				fail() {
 					_this.speed = 5;
 					_this.tune = 5;
 					_this.volume = 5;
@@ -130,6 +132,7 @@
 				this.show = true;
 			},
 			generate() { //生成试听音频
+				let _this = this;
 				let passPer = this.timbre;
 				let passSpd = this.speed;
 				let passPit = this.tune;
@@ -146,7 +149,7 @@
 						postContent: passContent
 					},
 					success: (res) => {
-						this.testLis.src = res.data.postTts;
+						_this.testLis.src = res.data.postTts;
 						uni.showToast({
 							title: "修改成功，已生成试听音频",
 							icon: "success",
@@ -220,12 +223,10 @@
 
 	.player {
 		margin-top: 15px;
-		margin-left: 10%;
+		margin-left: 20%;
 	}
 
-	.u-button {
-		margin-top: 30%;
-		margin-left: 35%;
-		width: 30%;
+	.btn {
+		margin-top: 10%;
 	}
 </style>

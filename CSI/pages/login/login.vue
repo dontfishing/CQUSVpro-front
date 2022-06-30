@@ -17,7 +17,7 @@
 		</view>
 		<view class="reg">
 			<view>
-				<u-button class="uReg" type="primary" width="20%" text="注册" color="#8967D3" :plain="true" shape="circle"
+				<u-button class="uReg" type="primary" text="注册" color="#8967D3" :plain="true" shape="circle"
 					size="mini" @click="reg()"></u-button>
 			</view>
 		</view>
@@ -150,8 +150,8 @@
 
 	.reg {
 		margin-top: 8%;
-		margin-left: 10%;
-		margin-right: 10%;
+		margin-left: 30%;
+		margin-right: 30%;
 	}
 
 	.uReg {

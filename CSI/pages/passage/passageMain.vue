@@ -182,7 +182,8 @@
 							uni.showToast({
 								title: '刷新成功',
 								duration: 2000
-							})
+							});
+							uni.stopPullDownRefresh();
 						}
 					}
 				})

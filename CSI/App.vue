@@ -7,15 +7,15 @@
 		    let token= uni.getStorageSync('login_token');
 				if (token) {
 		        //不存在则跳转至登录页
-		        uni.reLaunch({
-		            url: "/pages/login/login",
-			    success: () => {
-			        plus.navigator.closeSplashscreen();
-			    }
-			})
+		        plus.navigator.closeSplashscreen();
 		    } else {
 				//存在则关闭启动页进入首页
-				plus.navigator.closeSplashscreen();
+				uni.reLaunch({
+				        url: "/pages/login/login",
+				    success: () => {
+				        plus.navigator.closeSplashscreen();
+				    }
+				})
 		    }
 		    // #endif
 		},

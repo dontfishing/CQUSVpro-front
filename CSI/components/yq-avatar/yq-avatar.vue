@@ -1256,6 +1256,9 @@
 </script>
 
 <style>
+	page{
+		
+	}
 	.my-canvas {
 		display: flex;
 		position: fixed !important;
@@ -1290,14 +1293,14 @@
 
 	.oper-wrapper {
 		height: 50px;
-		position: fixed !important;
+		position: fixed;
+		bottom: 50px;
 		box-sizing: border-box;
 		border: 1px solid #F1F1F1;
 		background: #ffffff;
 		width: 100%;
-		left: 0;
-		bottom: 0;
-		z-index: 100009;
+		left: 0%;
+		z-index: 999999;
 		flex-direction: row;
 	}
 

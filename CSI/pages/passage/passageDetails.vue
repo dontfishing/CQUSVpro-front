@@ -18,8 +18,8 @@
 
 		<!-- 语音播放 -->
 		<view class="player">
-			<audio style="text-align: left" :src="current.src" :poster="current.poster" loop=true :action="audioAction"
-				controls @play="play()"></audio>
+			<audio style="text-align: left" :src="current.src" :poster="current.poster" :loop="false" :action="audioAction"
+				:name="current.name" controls @play="play()"></audio>
 		</view>
 
 		<!-- 文章内容 -->
@@ -52,7 +52,7 @@
 
 				<!-- 语音播放 -->
 				<view class="player">
-					<audio style="text-align: left" :src="commentList[index].cmtTts"
+					<audio style="text-align: left" :src="commentList[index].cmtTts" :loop="false"
 						:poster="current.poster" controls @play="play()"></audio>
 				</view>
  
@@ -80,51 +80,39 @@
 			return {
 				token: '',
 				postID: 1,
-				portraitSrc: "https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png", // 头像来源
-				userName: "用户名", //用户名
-				submitTime: "时间", //提交时间
+				portraitSrc: "", // 头像来源
+				userName: "", //用户名
+				submitTime: "", //提交时间
 				current: { //当前文章音频信息
 					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3', //音频来源
 					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png', //音频图片
+					name:"",	//文章标题
 					// loop: true, //是否循环
 				},
 				audioAction: {
 					method: 'pause'
 				},
-				psgContent: "待定\n内容\n好丑",
+				psgContent: "",
 				likeIcon: "thumb-up",
 				likeSum: 0,
 				dislikeIcon: "thumb-down",
-				// commLikeIcon: "thumb-up",
-				// commDislikeIcon: "thumb-down",
 				infoAmount: 0,
 				commentList: []
 			}
 		},
 		onLoad: function() {
-			console.log(JSON.stringify(this.commentList));
 			let that = this;
 			that.getPassageInfo();
-			uni.startPullDownRefresh();
 		},
 		methods: {
 			// 获取文章信息，包括头像、用户名、时间、音频
 			getPassageInfo() {
 				// 获取缓存中的postID
 				let _this = this;
-				var Token;
-				var postID;
-				postID = uni.getStorageSync('postID');
-				// Token = uni.getStorageSync('token');
-				uni.getStorage({ //读取缓存
-					key: 'login_token',
-					success: function(res) {
-						Token = res.data;
-					}
-				});
-
-				this.postID = postID;
-				this.token = Token;
+				let postID = uni.getStorageSync('postID');
+				let Token=uni.getStorageSync('login_token');
+				this.token=Token;
+				this.postID=postID;
 				uni.request({ // 获取文章
 					url: 'http://106.14.62.110:8080/essay/detail', //api地址
 					method: "POST",
@@ -139,8 +127,8 @@
 								title: '网页失踪了',
 							});
 						} else {
-							console.log(JSON.stringify(res.data));
 							let infoAmount = res.data["infoAmount"]; // 评论数量
+							this.current.name = res.data["postTitle"]
 							this.userName = res.data["userName"]; // 用户名
 							this.portraitSrc = res.data["userImg"]; // 头像
 							this.submitTime = res.data["postTime"]; // 时间
@@ -218,7 +206,7 @@
 								tmp3.cmtDisLikeState = res.data["cmtDisLikeState3"];
 								_this.commentList.push(tmp3);
 							}
-							_this.postID = postID;
+							// _this.postID = postID;
 						}
 					},
 					fail: res => {
@@ -580,21 +568,17 @@
 			getCom(index) { //获取评论
 				let _this = this;
 				let postTime = _this.commentList[index].cmtTime;
-				console.log(postTime);
-				let passId;
-				uni.getStorage({
-					key: 'postID',
-					success: function(res) {
-						passId = res.data;
-					}
-				})
+				let postID = uni.getStorageSync('postID');
+				let Token = uni.getStorageSync('login_token');
+				this.postID=postID;
+				this.token=Token;
 				uni.request({
 					url: 'http://106.14.62.110:8080/essay/detail/refresh', //api地址
 					method: "POST",
 					data: {
-						postId: passId,
+						postId: postID,
 						time: postTime,
-						token: this.token
+						token: Token
 					},
 					success: (res) => {
 						console.log(JSON.stringify(res.data));

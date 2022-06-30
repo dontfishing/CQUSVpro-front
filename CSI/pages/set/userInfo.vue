@@ -4,7 +4,8 @@
 			<!--界面单元格-->
 			<u-cell title="用户名" isLink @click="pop(0)" :value="Info.userName" icon="/static/user.png" size="large">
 			</u-cell>
-			<u-cell title="性别" isLink @click="showSexPop(1)" :value="Info.gender" icon="/static/gender.png" size="large">
+			<u-cell title="性别" isLink @click="showSexPop(1)" :value="Info.gender" icon="/static/gender.png"
+				size="large">
 			</u-cell>
 			<u-cell title="生日" isLink @click="open" :value="Info.birth" icon="/static/birthday.png" size="large">
 			</u-cell>
@@ -32,8 +33,8 @@
 				</view>
 				<!--取消和确认按钮-->
 				<view class="yesOrNot">
-					<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()"
-						size="small" color="#c4c6c9">
+					<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()" size="small"
+						color="#c4c6c9">
 					</u-button>
 					<u-button class="yesClass" type="primary" text="确定" shape="circle" @click="yes(modifyValue[popNum])"
 						size="small">
@@ -56,8 +57,8 @@
 				</view>
 				<!--取消和确认按钮-->
 				<view class="yesOrNot">
-					<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()"
-						size="small" color="#c4c6c9">
+					<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()" size="small"
+						color="#c4c6c9">
 					</u-button>
 					<u-button class="yesClass" type="primary" text="确定" shape="circle" @click="yes(modifyValue[popNum])"
 						size="small">
@@ -192,21 +193,19 @@
 				}]
 			}
 		},
+		onLoad() { //每次加载都会重新刷新
+			let that = this;
+			that.getInfo();
+		},
 		methods: {
 			getInfo() { //获取当前信息
-				var Token;
-				uni.getStorage({
-					key: 'login_token',
-					success: function(res) {
-						Token = res.data;
-					}
-				});
-				console.log(Token);
+				let _this = this;
+				let token = uni.getStorageSync('login_token');
 				uni.request({
 					url: 'http://106.14.62.110:8080/user/setting',
 					method: "POST",
 					data: {
-						token: Token,
+						token: token,
 					},
 					success: res => {
 						if (res.statusCode == 404) {
@@ -215,21 +214,21 @@
 								title: "404 not found"
 							})
 						} else {
-							this.Info.userName = res.data.userName;
+							_this.Info.userName = res.data.userName;
 							//this.Info.gender = res.data.userGender;
-							this.Info.birth = res.data.userBirth;
-							this.Info.star = res.data.userStar;
-							this.Info.age = res.data.userAge + "";
-							this.Info.addr = res.data.userAddr;
-							this.Info.job = res.data.userJob;
-							this.Info.email = res.data.userEmail;
-							if(res.data.userGender == "f")
-								this.Info.gender = "女";
+							_this.Info.birth = res.data.userBirth;
+							_this.Info.star = res.data.userStar;
+							_this.Info.age = res.data.userAge + "";
+							_this.Info.addr = res.data.userAddr;
+							_this.Info.job = res.data.userJob;
+							_this.Info.email = res.data.userEmail;
+							if (res.data.userGender == "f")
+								_this.Info.gender = "女";
 							else
-								this.Info.gender = "男";
+								_this.Info.gender = "男";
 						}
 					}
-				})
+				});
 			},
 
 			pop(num) { //弹出层信息根据传入的参数改变
@@ -240,17 +239,12 @@
 			},
 
 			showSexPop(num) { //弹出层信息根据传入的参数改变
-				this.showCommom = false;
-				this.showPassword = false;
-				this.showSex = true;
-				this.popNum = num;
-				uni.getStorage({
-					key: 'login_token',
-					success: function(res) {
-						this.token = res.data;
-						console.log(this.token);
-					}
-				});
+				let _this = this;
+				_this.showCommom = false;
+				_this.showPassword = false;
+				_this.showSex = true;
+				_this.popNum = num;
+				let token = uni.getStorageSync('login_token');
 			},
 
 			close() { //直接关闭弹出层
@@ -293,33 +287,27 @@
 				this.showSex = false;
 			},
 
-			onLoad() { //每次加载都会重新刷新
-				let that = this;
-				that.getInfo();
-			},
-
 			yes(modifyObj) { //点击确认，传递参数
+				let _this = this;
 				this.showCommom = false;
 				this.showPassword = false;
-				var Token;
 				uni.getStorage({ //获取login的token
 					key: 'login_token',
 					success: function(res) {
-						Token = res.data;
+						_this.token = res.data;
 					}
 				});
-				console.log(Token);
-				if (this.judgeVoid(modifyObj.newInput)){
-					this.showCommom = true;
-					return;}
-				else {
-					switch (this.popNum) { //根据popNum判断修改的哪个信息
+				if (_this.judgeVoid(modifyObj.newInput)) {
+					_this.showCommom = true;
+					return;
+				} else {
+					switch (_this.popNum) { //根据popNum判断修改的哪个信息
 						case 0: //用户名
 							uni.request({
 								url: 'http://106.14.62.110:8080/user/changeInfo/name',
 								method: "POST",
 								data: {
-									token: Token,
+									token: _this.token,
 									name: modifyObj.newInput
 								},
 								success: res => {
@@ -339,7 +327,7 @@
 											icon: "none",
 											title: "修改成功"
 										})
-										this.Info.userName = res.data.name;
+										_this.Info.userName = res.data.name;
 									}
 								}
 							});
@@ -352,7 +340,7 @@
 								url: 'http://106.14.62.110:8080/user/changeInfo/gender',
 								method: "POST",
 								data: {
-									token: Token,
+									token: _this.token,
 									gender: sex
 								},
 								success: res => {
@@ -372,8 +360,8 @@
 											icon: "none",
 											title: "修改成功"
 										})
-										this.Info.gender = modifyObj.newInput;
-										this.showSex = false;
+										_this.Info.gender = modifyObj.newInput;
+										_this.showSex = false;
 									}
 
 								}
@@ -384,7 +372,7 @@
 								url: 'http://106.14.62.110:8080/user/changeInfo/address',
 								method: "POST",
 								data: {
-									token: Token,
+									token: _this.token,
 									address: modifyObj.newInput
 								},
 								success: res => {
@@ -404,7 +392,7 @@
 											icon: "none",
 											title: "修改成功",
 										})
-										this.Info.addr = res.data.address;
+										_this.Info.addr = res.data.address;
 									}
 								}
 							});
@@ -414,7 +402,7 @@
 								url: 'http://106.14.62.110:8080/user/changeInfo/job',
 								method: "POST",
 								data: {
-									token: Token,
+									token: _this.token,
 									job: modifyObj.newInput
 								},
 								success: res => {
@@ -434,7 +422,7 @@
 											icon: "none",
 											title: "修改成功"
 										})
-										this.Info.job = res.data.job;
+										_this.Info.job = res.data.job;
 									}
 								}
 							});
@@ -450,7 +438,7 @@
 									url: 'http://106.14.62.110:8080/user/changeInfo/email',
 									method: "POST",
 									data: {
-										token: Token,
+										token: _this.token,
 										email: modifyObj.newInput
 									},
 									success: res => {
@@ -485,18 +473,18 @@
 			},
 
 			confirm(e) { //修改生日,绑定的是日历里的确定按钮
-				var Token;
+				let _this = this;
 				uni.getStorage({ //获取login的token
 					key: 'login_token',
 					success: function(res) {
-						Token = res.data;
+						_this.token = res.data;
 					}
 				});
 				uni.request({
 					url: 'http://106.14.62.110:8080/user/changeInfo/birthday',
 					method: "POST",
 					data: {
-						token: Token,
+						token: _this.token,
 						birthday: e["fulldate"]
 					},
 					success: res => {
@@ -516,42 +504,39 @@
 								icon: "success",
 								title: "修改成功"
 							})
-							this.Info.birth = res.data.birthday;
-							this.Info.age = res.data.age + "";
-							this.Info.star = res.data.astro;
+							_this.Info.birth = res.data.birthday;
+							_this.Info.age = res.data.age + "";
+							_this.Info.star = res.data.astro;
 						}
 					}
 				})
 			},
 
 			yesPass() { //提交修改密码请求
-				// var password = this.password;
-				// var passwordAgain = this.passwordAgain;
-				// var old = this.oldPassword;
+				let _this = this;
 				// 判断密码是否符号要求
-				if (this.judgeVoid(this.password)) {
+				if (_this.judgeVoid(_this.password)) {
 					return;
-				} else if (!(/^[A-Za-z\d]{6,16}$/.test(this.password))) {
+				} else if (!(/^[A-Za-z\d]{6,16}$/.test(_this.password))) {
 					uni.showToast({
 						icon: 'error',
 						title: '密码不符合要求'
 					});
 				} else {
-					var Token;
 					uni.getStorage({ //获取login的token
 						key: 'login_token',
 						success: function(res) {
-							Token = res.data;
+							_this.token = res.data;
 						}
 					});
 					uni.request({
 						url: 'http://106.14.62.110:8080/user/changeInfo/password',
 						method: "POST",
 						data: {
-							token: Token,
-							prePassword: this.oldPassword,
-							passwordFir: this.password,
-							passwordSec: this.passwordAgain
+							token: _this.token,
+							prePassword: _this.oldPassword,
+							passwordFir: _this.password,
+							passwordSec: _this.passwordAgain
 						},
 
 						success: res => {
@@ -576,7 +561,7 @@
 									icon: "none",
 									title: "修改成功"
 								})
-								this.showPassword = false;
+								_this.showPassword = false;
 							}
 
 						}
