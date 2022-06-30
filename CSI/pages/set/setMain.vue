@@ -1,7 +1,10 @@
 <template>
 	<view>
 		<view class="information">
-			<u-image class="photo" width="160rpx" height="160rpx" radius="6rpx" :src="imageURL"></u-image>
+			<avatar class="photo" selWidth="200px" selHeight="200px" ref='avatar' fileType='png' @upload="myUpload"
+				:avatarSrc="imageURL" avatarStyle="width: 160rpx; height: 160rpx; border-radius: 6rpx;">
+			</avatar>
+			<!-- <u-image class="photo" width="160rpx" height="160rpx" radius="6rpx" :src="imageURL"></u-image> -->
 			<view class="userInfo">
 				<view class="userName">
 					{{userName}}
@@ -27,7 +30,7 @@
 </template>
 
 <script>
-	var that = this;
+	import avatar from "../../components/yq-avatar/yq-avatar.vue";
 	export default {
 		data() {
 			return {
@@ -91,61 +94,52 @@
 					}
 				});
 			},
-			gotoPhoto() { //跳转到更改头像
+			myUpload(rsp) {	//点击头像更改并上传
 				let _this = this;
-				var Token;
-				uni.getStorage({ // 获取缓存中的token
+				_this.imageURL = rsp.path;
+				let Token;
+				uni.getStorage({
 					key: 'login_token',
-					success: (getTokenRes) => {
-						Token = getTokenRes.data;
-					},
-					fail: () => {
-						console.log(JSON.stringify(getTokenRes.data));
-						console.log('getstorage fail');
+					success(res) {
+						Token = res.data;
 					}
-				});
-				uni.chooseImage({ // 选择图片
-					count: 1,
-					sizeType: ['compressed'],
-					sourceType: ['album'], //album是打开手机相册
-					success: (chooseRes) => { // 选择图片成功
-						const tmpChoose = chooseRes.tempFilePaths;
-						uni.uploadFile({
-							url: 'http://106.14.62.110:8080/uploadImg', //仅为示例，非真实的接口地址
-							filePath: tmpChoose[0],
-							fileType: "image",
-							name: "image",
-							success: (uploadFileRes) => {
-								let imgURL = JSON.parse(uploadFileRes.data);
-								uni.request({ // 传url和token给后端
-									url: 'http://106.14.62.110:8080/confirmImg', //api地址
-									method: "POST",
-									data: {
-										url: imgURL.img_url,
-										token: Token
-									},
-									success: (res) => {
-										console.log(JSON.stringify(res.data));
-										if (res.statusCode == 404) { //返回的状态码
-											uni.showToast({
-												icon: 'error',
-												title: '网页失踪了',
-											});
-										} else {
-											uni.setStorage({
-												key: 'ImgUrl',
-												data: imgURL.img_url
-											})
-											_this.imageURL = imgURL.img_url;
-										}
-									},
-									fail: () => {},
-									complete: () => {}
-								});
-							}
+				})
+				uni.uploadFile({
+					url: 'http://106.14.62.110:8080/uploadImg', //仅为示例，非真实的接口地址
+					filePath: _this.imageURL,
+					name: "avator",
+					success: (uploadFileRes) => {
+						let imgURL = JSON.parse(uploadFileRes.data);
+						uni.request({ // 传url和token给后端
+							url: 'http://106.14.62.110:8080/confirmImg', //api地址
+							method: "POST",
+							data: {
+								url: imgURL.img_url,
+								token: Token
+							},
+							success: (res) => {
+								if (res.statusCode == 404) { //返回的状态码
+									uni.showToast({
+										icon: 'error',
+										title: '网页失踪了',
+									});
+								} else {
+									uni.setStorage({
+										key: 'ImgUrl',
+										data: imgURL.img_url
+									})
+									_this.imageURL = imgURL.img_url;
+								}
+							},
+							fail: () => {},
+							complete: () => {}
 						});
 					}
 				});
+			},
+			gotoPhoto() { //跳转到更改头像
+			let avatar = this.$refs.avatar;
+			avatar.fChooseImg(1, {selWidth: "200px", selHeight: "200px", expWidth: "160rpx", expHeight: "160rpx", inner:false});
 			},
 			changeShowEnd() { //显示退出登录菜单
 				this.showEnd = true;
@@ -166,6 +160,9 @@
 					};
 				}
 			},
+		},
+		components: {
+			avatar
 		}
 	}
 </script>

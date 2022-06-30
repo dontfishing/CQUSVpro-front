@@ -33,7 +33,7 @@
 				<!--取消和确认按钮-->
 				<view class="yesOrNot">
 					<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()"
-						size="small">
+						size="small" color="#c4c6c9">
 					</u-button>
 					<u-button class="yesClass" type="primary" text="确定" shape="circle" @click="yes(modifyValue[popNum])"
 						size="small">
@@ -57,7 +57,7 @@
 				<!--取消和确认按钮-->
 				<view class="yesOrNot">
 					<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()"
-						size="small">
+						size="small" color="#c4c6c9">
 					</u-button>
 					<u-button class="yesClass" type="primary" text="确定" shape="circle" @click="yes(modifyValue[popNum])"
 						size="small">
@@ -85,7 +85,7 @@
 					<!--取消和确认按钮-->
 					<view class="yesOrNot">
 						<u-button class="cancleClass" type="primary" text="取消" shape="circle" @click="cancle()"
-							size="small">
+							size="small" color="#c4c6c9">
 						</u-button>
 						<u-button class="yesClass" type="primary" text="确定" shape="circle" @click="yesPass()"
 							size="small">
@@ -149,30 +149,20 @@
 					addr: "", //地址
 					job: "", //职业
 					email: "", //邮箱
-					password: "" //密码
 				},
 				token: "",
 				showCommom: false, //除密码和性别外的弹出层控制
 				showSex: false, //性别的弹出层控制
 				showPassword: false, //密码的弹出层控制
 				popNum: 0, //索引
-				newName: "", //新用户名
-				newGender: "", //新性别
-				newAge: "", //新年龄
-				newMail: "", //新邮箱地址
-				newBirth: "", //新生日
-				newStar: "", //新星座
-				newAddr: "", //新地址
-				newJob: "", //新职业
 				oldPassword: "", //旧密码
 				password: "", //输入的新密码
 				passwordAgain: "", //再次输入的新密码
-				newPass: "", //新密码
 				genderList: [{
-					name: '女',
+					name: '男',
 					disabled: true
 				}, {
-					name: '男',
+					name: '女',
 					disabled: false
 				}], //性别列表
 				modifyValue: [{ //输入绑定的对象
@@ -204,18 +194,19 @@
 		},
 		methods: {
 			getInfo() { //获取当前信息
+				var Token;
 				uni.getStorage({
 					key: 'login_token',
 					success: function(res) {
-						this.token = res.data;
-						console.log(this.token);
+						Token = res.data;
 					}
 				});
+				console.log(Token);
 				uni.request({
 					url: 'http://106.14.62.110:8080/user/setting',
 					method: "POST",
 					data: {
-						token: this.token,
+						token: Token,
 					},
 					success: res => {
 						if (res.statusCode == 404) {
@@ -225,13 +216,17 @@
 							})
 						} else {
 							this.Info.userName = res.data.userName;
-							this.Info.gender = res.data.userGender;
+							//this.Info.gender = res.data.userGender;
 							this.Info.birth = res.data.userBirth;
 							this.Info.star = res.data.userStar;
-							this.Info.age = res.data.userAge;
+							this.Info.age = res.data.userAge + "";
 							this.Info.addr = res.data.userAddr;
 							this.Info.job = res.data.userJob;
 							this.Info.email = res.data.userEmail;
+							if(res.data.userGender == "f")
+								this.Info.gender = "女";
+							else
+								this.Info.gender = "男";
 						}
 					}
 				})
@@ -243,7 +238,7 @@
 				this.showSex = false;
 				this.popNum = num;
 			},
-			
+
 			showSexPop(num) { //弹出层信息根据传入的参数改变
 				this.showCommom = false;
 				this.showPassword = false;
@@ -257,14 +252,14 @@
 					}
 				});
 			},
-			
+
 			close() { //直接关闭弹出层
 				this.showCommom = false;
 				this.showPassword = false;
 				this.showSex = false;
 			},
 
-			open() {
+			open() { //打开日历
 				this.$refs.calendar.open()
 			},
 
@@ -280,12 +275,24 @@
 
 			},
 
+			judgeVoid(str) {
+				if (str == "") {
+					uni.showToast({
+						icon: "none",
+						title: "输入不能为空"
+					})
+					return 1;
+				} else {
+					return 0;
+				}
+			},
+
 			cancle() { //直接关闭弹出层
 				this.showCommom = false;
 				this.showPassword = false;
 				this.showSex = false;
 			},
-			
+
 			onLoad() { //每次加载都会重新刷新
 				let that = this;
 				that.getInfo();
@@ -302,227 +309,18 @@
 					}
 				});
 				console.log(Token);
-				switch (this.popNum) { //根据popNum判断修改的哪个信息
-					case 0: //用户名
-						uni.request({
-							url: 'http://106.14.62.110:8080/user/changeInfo/name',
-							method: "POST",
-							data: {
-								token: Token,
-								name: modifyObj.newInput
-							},
-							success: res => {
-								console.log(JSON.stringify(res.data));
-								if (res.statusCode == 404) {
-									uni.showToast({
-										icon: "none",
-										title: "修改失败"
-									})
-								} else if ("error" in res.data) {
-									uni.showToast({
-										icon: "none",
-										title: "修改失败"
-									})
-								} else {
-									uni.showToast({
-										icon: "none",
-										title: "修改成功"
-									})
-								}
-							}
-						});
-						break;
-					case 1: //性别
-						var sex = "m";
-						if (modifyObj.newInput == "女")
-							sex = "f";
-						uni.request({
-							url: 'http://106.14.62.110:8080/user/changeInfo/gender',
-							method: "POST",
-							data: {
-								token: Token,
-								gender: sex
-							},
-							success: res => {
-								console.log(JSON.stringify(res.data));
-								if (res.statusCode == 404) {
-									uni.showToast({
-										icon: "none",
-										title: "修改失败"
-									})
-								} else if ("error" in res.data) {
-									uni.showToast({
-										icon: "none",
-										title: "修改失败"
-									})
-								} else {
-									uni.showToast({
-										icon: "none",
-										title: "修改成功"
-									})
-								}
-
-							}
-						});
-						break;
-					case 2: //生日
-						uni.request({
-							url: 'http://106.14.62.110:8080/user/changeInfo/age',
-							method: "POST",
-							data: {
-								token: Token,
-								age: modifyObj.newInput
-							},
-							success: res => {
-								console.log(JSON.stringify(res.data));
-								if (res.statusCode == 404) {
-									uni.showToast({
-										icon: "none",
-										title: "修改失败"
-									})
-								} else if ("error" in res.data) {
-									uni.showToast({
-										icon: "none",
-										title: "修改失败"
-									})
-								} else {
-									uni.showToast({
-										icon: "none",
-										title: "修改成功"
-									})
-								}
-							}
-						});
-						break;
-						// case 3: //星座
-						// 	uni.request({
-						// 		url: 'http://106.14.62.110:8080/user/changeInfo/age',
-						// 		method:"POST",
-						// 		data: {
-						// 			token: Token,
-						// 			age: modifyObj.newInput
-						// 		},
-						// 		success: res => {
-						// 			console.log(JSON.stringify(res.data));
-						// 			if (res.statusCode == 404) {
-						// 				uni.showToast({
-						// 					icon: "none",
-						// 					title: "修改失败"
-						// 				})
-						// 			} else if ("error" in res.data) {
-						// 				uni.showToast({
-						// 					icon: "none",
-						// 					title: "修改失败"
-						// 				})
-						// 			} else {
-						// 				uni.showToast({
-						// 					icon: "none",
-						// 					title: "修改成功"
-						// 				})
-						// 			}
-						// 		}
-						// 	});
-						// 	break;
-						// case 4: //年龄
-						// 	uni.request({
-						// 		url: 'http://106.14.62.110:8080/user/changeInfo/age',
-						// 		method:"POST",
-						// 		data: {
-						// 			token: Token,
-						// 			age: modifyObj.newInput
-						// 		},
-						// 		success: res => {
-						// 			console.log(JSON.stringify(res.data));
-						// 			if (res.statusCode == 404) {
-						// 				uni.showToast({
-						// 					icon: "none",
-						// 					title: "修改失败"
-						// 				})
-						// 			} else if ("error" in res.data) {
-						// 				uni.showToast({
-						// 					icon: "none",
-						// 					title: "修改失败"
-						// 				})
-						// 			} else {
-						// 				uni.showToast({
-						// 					icon: "none",
-						// 					title: "修改成功"
-						// 				})
-						// 			}
-						// 		}
-						// 	});
-						// 	break;
-					case 5: //所在地
-						uni.request({
-							url: 'http://106.14.62.110:8080/user/changeInfo/age',
-							method: "POST",
-							data: {
-								token: Token,
-								age: modifyObj.newInput
-							},
-							success: res => {
-								console.log(JSON.stringify(res.data));
-								if (res.statusCode == 404) {
-									uni.showToast({
-										icon: "none",
-										title: "修改失败"
-									})
-								} else if ("error" in res.data) {
-									uni.showToast({
-										icon: "none",
-										title: "修改失败"
-									})
-								} else {
-									uni.showToast({
-										icon: "none",
-										title: "修改成功"
-									})
-								}
-							}
-						});
-						break;
-					case 6: //职业
-						uni.request({
-							url: 'http://106.14.62.110:8080/user/changeInfo/age',
-							method: "POST",
-							data: {
-								token: Token,
-								age: modifyObj.newInput
-							},
-							success: res => {
-								console.log(JSON.stringify(res.data));
-								if (res.statusCode == 404) {
-									uni.showToast({
-										icon: "none",
-										title: "修改失败"
-									})
-								} else if ("error" in res.data) {
-									uni.showToast({
-										icon: "none",
-										title: "修改失败"
-									})
-								} else {
-									uni.showToast({
-										icon: "none",
-										title: "修改成功"
-									})
-								}
-							}
-						});
-						break;
-					case 7: //邮箱
-						if (!(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.valueEmail))) {
-							uni.showToast({
-								icon: 'error',
-								title: '邮箱不符合要求'
-							});
-						} else {
+				if (this.judgeVoid(modifyObj.newInput)){
+					this.showCommom = true;
+					return;}
+				else {
+					switch (this.popNum) { //根据popNum判断修改的哪个信息
+						case 0: //用户名
 							uni.request({
-								url: 'http://106.14.62.110:8080/user/changeInfo/email',
+								url: 'http://106.14.62.110:8080/user/changeInfo/name',
 								method: "POST",
 								data: {
 									token: Token,
-									email: modifyObj.newInput
+									name: modifyObj.newInput
 								},
 								success: res => {
 									console.log(JSON.stringify(res.data));
@@ -541,11 +339,143 @@
 											icon: "none",
 											title: "修改成功"
 										})
+										this.Info.userName = res.data.name;
 									}
 								}
 							});
-						}
-						break;
+							break;
+						case 1: //性别
+							var sex = "m";
+							if (modifyObj.newInput == "女")
+								sex = "f";
+							uni.request({
+								url: 'http://106.14.62.110:8080/user/changeInfo/gender',
+								method: "POST",
+								data: {
+									token: Token,
+									gender: sex
+								},
+								success: res => {
+									console.log(JSON.stringify(res.data));
+									if (res.statusCode == 404) {
+										uni.showToast({
+											icon: "none",
+											title: "修改失败"
+										})
+									} else if ("error" in res.data) {
+										uni.showToast({
+											icon: "none",
+											title: "修改失败"
+										})
+									} else {
+										uni.showToast({
+											icon: "none",
+											title: "修改成功"
+										})
+										this.Info.gender = modifyObj.newInput;
+										this.showSex = false;
+									}
+
+								}
+							});
+							break;
+						case 5: //所在地
+							uni.request({
+								url: 'http://106.14.62.110:8080/user/changeInfo/address',
+								method: "POST",
+								data: {
+									token: Token,
+									address: modifyObj.newInput
+								},
+								success: res => {
+									console.log(JSON.stringify(res.data));
+									if (res.statusCode == 404) {
+										uni.showToast({
+											icon: "none",
+											title: "修改失败"
+										})
+									} else if ("error" in res.data) {
+										uni.showToast({
+											icon: "none",
+											title: "修改失败"
+										})
+									} else {
+										uni.showToast({
+											icon: "none",
+											title: "修改成功",
+										})
+										this.Info.addr = res.data.address;
+									}
+								}
+							});
+							break;
+						case 6: //职业
+							uni.request({
+								url: 'http://106.14.62.110:8080/user/changeInfo/job',
+								method: "POST",
+								data: {
+									token: Token,
+									job: modifyObj.newInput
+								},
+								success: res => {
+									console.log(JSON.stringify(res.data));
+									if (res.statusCode == 404) {
+										uni.showToast({
+											icon: "none",
+											title: "修改失败"
+										})
+									} else if ("error" in res.data) {
+										uni.showToast({
+											icon: "none",
+											title: "修改失败"
+										})
+									} else {
+										uni.showToast({
+											icon: "none",
+											title: "修改成功"
+										})
+										this.Info.job = res.data.job;
+									}
+								}
+							});
+							break;
+						case 7: //邮箱
+							if (!(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(modifyObj.newInput))) {
+								uni.showToast({
+									icon: 'error',
+									title: '邮箱不符合要求'
+								});
+							} else {
+								uni.request({
+									url: 'http://106.14.62.110:8080/user/changeInfo/email',
+									method: "POST",
+									data: {
+										token: Token,
+										email: modifyObj.newInput
+									},
+									success: res => {
+										console.log(JSON.stringify(res.data));
+										if (res.statusCode == 404) {
+											uni.showToast({
+												icon: "none",
+												title: "修改失败"
+											})
+										} else if ("error" in res.data) {
+											uni.showToast({
+												icon: "none",
+												title: "修改失败"
+											})
+										} else {
+											uni.showToast({
+												icon: "none",
+												title: "修改成功"
+											})
+										}
+									}
+								});
+							}
+							break;
+					}
 				}
 			},
 
@@ -554,7 +484,7 @@
 				this.showCommom = false;
 			},
 
-			confirm(e) {
+			confirm(e) { //修改生日,绑定的是日历里的确定按钮
 				var Token;
 				uni.getStorage({ //获取login的token
 					key: 'login_token',
@@ -570,6 +500,7 @@
 						birthday: e["fulldate"]
 					},
 					success: res => {
+						console.log(res.data);
 						if (res.statusCode == 404) {
 							uni.showToast({
 								icon: "error",
@@ -585,26 +516,22 @@
 								icon: "success",
 								title: "修改成功"
 							})
-							this.Info.birth = res.birthday;
-							this.Info.age = res.age;
-							this.Info.star = res.astro;
+							this.Info.birth = res.data.birthday;
+							this.Info.age = res.data.age + "";
+							this.Info.star = res.data.astro;
 						}
 					}
 				})
 			},
 
 			yesPass() { //提交修改密码请求
-				var password = this.password;
-				var passwordAgain = this.passwordAgain;
-				var old = this.oldPassword;
-				// if (password != passwordAgain) {
-				// 	uni.showToast({
-				// 		icon:"error",
-				// 		title: '密码输入要一致!'
-				// 	})
-				// }
+				// var password = this.password;
+				// var passwordAgain = this.passwordAgain;
+				// var old = this.oldPassword;
 				// 判断密码是否符号要求
-				if (!(/^[A-Za-z\d]{6,16}$/.test(this.password))) {
+				if (this.judgeVoid(this.password)) {
+					return;
+				} else if (!(/^[A-Za-z\d]{6,16}$/.test(this.password))) {
 					uni.showToast({
 						icon: 'error',
 						title: '密码不符合要求'
@@ -622,9 +549,9 @@
 						method: "POST",
 						data: {
 							token: Token,
-							prePassword: old,
-							passwordFir: password,
-							passwordSec: passwordAgain
+							prePassword: this.oldPassword,
+							passwordFir: this.password,
+							passwordSec: this.passwordAgain
 						},
 
 						success: res => {
@@ -649,6 +576,7 @@
 									icon: "none",
 									title: "修改成功"
 								})
+								this.showPassword = false;
 							}
 
 						}

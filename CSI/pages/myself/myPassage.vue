@@ -5,7 +5,7 @@
 		<view class="contentArea">
 			<view v-for="(item, index) in passageList" :key="index">
 				<uni-card :title="passageList[index].userName" :sub-title="passageList[index].time"
-					thumbnail="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png">
+					:thumbnail="passageList[index].poster">
 					<!-- 语音播放 -->
 					<view class="player" @click="goToDetail(index)">
 						<audio style="text-align: left" :src="passageList[index].src"
@@ -69,8 +69,7 @@
 					tmp1.likesSum = ob.essayPostLike1; // 点赞数
 					tmp1.commentSum = ob.essayComment1; // 评论数
 					tmp1.id = ob.essayPostId1; //文章id
-					tmp1.poster =
-						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
+					tmp1.poster =ob.essayUserImg1; // 播放背景图片,默认为用户头像
 					tmp1.src =
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
 					this.passageList.push(tmp1); //更新文章列表
@@ -93,8 +92,7 @@
 					tmp2.likesSum = ob.essayPostLike2; // 点赞数
 					tmp2.commentSum = ob.essayComment2; // 评论数
 					tmp2.id = ob.essayPostId2; //文章id
-					tmp2.poster =
-						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
+					tmp2.poster =ob.essayUserImg2; // 播放背景图片,默认为用户头像
 					tmp2.src =
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
 					this.passageList.push(tmp2); //更新文章列表
@@ -118,8 +116,7 @@
 					tmp3.commentSum = ob.essayComment3; // 评论数
 					tmp3.id = ob.essayPostId3; //文章id
 					
-					tmp3.poster =
-						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
+					tmp3.poster = ob.essayUserImg3; // 播放背景图片,默认为用户头像
 					tmp3.src =
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
 					this.passageList.push(tmp3); //更新文章列表

@@ -5,7 +5,7 @@
 		<view class="contentArea">
 			<view v-for="(item, index) in passageList" :key="index">
 				<uni-card :title="passageList[index].commentId + ''" :sub-title="passageList[index].time"
-					thumbnail="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png">
+					:thumbnail="userImg">
 					<!--对方文章标题-->
 					<u-text v-text="passageList[index].postTitle" @click="goToDetail(index)"></u-text>
 					<!--评论内容-->
@@ -13,7 +13,7 @@
 					<!-- 语音播放 -->
 					<view class="player" @click="goToDetail(index)">
 						<audio style="text-align: left" :src="passageList[index].src"
-							:poster="passageList[index].poster" :name="passageList[index].postTitle"
+							:poster="userImg" :name="passageList[index].postTitle"
 							:author="passageList[index].postId + ''" :loop="false" controls @play="play()"></audio>
 					</view>
 					<!-- 点赞评论栏 -->
@@ -51,6 +51,7 @@
 			return {
 				passageList: [],
 				loadMoreStatus: 'more', // 加载更多的状态：可加载、正在加载、没有更多
+				userImg: ''
 
 			}
 		},
@@ -80,7 +81,6 @@
 					tmp1.src = ob.cmtTts1; // 评论音频
 					tmp1.postId = ob.postId1; //评论对应文章的ID
 					tmp1.postTitle =ob.postTitle1; //评论对应文章的标题
-					tmp1.poster = 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png';
 					this.passageList.push(tmp1); //更新文章列表
 				}
 				if (ob.infoAmount > 1) { //更新第二篇
@@ -93,7 +93,6 @@
 						src: '', //评论音频
 						postId: 0, //评论对应文章的ID
 						postTitle: "", //评论对应文章的标题
-						poster: ''
 					};
 					tmp2.commentId = ob.cmtId2; //评论ID
 					tmp2.time = ob.cmtTime2; //发布时间
@@ -103,7 +102,6 @@
 					tmp2.src = ob.cmtTts2; // 评论音频
 					tmp2.postId = ob.postId2; //评论对应文章的ID
 					tmp2.postTitle =ob.postTitle2; //评论对应文章的标题
-					tmp2.poster = 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png';
 					this.passageList.push(tmp2); //更新文章列表
 				}
 				if (ob.infoAmount > 2) { //	更新第三篇
@@ -116,7 +114,6 @@
 						src: '', //评论音频
 						postId: 0, //评论对应文章的ID
 						postTitle: "", //评论对应文章的标题
-						poster: ''
 					};
 					tmp3.commentId = ob.cmtId3; //评论ID
 					tmp3.time = ob.cmtTime3; //发布时间
@@ -126,7 +123,6 @@
 					tmp3.src = ob.cmtTts3; // 评论音频
 					tmp3.postId = ob.postId3; //评论对应文章的ID
 					tmp3.postTitle =ob.postTitle3; //评论对应文章的标题
-					tmp3.poster = 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png';
 					this.passageList.push(tmp3); //更新文章列表
 				}
 
@@ -188,6 +184,7 @@
 					},
 					success: (res) => {
 						console.log(res.data);
+						this.userImg = res.data.userImg;
 						_this.updatePass(res.data);
 						if (res.data.infoAmount == 0) {
 							uni.showToast({

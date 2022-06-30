@@ -38,7 +38,7 @@
 			"style": {
 				"navigationBarTitleText": "设置"
 			}
-		},{
+		}, {
 			"path": "pages/set/userInfo",
 			"style": {
 				"navigationBarTitleText": "个人信息"
@@ -49,10 +49,15 @@
 			"style": {
 				"navigationBarTitleText": "语音设置"
 			}
-		},{
+		}, {
 			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "登录"
+				"navigationBarTitleText": "登录",
+				"app-plus": {
+					"titleNView": {
+						"autoBackButton": false
+					}
+				}
 			}
 		},
 		{

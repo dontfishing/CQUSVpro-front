@@ -11,7 +11,7 @@
 				<text>密码</text></br>
 				<text>确认密码</text></br>
 				<text>性别</text></br>
-				<text>年龄</text></br>
+				<text>生日</text></br>
 				<text>邮箱</text>
 			</view>
 
@@ -34,9 +34,11 @@
 						:key="index" :label="item.name" :name="item.name">
 					</u-radio>
 				</u-radio-group>
+				<!-- <u--input class="infoGend" placeholder="性别" border="surround" v-model="valueGend"></br>
+				</u--input> -->
 				</br>
-				<!-- 年龄 -->
-				<u--input class="infoAge" type="number" placeholder="年龄" border="surround" v-model="valueAge">
+				<!-- 生日 -->
+				<u--input class="infoAge" placeholder="生日" border="surround" v-model="valueAge" @focus="open()">
 				</u--input></br>
 				<!-- 邮箱 -->
 				<u--input class="infoEmail" placeholder="邮箱" border="surround" v-model="valueEmail">
@@ -48,19 +50,53 @@
 		<view class="btnRgs">
 			<u-button type="primary" color="#8967D3" text="注册" @click="register()"></u-button>
 		</view>
+		<uni-calendar ref="calendar" class="uni-calendar--hook" :clear-date="true" :date="info.date"
+			:insert="info.insert" :lunar="info.lunar" :startDate="info.startDate" :endDate="info.endDate"
+			:range="info.range" @confirm="confirm" @close="close" />
 	</view>
 </template>
 
 <script>
+	/**
+	 * 获取任意时间
+	 */
+	function getDate(date, AddDayCount = 0) {
+		if (!date) {
+			date = new Date()
+		}
+		if (typeof date !== 'object') {
+			date = date.replace(/-/g, '/')
+		}
+		const dd = new Date(date)
+
+		dd.setDate(dd.getDate() + AddDayCount) // 获取AddDayCount天后的日期
+
+		const y = dd.getFullYear()
+		const m = dd.getMonth() + 1 < 10 ? '0' + (dd.getMonth() + 1) : dd.getMonth() + 1 // 获取当前月份的日期，不足10补0
+		const d = dd.getDate() < 10 ? '0' + dd.getDate() : dd.getDate() // 获取当前几号，不足10补0
+		return {
+			fullDate: y + '-' + m + '-' + d,
+			year: y,
+			month: m,
+			date: d,
+			day: dd.getDay()
+		}
+	}
 	export default {
 		data() {
 			return {
-				valueAc: "",
-				valuePsw: "",
-				valuePwAgain: "",
-				valueGend: "",
+				info: { //日历的信息
+					lunar: false, //不显示农历
+					range: false, //只能选择一个日期
+					insert: false,
+					selected: []
+				},
+				valueAc: "", //账号
+				valuePsw: "", //密码
+				valuePwAgain: "", //确认密码
+				valueGend: "", //性别
 				valueAge: "",
-				valueEmail: "",
+				valueEmail: "", //邮箱
 				genderList: [{
 					name: '男',
 					disabled: false
@@ -69,10 +105,21 @@
 					disabled: true
 				}],
 				valueGend: '男',
-				// imageURL: 'E:\\1\\codelearn\\前端\\0-init\\web\\data\\pic\\pic-1.png'
 			};
 		},
 		methods: {
+
+			open() {
+				this.$refs.calendar.open()
+			},
+
+			confirm(e) {
+				this.valueAge = e["fulldate"];
+			},
+			
+			close() {
+				
+			},
 
 			register() {
 				var data = {
@@ -80,7 +127,7 @@
 					password: this.valuePsw,
 					passwordAgain: this.valuePwAgain,
 					gender: this.valueGend,
-					age: this.valueAge.toString(),
+					birthday: this.valueAge,
 					email: this.valueEmail
 				};
 				// 切换性别
@@ -118,14 +165,6 @@
 					});
 				}
 
-				// 判断年龄是否符号要求
-				else if (this.valueAge <= 0) {
-					uni.showToast({
-						icon: 'error',
-						title: '年龄不符合要求'
-					});
-				}
-
 				// 判断邮箱是否符号要求
 				else if (!(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.valueEmail))) {
 					uni.showToast({
@@ -148,7 +187,7 @@
 							useraccount: this.valueAc,
 							password: this.valuePsw,
 							gender: this.valueGend,
-							age: this.valueAge.toString(),
+							birthday: this.valueAge,
 							email: this.valueEmail
 						},
 						success: res => {
@@ -202,7 +241,7 @@
 
 <style>
 	/* 总页面 */
-	
+
 	.reg {
 		color: black;
 		text-decoration-color: white;

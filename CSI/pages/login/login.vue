@@ -34,7 +34,13 @@
 				remember: "0"
 			}
 		},
-
+		onBackPress(options) {	//禁用返回
+		   if (options.from == 'backbutton') {
+		       return false;
+		   } else if (options.from == 'navigateBack') {
+		       return false;
+		   }
+		},
 		methods: {
 			userLogin() {
 				uni.request({
