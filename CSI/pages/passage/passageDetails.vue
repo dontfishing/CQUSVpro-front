@@ -30,8 +30,14 @@
 
 		<!-- 点赞、点踩区 -->
 		<view class="LikesAndDisl">
-			<u-icon :name="likeIcon" size="25" @click="clickLikeIcon()"></u-icon>
-			<u-icon :name="dislikeIcon" size="25" @click="clickDislikeIcon()"></u-icon>
+			<view class="Like">
+				<u-icon :name="dislikeIcon" size="25" @click="clickDislikeIcon()"></u-icon>
+				<!-- <u--text :text="likeSum" size="14" color="rgb(100,100,100)"></u--text> -->
+			</view>
+			<view>
+				<u-icon :name="likeIcon" :label="likeSum" labelSize="14" labelColor="rgb(100,100,100)" size="25"
+					@click="clickLikeIcon()"></u-icon>
+			</view>
 		</view>
 
 		<!-- 评论区 -->
@@ -52,8 +58,8 @@
 
 				<!-- 点赞踩栏 -->
 				<view class="LikesAndDisl">
-					<u-icon :name="commLikeIcon" size="25" @click="clickComLikeIcon(index)"></u-icon>
 					<u-icon :name="commDislikeIcon" size="25" @click="clickComDislikeIcon(index)"></u-icon>
+					<u-icon :name="commLikeIcon" size="25" @click="clickComLikeIcon(index)"></u-icon>
 				</view>
 			</uni-card>
 		</view>
@@ -84,6 +90,7 @@
 				},
 				psgContent: "待定\n内容\n好丑",
 				likeIcon: "thumb-up",
+				likeSum: 0,
 				dislikeIcon: "thumb-down",
 				commLikeIcon: "thumb-up",
 				commDislikeIcon: "thumb-down",
@@ -574,14 +581,15 @@
 
 <style>
 	page {
-			height: initial;
-			overflow-y: initial;
-			min-height: 100vh;
-		}
+		height: initial;
+		overflow-y: initial;
+		min-height: 100vh;
+	}
+
 	/* 文章内容界面 */
 	.passageInfo {
 		background-color: white;
-/* 		width: 100%;
+		/* 		width: 100%;
 		height: 100%; */
 		display: flex;
 		flex-direction: row;
@@ -621,7 +629,13 @@
 		margin: 2% 2% 2% 2%;
 
 	}
-
+	.Like{
+		margin: 0% 2% 0% 2%;
+		display: flex;
+		flex-direction: row;
+		
+	}
+	
 	/*  */
 	.commentArea {}
 
