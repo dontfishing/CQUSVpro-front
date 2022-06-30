@@ -1,15 +1,15 @@
 <template>
 	<view>
 		<view class="myPassage" @click="gotoMyP()">
-			<image src="../../static/文章.png" style="height: 70px; width: 80px;"></image>
+			<image src="../../static/passage.png" style="height: 70px; width: 80px;"></image>
 			<text>我的文章</text>
 		</view>
 		<view class="myComment" @click="gotoMyC() ">
-			<image src="../../static/评论.png" style="height: 70px; width: 80px;"></image>
+			<image src="../../static/comment.png" style="height: 70px; width: 80px;"></image>
 			<text>我的评论</text>
 		</view>
 		<view class="writePassage" @click="gotoMyW()">
-			<image src="../../static/编辑.png" style="height: 70px; width: 80px;"></image>
+			<image src="../../static/edit.png" style="height: 70px; width: 80px;"></image>
 			<text>写文章</text>
 		</view>
 	</view>

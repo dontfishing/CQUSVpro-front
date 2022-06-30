@@ -2,23 +2,23 @@
 	<view>
 		<u-cell-group>
 			<!--界面单元格-->
-			<u-cell title="用户名" isLink @click="pop(0)" :value="Info.userName" icon="/static/用户.png" size="large">
+			<u-cell title="用户名" isLink @click="pop(0)" :value="Info.userName" icon="/static/user.png" size="large">
 			</u-cell>
-			<u-cell title="性别" isLink @click="showSexPop(1)" :value="Info.gender" icon="/static/性别.png" size="large">
+			<u-cell title="性别" isLink @click="showSexPop(1)" :value="Info.gender" icon="/static/gender.png" size="large">
 			</u-cell>
-			<u-cell title="生日" isLink @click="open" :value="Info.birth" icon="/static/生日.png" size="large">
+			<u-cell title="生日" isLink @click="open" :value="Info.birth" icon="/static/birthday.png" size="large">
 			</u-cell>
-			<u-cell title="星座" isLink :value="Info.star" icon="/static/星座运程.png" size="large">
+			<u-cell title="星座" isLink :value="Info.star" icon="/static/star.png" size="large">
 			</u-cell>
-			<u-cell title="年龄" isLink :value="Info.age" icon="/static/年龄.png" size="large">
+			<u-cell title="年龄" isLink :value="Info.age" icon="/static/age.png" size="large">
 			</u-cell>
-			<u-cell title="所在地" isLink @click="pop(5)" :value="Info.addr" icon="/static/首页.png" size="large">
+			<u-cell title="所在地" isLink @click="pop(5)" :value="Info.addr" icon="/static/home.png" size="large">
 			</u-cell>
-			<u-cell title="职业" isLink @click="pop(6)" :value="Info.job" icon="/static/职业.png" size="large">
+			<u-cell title="职业" isLink @click="pop(6)" :value="Info.job" icon="/static/job.png" size="large">
 			</u-cell>
-			<u-cell title="邮箱" isLink @click="pop(7)" :value="Info.email" icon="/static/邮箱.png" size="large">
+			<u-cell title="邮箱" isLink @click="pop(7)" :value="Info.email" icon="/static/mailbox.png" size="large">
 			</u-cell>
-			<u-cell title="密码" isLink @click="showPasswordPop()" icon="/static/密码.png" size="large">
+			<u-cell title="密码" isLink @click="showPasswordPop()" icon="/static/password.png" size="large">
 			</u-cell>
 		</u-cell-group>
 		<view class="popLayer">
