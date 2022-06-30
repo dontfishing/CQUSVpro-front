@@ -1,4 +1,4 @@
- <template>
+<template>
 	<view class="passageGround">
 
 		<!-- 搜索区域 -->
@@ -14,27 +14,30 @@
 		<view class="contentArea">
 			<view v-for="(item, index) in passageList" :key="index">
 				<uni-card :title="passageList[index].userName" :sub-title="passageList[index].time"
-					@click="goToDetail(index)"
-					thumbnail="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png">
+					@click="goToDetail(index)" :thumbnail="passageList[index].poster">
+					
 					<!-- 语音播放 -->
 					<view class="player">
-						<audio style="text-align: left" :src="passageList[index].src"
-							:poster="passageList[index].poster" :name="passageList[index].title"
-							:author="passageList[index].abstract" :loop="false" controls @play="play()"></audio>
+						<audio style="text-align: left" :src="passageList[index].src" :poster="passageList[index].poster"
+							:name="passageList[index].title" :author="passageList[index].abstract" :loop="false"
+							controls="true" @play="play()"></audio>
 					</view>
+					
 					<!-- 点赞评论栏 -->
 					<view class="comAndLikes">
 						<!-- 评论 -->
 						<view class="Comment">
 							<u-icon name="chat" size="25"></u-icon>
 							<!-- 评论数 -->
-							<u--text v-text="passageList[index].commentSum"></u--text>
+							<text>{{passageList[index].commentSum}}</text>
+							<!-- <u--text :v-text="passageList[index].commentSum"></u--text> -->
 						</view>
 						<!-- 点赞 -->
 						<view class="Likes">
 							<u-icon name="thumb-up" size="25"></u-icon>
 							<!-- 点赞数 -->
-							<u--text v-text="passageList[index].likesSum"></u--text>
+							<text>{{passageList[index].likesSum}}</text>
+							<!-- <u--text :v-text="passageList[index].likesSum"></u--text> -->
 						</view>
 					</view>
 				</uni-card>
@@ -61,9 +64,12 @@
 		},
 		methods: {
 			play() { // 播放音频
-
 			},
 			updatePass(ob) {
+				if(ob.infoAmount == 0){
+					this.loadMoreStatus='noMore';
+					
+				}
 				if (ob.infoAmount > 0) { //更新第一篇
 					var tmp1 = {
 						userName: "",
@@ -84,12 +90,10 @@
 					tmp1.likesSum = ob.essayPostLike1; // 点赞数
 					tmp1.commentSum = ob.essayComment1; // 评论数
 					tmp1.id = ob.essayPostId1; //文章id
-					tmp1.poster =
-						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
+					tmp1.poster = ob.essayUserImg1; // 播放背景图片,默认为用户头像
 					tmp1.src =
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
 					this.passageList.push(tmp1); //更新文章列表
-
 				}
 				if (ob.infoAmount > 1) { //更新第二篇
 					var tmp2 = {
@@ -111,11 +115,11 @@
 					tmp2.likesSum = ob.essayPostLike2; // 点赞数
 					tmp2.commentSum = ob.essayComment2; // 评论数
 					tmp2.id = ob.essayPostId2; //文章id
-					tmp2.poster =
-						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
+					tmp2.poster = ob.essayUserImg2; // 播放背景图片,默认为用户头像
 					tmp2.src =
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
-					this.passageList.push(tmp2); //更新文章列表
+					this.passageList.push(tmp2); //更新文章列表					console.log(1);
+
 				}
 				if (ob.infoAmount > 2) { //	更新第三篇
 					var tmp3 = {
@@ -136,11 +140,11 @@
 					tmp3.likesSum = ob.essayPostLike3; // 点赞数
 					tmp3.commentSum = ob.essayComment3; // 评论数
 					tmp3.id = ob.essayPostId3; //文章id
-					tmp3.poster =
-						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'; // 播放背景图片,默认为用户头像
+					tmp3.poster = ob.essayUserImg3; // 播放背景图片,默认为用户头像
 					tmp3.src =
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
 					this.passageList.push(tmp3); //更新文章列表
+					console.log(3);
 
 				}
 
@@ -149,7 +153,8 @@
 			refresh(ob) { //上划加载更多的函数，会传入最下面文章的id
 				let _this = this;
 				const postId = ob.id;
-				console.log("main:",postId);
+				console.log("main:", postId);
+
 				uni.request({ //获取远端数据
 					url: 'http://106.14.62.110:8080/essay/afterRefresh',
 					method: "POST",
@@ -188,9 +193,10 @@
 					key: 'postID',
 					data: tmp,
 					success: function() {
-						// console.log(tmp);
+						console.log(tmp);
 					}
 				});
+
 				uni.navigateTo({
 					url: './passageDetails'
 				})
