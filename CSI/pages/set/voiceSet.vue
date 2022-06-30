@@ -1,30 +1,40 @@
 <template>
 	<view>
+		<!--语速滑动条-->
 		<view class="sliderSet">
-			<text>语速</text>
+			<text class="btnText">语速</text>
 			<slider :value="speed" min="0" max="15" @change="sliderChangeS" show-value="true" />
 		</view>
+		<!--音调滑动条-->
 		<view class="sliderSet">
-			<text>音调</text>
+			<text class="btnText">音调</text>
 			<slider :value="tune" min="0" max="15" @change="sliderChangeT" show-value="true" />
 		</view>
+		<!--音量滑动条-->
 		<view class="sliderSet">
-			<text>音量</text>
+			<text class="btnText">音量</text>
 			<slider :value="volume" min="0" max="9" @change="sliderChangeV" show-value="true" />
 		</view></br>
+		<!--音色选择单元格-->
 		<u-cell-group>
 			<u-cell title="音色选择" isLink @click="voiceChoice()" :value="timbreDisplay">
 				<u-icon slot="icon" size="30" name="volume-fill"></u-icon>
 			</u-cell>
 		</u-cell-group>
+		<!--生成试听音频按钮-->
+		<view class="tryListen">
+			<u-button text="生成试听音频" type="primary" @click="tryGenerate()"></u-button>
+		</view>
 		<!-- 试听 -->
 		<view class="player">
 			<audio style="text-align: left" :src="testLis.src" :poster="testLis.poster" :name="testLis.name"
 				:author="testLis.author" controls @pause="pause()" @play="play()"></audio>
 		</view>
+		<!--保存按钮-->
 		<view class="btn">
-			<u-button text="确定" type="primary" @click="allSet()"></u-button>
+			<u-button text="保存" type="primary" @click="allSet()"></u-button>
 		</view>
+		<!--音色选择弹出层-->
 		<u-popup :show="show" @close="close" @open="open">
 			<view>
 				<u-grid :border="true" @click="timbreChoice" v-model="timbreDisplay">
@@ -44,49 +54,49 @@
 		data() {
 			return {
 				show: false, //弹出层默认不显示
-				timbreDisplay: '音色1', //单元格右边显示选择的音色，默认音色1
+				timbreDisplay: '度小美', //单元格右边显示选择的音色，默认音色1
 				speed: 5, //语速
 				tune: 5, //音调
 				volume: 5, //音量 
 				timbre: 0, //音色
-				baseList: [{
+				baseList: [{ //音色选择九宫格
 						name: 'volume-fill',
-						title: '音色1' //度小美
+						title: '度小美' //度小美
 					},
 					{
 						name: 'volume-fill',
-						title: '音色2' //度小宇
+						title: '度小宇' //度小宇
 					},
 					{
 						name: 'volume-fill',
-						title: '音色3' //度逍遥
+						title: '度逍遥' //度逍遥
 					},
 					{
 						name: 'volume-fill',
-						title: '音色4' //度丫丫
+						title: '度丫丫' //度丫丫
 					},
 					{
 						name: 'volume-fill',
-						title: '音色5' //度小娇
+						title: '度小娇' //度小娇
 					},
 					{
 						name: 'volume-fill',
-						title: '音色6' //度米朵
+						title: '度米朵' //度米朵
 					},
 					{
 						name: 'volume-fill',
-						title: '音色7' //度博文
+						title: '度博文' //度博文
 					},
 					{
 						name: 'volume-fill',
-						title: '音色8' //度小童
+						title: '度小童' //度小童
 					},
 					{
 						name: 'volume-fill',
-						title: '音色9' //度小萌
+						title: '度小萌' //度小萌
 					}
 				],
-				testLis: {
+				testLis: { //播放器ui元素的来源
 					src: "",
 					poster: "https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png",
 					name: "试听",
@@ -94,27 +104,27 @@
 				}
 			}
 		},
-		onLoad() {
+		
+		onLoad() { //刚进入界面
 			let _this = this;
-			uni.getStorage({
-				key: "voice_setting",
-				success(res) {
-					console.log(JSON.stringify(res.data));
-					_this.speed = res.data.ttsSpd;
-					_this.tune = res.data.ttsPit;
-					_this.volume = res.data.ttsVol;
-					_this.timbre = res.data.ttsPer;
-					_this.generate();
-				},
-				fail() {
-					_this.speed = 5;
-					_this.tune = 5;
-					_this.volume = 5;
-					_this.timbre = 4;
+			try { //获取缓存成功
+				let voiceSet = uni.getStorageSync('voice_setting');
+				if(voiceSet) {
+					_this.speed = voiceSet.ttsSpd;
+					_this.tune = voiceSet.ttsPit;
+					_this.volume = voiceSet.ttsPit;
+					_this.timbre = voiceSet.ttsPit;
 					_this.generate();
 				}
-			})
+			} catch(e) { //获取缓存失败返回默认值
+				_this.speed = 5
+				_this.tune = 5
+				_this.volume = 5
+				_this.timbre = 0
+				_this.generate();
+			}
 		},
+		
 		methods: {
 			sliderChangeS(e) { //传语速设置
 				this.speed = e.detail.value;
@@ -131,12 +141,13 @@
 			voiceChoice() { //点击单元格弹出音色选择
 				this.show = true;
 			},
+
 			generate() { //生成试听音频
 				let _this = this;
-				let passPer = this.timbre;
-				let passSpd = this.speed;
-				let passPit = this.tune;
-				let passVol = this.volume;
+				let passPer = _this.timbre;
+				let passSpd = _this.speed;
+				let passPit = _this.tune;
+				let passVol = _this.volume;
 				let passContent = "衬衫的价格为九镑十五便士，所以你选择C项，并将其标在试卷上。";
 				uni.request({ //请求音频
 					url: 'http://106.14.62.110:8080/sound/generate',
@@ -152,8 +163,8 @@
 						_this.testLis.src = res.data.postTts;
 						uni.showToast({
 							title: "修改成功，已生成试听音频",
-							icon: "success",
-							duration: 4000
+							icon: "none",
+							duration: 2000
 						});
 					}
 				})
@@ -170,35 +181,71 @@
 			timbreChoice(name) { //传音色的选择
 				this.$refs.uToast.success(`设置成功`);
 				this.show = false;
-				console.log(name);
 				this.timbre = name;
-				this.timbreDisplay = "音色" + (name + 1);
+				this.timbreDisplay = this.baseList[name].title;
 			},
 
-			allSet() {
+			allSet() { //保存之后传递参数
+				let _this = this;
+				let loginSet = uni.getStorageSync('login_token');
+				_this.token = loginSet;
 				var voiceSetting = { //语音设置
-					ttsSpd: this.speed,
-					ttsPit: this.tune,
-					ttsVol: this.volume,
-					ttsPer: this.timbre
+					ttsSpd: _this.speed,
+					ttsPit: _this.tune,
+					ttsVol: _this.volume,
+					ttsPer: _this.timbre
 				};
 				uni.setStorage({
 					key: 'voice_setting',
 					data: voiceSetting,
 					success() {}
 				});
-				this.generate(); //生成试听
+				console.log(_this.speed);
+				uni.request({
+					url: 'http://106.14.62.110:8080/sound/setting',
+					method: "POST",
+					data: {
+						token: _this.token,
+						ttsSpd: _this.speed,
+						ttsPit: _this.tune,
+						ttsVol: _this.volume,
+						ttsPer: _this.timbre
+					},
+					success: res => {
+						if (res.statusCode == 404) {
+							uni.showToast({
+								icon: "error",
+								title: "404 not found"
+							})
+						} else if ("error" in res.data) {
+							uni.showToast({
+								icon: "error",
+								title: "设置失败"
+							})
+						} else {
+							uni.showToast({
+								icon: "success",
+								title: "设置成功"
+							})
+						}
+					}
+				})
+
 			},
 
-			play() {},
+			play() {}, //播放
 
-			pause() {},
+			pause() {}, //暂停
+
+			tryGenerate() { //点击生成试听音频按钮后触发，生成新的音频
+				this.generate();
+			}
 		}
 	}
 </script>
 
 <style>
-	text {
+	.btnText {
 		margin-top: 6%;
 		margin-right: 2%;
 		margin-left: 2%;
@@ -228,5 +275,14 @@
 
 	.btn {
 		margin-top: 10%;
+		margin-left: 30%;
+		margin-right: 30%;
+	}
+
+	.tryListen {
+		margin-top: 10%;
+		margin-left: 30%;
+		margin-right: 30%;
+		margin-bottom: 10%;
 	}
 </style>

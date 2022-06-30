@@ -163,6 +163,7 @@
 								_this.commentList.push(tmp1);
 							}
 							if (infoAmount > 1) { //加载评论2
+							console.log(res.data["cmtTts2"]);
 								var tmp2 = {
 									cmtId: 123,
 									cmtContent: "",
@@ -172,7 +173,6 @@
 									cmtTime: '',
 									cmtLikeState: false,
 									cmtDisLikeState: false
-
 								};
 								tmp2.cmtId = res.data["cmtId2"];
 								tmp2.cmtContent = res.data["cmtContent2"];
@@ -581,7 +581,6 @@
 						token: Token
 					},
 					success: (res) => {
-						console.log(JSON.stringify(res.data));
 						if (res.data.infoAmount == 0) {
 							uni.showToast({
 								title: "已经没有更多评论了，快去评论吧！"

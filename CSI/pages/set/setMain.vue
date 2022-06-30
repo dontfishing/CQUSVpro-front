@@ -92,12 +92,7 @@
 			myUpload(rsp) {	//点击头像更改并上传
 				let _this = this;
 				_this.imageURL = rsp.path;
-				uni.getStorage({
-					key: 'login_token',
-					success(res) {
-						_this.token = res.data;
-					}
-				})
+				let Token = uni.getStorageSync('login_token');
 				uni.uploadFile({
 					url: 'http://106.14.62.110:8080/uploadImg', //仅为示例，非真实的接口地址
 					filePath: _this.imageURL,

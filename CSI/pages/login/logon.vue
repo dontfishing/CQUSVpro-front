@@ -18,7 +18,7 @@
 			<!-- 输入框 -->
 			<view class="input">
 				<!-- 用户名 -->
-				<u--input class="infoAc" placeholder="4-16位,大小写字母、数字" border="surround" v-model="valueAc">
+				<u--input class="infoAc" placeholder="6-16位,大小写字母、数字" border="surround" v-model="valueAc">
 				</u--input></br>
 				<!-- 密码 -->
 				<u--input class="infoPsw" type="password" placeholder="6-16位,大小写字母、数字" border="surround"
@@ -139,8 +139,7 @@
 
 				// 判断输入不为空
 				if (data.useraccount == "" || data.password == "" || data.passwordAgain == "" || data.valueAge == "" ||
-					data
-					.valueEmail == "") {
+					data.valueEmail == ""||data.gender=="") {
 					uni.showToast({
 						icon: 'error',
 						title: '输入不可以为空'
@@ -148,11 +147,11 @@
 				}
 
 				// 判断用户名是否符号要求
-				else if (!(/^[A-Za-z\d]{5,24}$/.test(this.valueAc)) || this.valueAc.length < 4 || this.valueAc.length >
+				else if (!(/^[A-Za-z\d]{6,16}$/.test(this.valueAc)) || this.valueAc.length < 4 || this.valueAc.length >
 					16) {
 					uni.showToast({
 						icon: 'error',
-						title: '用户名不符合要求'
+						title: '账号不符合要求'
 					});
 				}
 
@@ -201,7 +200,7 @@
 							else if (res.data == 2) {
 								uni.showToast({
 									icon: 'error',
-									title: '用户名已被占用'
+									title: '账号已被占用'
 								});
 							}
 							// 服务器错误

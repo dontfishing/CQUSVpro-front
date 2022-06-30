@@ -144,7 +144,6 @@
 					tmp3.src =
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
 					this.passageList.push(tmp3); //更新文章列表
-					console.log(3);
 
 				}
 
@@ -194,7 +193,6 @@
 					key: 'postID',
 					data: tmp,
 					success: function() {
-						console.log(tmp);
 					}
 				});
 

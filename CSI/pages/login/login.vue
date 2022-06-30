@@ -17,8 +17,8 @@
 		</view>
 		<view class="reg">
 			<view>
-				<u-button class="uReg" type="primary" text="注册" color="#8967D3" :plain="true" shape="circle"
-					size="mini" @click="reg()"></u-button>
+				<u-button class="uReg" type="primary" text="注册" color="#8967D3" :plain="true" shape="circle" size="mini"
+					@click="reg()"></u-button>
 			</view>
 		</view>
 	</view>
@@ -34,12 +34,12 @@
 				remember: "0"
 			}
 		},
-		onBackPress(options) {	//禁用返回
-		   if (options.from == 'backbutton') {
-		       return false;
-		   } else if (options.from == 'navigateBack') {
-		       return false;
-		   }
+		onBackPress(options) { //禁用返回
+			if (options.from == 'backbutton') {
+				return false;
+			} else if (options.from == 'navigateBack') {
+				return false;
+			}
 		},
 		methods: {
 			userLogin() {
@@ -79,6 +79,15 @@
 								data: res.data.userName
 							});
 							uni.setStorage({
+								key: 'voice_setting',
+								data: {
+									ttsSpd: 5,
+									ttsPit: 5,
+									ttsVol: 5,
+									ttsPer: 4
+								}
+							});
+							uni.setStorage({
 								key: 'ImgUrl',
 								data: res.data.userImg
 							})
@@ -88,11 +97,9 @@
 						}
 					},
 
-					fail: () => {
-					},
+					fail: () => {},
 
-					complete: () => {
-					}
+					complete: () => {}
 				});
 			},
 
@@ -106,7 +113,7 @@
 </script>
 
 <style>
-/* 	page {
+	/* 	page {
 		background-color: #f5f6f7;
 	} */
 

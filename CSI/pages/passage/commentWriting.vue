@@ -64,21 +64,22 @@
 			},
 			getVoiceSetting() {
 				let voiceSet = uni.getStorageSync('voice_setting');
-				this.voiceSetting = voiceSet
+				this.voiceSetting = voiceSet;
 			},
 			generate() { //生成音频
 				this.getVoiceSetting();
+				let _this=this;
+				let passPer = _this.voiceSetting.ttsPer;
+				let passSpd = _this.voiceSetting.ttsSpd;
+				let passPit = _this.voiceSetting.ttsPit;
+				let passVol = _this.voiceSetting.ttsVol;
+				let passContent = _this.passageContent;
 				if (this.passageContent == "") {
 					uni.showToast({
 						icon: "error",
 						title: '文章内容不能为空!'
 					});
 				} else {
-					let passPer = this.voiceSetting.ttsPer;
-					let passSpd = this.voiceSetting.ttsSpd;
-					let passPit = this.voiceSetting.ttsPit;
-					let passVol = this.voiceSetting.ttsVol;
-					let passContent = this.passageContent;
 					uni.request({ //请求音频
 						url: 'http://106.14.62.110:8080/sound/generate',
 						method: "POST",
@@ -90,13 +91,14 @@
 							postContent: passContent
 						},
 						success: (res) => {
-							this.current.src = res.data.postTts;
+							console.log(res.data);
+							_this.current.src = res.data.postTts;
 							uni.showToast({
 								title: "已生成",
 								icon: "success",
 								duration: 2000
 							})
-							this.show = true;
+							_this.show = true;
 						}
 					})
 				}
@@ -108,9 +110,10 @@
 						title: '文章内容不能为空!'
 					});
 				} else {
+					let _this = this;
 					this.generate(); //先生成音频
-					let text = this.passageContent;
-					let passTts = this.current.src;
+					let text = _this.passageContent;
+					let passTts = _this.current.src;
 					let postID = uni.getStorageSync('postID');
 					let Token = uni.getStorageSync('login_token');
 					this.token = Token;
@@ -125,7 +128,6 @@
 							cmtTts: passTts
 						},
 						success: (res) => {
-							console.log(JSON.stringify(res.data));
 							if ("commenterName" in res.data) {
 								uni.showToast({
 									icon: "success",
