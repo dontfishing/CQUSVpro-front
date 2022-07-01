@@ -11602,87 +11602,19 @@ var render = function() {
                 { staticClass: _vm._$g(3, "sc"), attrs: { _i: 3 } },
                 [_vm._v("账号")]
               ),
-              _c("u--input", {
-                staticClass: _vm._$g(4, "sc"),
-                attrs: { _i: 4 },
-                model: {
-                  value: _vm._$g(4, "v-model"),
-                  callback: function() {},
-                  expression: "valueAc"
-                }
-              })
-            ],
-            1
-          ),
-          _c(
-            "uni-view",
-            { staticClass: _vm._$g(5, "sc"), attrs: { _i: 5 } },
-            [
               _c(
-                "v-uni-text",
-                { staticClass: _vm._$g(6, "sc"), attrs: { _i: 6 } },
-                [_vm._v("密码")]
-              ),
-              _c("u--input", {
-                staticClass: _vm._$g(7, "sc"),
-                attrs: { _i: 7 },
-                model: {
-                  value: _vm._$g(7, "v-model"),
-                  callback: function() {},
-                  expression: "valuePsw"
-                }
-              })
-            ],
-            1
-          ),
-          _c(
-            "uni-view",
-            { staticClass: _vm._$g(8, "sc"), attrs: { _i: 8 } },
-            [
-              _c(
-                "v-uni-text",
-                { staticClass: _vm._$g(9, "sc"), attrs: { _i: 9 } },
-                [_vm._v("确认密码")]
-              ),
-              _c("u--input", {
-                staticClass: _vm._$g(10, "sc"),
-                attrs: { _i: 10 },
-                model: {
-                  value: _vm._$g(10, "v-model"),
-                  callback: function() {},
-                  expression: "valuePwAgain"
-                }
-              })
-            ],
-            1
-          ),
-          _c(
-            "uni-view",
-            { staticClass: _vm._$g(11, "sc"), attrs: { _i: 11 } },
-            [
-              _c(
-                "v-uni-text",
-                { staticClass: _vm._$g(12, "sc"), attrs: { _i: 12 } },
-                [_vm._v("性别")]
-              ),
-              _c(
-                "u-radio-group",
-                {
-                  staticClass: _vm._$g(13, "sc"),
-                  attrs: { _i: 13 },
-                  model: {
-                    value: _vm._$g(13, "v-model"),
-                    callback: function() {},
-                    expression: "valueGend"
-                  }
-                },
-                _vm._l(_vm._$g(14, "f"), function(item, index, $20, $30) {
-                  return _c("u-radio", {
-                    key: item,
-                    staticClass: _vm._$g("14-" + $30, "sc"),
-                    attrs: { _i: "14-" + $30 }
+                "uni-view",
+                { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
+                [
+                  _c("u--input", {
+                    attrs: { _i: 5 },
+                    model: {
+                      value: _vm._$g(5, "v-model"),
+                      callback: function() {},
+                      expression: "valueAc"
+                    }
                   })
-                }),
+                ],
                 1
               )
             ],
@@ -11690,48 +11622,152 @@ var render = function() {
           ),
           _c(
             "uni-view",
-            { staticClass: _vm._$g(15, "sc"), attrs: { _i: 15 } },
+            { staticClass: _vm._$g(6, "sc"), attrs: { _i: 6 } },
             [
               _c(
                 "v-uni-text",
-                { staticClass: _vm._$g(16, "sc"), attrs: { _i: 16 } },
-                [_vm._v("生日")]
+                { staticClass: _vm._$g(7, "sc"), attrs: { _i: 7 } },
+                [_vm._v("密码")]
               ),
-              _c("u--input", {
-                staticClass: _vm._$g(17, "sc"),
-                attrs: { _i: 17 },
-                on: {
-                  focus: function($event) {
-                    return _vm.$handleViewEvent($event)
-                  }
-                },
-                model: {
-                  value: _vm._$g(17, "v-model"),
-                  callback: function() {},
-                  expression: "valueAge"
-                }
-              })
+              _c(
+                "uni-view",
+                { staticClass: _vm._$g(8, "sc"), attrs: { _i: 8 } },
+                [
+                  _c("u--input", {
+                    attrs: { _i: 9 },
+                    model: {
+                      value: _vm._$g(9, "v-model"),
+                      callback: function() {},
+                      expression: "valuePsw"
+                    }
+                  })
+                ],
+                1
+              )
             ],
             1
           ),
           _c(
             "uni-view",
-            { staticClass: _vm._$g(18, "sc"), attrs: { _i: 18 } },
+            { staticClass: _vm._$g(10, "sc"), attrs: { _i: 10 } },
             [
               _c(
                 "v-uni-text",
-                { staticClass: _vm._$g(19, "sc"), attrs: { _i: 19 } },
+                { staticClass: _vm._$g(11, "sc"), attrs: { _i: 11 } },
+                [_vm._v("确认密码")]
+              ),
+              _c(
+                "uni-view",
+                { staticClass: _vm._$g(12, "sc"), attrs: { _i: 12 } },
+                [
+                  _c("u--input", {
+                    attrs: { _i: 13 },
+                    model: {
+                      value: _vm._$g(13, "v-model"),
+                      callback: function() {},
+                      expression: "valuePwAgain"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _c(
+            "uni-view",
+            { staticClass: _vm._$g(14, "sc"), attrs: { _i: 14 } },
+            [
+              _c(
+                "v-uni-text",
+                { staticClass: _vm._$g(15, "sc"), attrs: { _i: 15 } },
+                [_vm._v("性别")]
+              ),
+              _c(
+                "uni-view",
+                { staticClass: _vm._$g(16, "sc"), attrs: { _i: 16 } },
+                [
+                  _c(
+                    "u-radio-group",
+                    {
+                      attrs: { _i: 17 },
+                      model: {
+                        value: _vm._$g(17, "v-model"),
+                        callback: function() {},
+                        expression: "valueGend"
+                      }
+                    },
+                    _vm._l(_vm._$g(18, "f"), function(item, index, $20, $30) {
+                      return _c("u-radio", {
+                        key: item,
+                        staticClass: _vm._$g("18-" + $30, "sc"),
+                        attrs: { _i: "18-" + $30 }
+                      })
+                    }),
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _c(
+            "uni-view",
+            { staticClass: _vm._$g(19, "sc"), attrs: { _i: 19 } },
+            [
+              _c(
+                "v-uni-text",
+                { staticClass: _vm._$g(20, "sc"), attrs: { _i: 20 } },
+                [_vm._v("生日")]
+              ),
+              _c(
+                "uni-view",
+                { staticClass: _vm._$g(21, "sc"), attrs: { _i: 21 } },
+                [
+                  _c("u--input", {
+                    attrs: { _i: 22 },
+                    on: {
+                      focus: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
+                    },
+                    model: {
+                      value: _vm._$g(22, "v-model"),
+                      callback: function() {},
+                      expression: "valueAge"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _c(
+            "uni-view",
+            { staticClass: _vm._$g(23, "sc"), attrs: { _i: 23 } },
+            [
+              _c(
+                "v-uni-text",
+                { staticClass: _vm._$g(24, "sc"), attrs: { _i: 24 } },
                 [_vm._v("邮箱")]
               ),
-              _c("u--input", {
-                staticClass: _vm._$g(20, "sc"),
-                attrs: { _i: 20 },
-                model: {
-                  value: _vm._$g(20, "v-model"),
-                  callback: function() {},
-                  expression: "valueEmail"
-                }
-              })
+              _c(
+                "uni-view",
+                { staticClass: _vm._$g(25, "sc"), attrs: { _i: 25 } },
+                [
+                  _c("u--input", {
+                    attrs: { _i: 26 },
+                    model: {
+                      value: _vm._$g(26, "v-model"),
+                      callback: function() {},
+                      expression: "valueEmail"
+                    }
+                  })
+                ],
+                1
+              )
             ],
             1
           )
@@ -11740,10 +11776,10 @@ var render = function() {
       ),
       _c(
         "uni-view",
-        { staticClass: _vm._$g(21, "sc"), attrs: { _i: 21 } },
+        { staticClass: _vm._$g(27, "sc"), attrs: { _i: 27 } },
         [
           _c("u-button", {
-            attrs: { _i: 22 },
+            attrs: { _i: 28 },
             on: {
               click: function($event) {
                 return _vm.$handleViewEvent($event)
@@ -11755,8 +11791,8 @@ var render = function() {
       ),
       _c("uni-calendar", {
         ref: "calendar",
-        staticClass: _vm._$g(23, "sc"),
-        attrs: { _i: 23 },
+        staticClass: _vm._$g(29, "sc"),
+        attrs: { _i: 29 },
         on: {
           confirm: function($event) {
             return _vm.$handleViewEvent($event)
@@ -11858,7 +11894,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../hb/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 13);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* 总页面 */\n.reg {\n\tcolor: black;\n\t-webkit-text-decoration-color: white;\n\t        text-decoration-color: white;\n}\n\n/* 注册标题 */\n.title {\n\tmargin: 10%;\n\tmargin-left: 36%;\n\tfont-size: 50px;\n}\n\n/* 注册信息总界面 */\n.info {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tmargin-top: 25%;\n\theight: 420rpx;\n\tflex-flow: row wrap;\n}\n\n/* 注册按钮 */\n.btnRgs {\n\tmargin-top: 240rpx;\n\tmargin-right: 10%;\n\tmargin-bottom: 10px;\n\tmargin-left: 10%;\n\ttext-align: right;\n}\n.itemBox {\n\tdisplay: flex;\n\tflex-direction: row;\n\theight: 90rpx;\n\twidth: 660rpx;\n}\n.textBox {\n\twidth: 160rpx;\n\ttext-align: center;\n\tpadding-top: 28rpx;\n}\n.inputBox {\n\twidth: 500rpx;\n\theight: 50rpx;\n}\n.sexChoosing {\n\tmargin-top: 20rpx;\n\tmargin-right: 120rpx;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* 总页面 */\n.reg {\n\tcolor: black;\n\t-webkit-text-decoration-color: white;\n\t        text-decoration-color: white;\n}\n\n/* 注册标题 */\n.title {\n\tmargin: 10%;\n\tmargin-left: 36%;\n\tfont-size: 50px;\n}\n\n/* 注册信息总界面 */\n.info {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tmargin-top: 25%;\n\theight: 420px;\n\tflex-flow: row wrap;\n}\n\n/* 注册按钮 */\n.btnRgs {\n\tmargin-top: 240rpx;\n\tmargin-right: 10%;\n\tmargin-bottom: 10px;\n\tmargin-left: 10%;\n\ttext-align: right;\n}\n.itemBox {\n\tdisplay: flex;\n\tflex-direction: row;\n\theight: 90px;\n\twidth: 660rpx;\n}\n.textBox {\n\tdisplay: flex;\n\talign-items: center;\n\ttext-align: center;\n\twidth: 160rpx;\n}\n.inputBox {\n\tdisplay: flex;\n\talign-items: center;\n\ttext-align: center;\n\twidth: 500rpx;\n}\n.sexChoosing {\n\t\n\tmargin-right: 120rpx;\n}\n", ""]);
 // Exports
 module.exports = exports;
 

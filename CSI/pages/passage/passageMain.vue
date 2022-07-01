@@ -17,7 +17,7 @@
 					
 					<!-- 语音播放 -->
 					<view class="player">
-						<audio style="text-align: left" :src="passageList[index].src" :poster="passageList[index].poster"
+						<audio style="text-align: left" :src="posterNull" :poster="passageList[index].poster"
 							:name="passageList[index].title" :author="passageList[index].abstract" :loop="false"
 							controls="true"></audio>
 					</view>
@@ -55,6 +55,7 @@
 	export default {
 		data() {
 			return {
+				posterNull: "",
 				keyword: "", // 搜索关键词
 				passageList: [],
 				loadMoreStatus: 'more', // 加载更多的状态：可加载、正在加载、没有更多

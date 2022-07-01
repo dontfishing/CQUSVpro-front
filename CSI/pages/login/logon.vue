@@ -5,36 +5,48 @@
 			<!-- 输入信息 -->
 			<view class="itemBox">
 				<text class="textBox">账号</text>
-				<u--input class="inputBox" placeholder="6-16位,大小写字母、数字" border="surround" v-model="valueAc">
-				</u--input>
+				<view class="inputBox">
+					<u--input placeholder="6-16位,大小写字母、数字" border="surround" v-model="valueAc">
+					</u--input>
+				</view>
 			</view>
 			<view class="itemBox">
 				<text class="textBox">密码</text>
-				<u--input class="inputBox" type="password" placeholder="6-16位,大小写字母、数字" border="surround"
-					v-model="valuePsw"></u--input>
+				<view class="inputBox">
+					<u--input type="password" placeholder="6-16位,大小写字母、数字" border="surround" v-model="valuePsw">
+					</u--input>
+				</view>
 			</view>
 			<view class="itemBox">
 				<text class="textBox">确认密码</text>
-				<u--input class="inputBox" type="password" placeholder="确认密码" border="surround" v-model="valuePwAgain">
-				</u--input>
+				<view class="inputBox">
+					<u--input type="password" placeholder="确认密码" border="surround" v-model="valuePwAgain">
+					</u--input>
+				</view>
 			</view>
 			<view class="itemBox">
 				<text class="textBox">性别</text>
-				<u-radio-group class="inputBox" v-model="valueGend" placement="row">
-					<u-radio class="sexChoosing" v-for="(item, index) in genderList" :key="index" :label="item.name"
-						:name="item.name">
-					</u-radio>
-				</u-radio-group>
+				<view class="inputBox">
+					<u-radio-group v-model="valueGend" placement="row">
+						<u-radio class="sexChoosing" v-for="(item, index) in genderList" :key="index" :label="item.name"
+							:name="item.name">
+						</u-radio>
+					</u-radio-group>
+				</view>
 			</view>
 			<view class="itemBox">
 				<text class="textBox">生日</text>
-				<u--input class="inputBox" placeholder="生日" border="surround" v-model="valueAge" @focus="open()">
-				</u--input>
+				<view class="inputBox">
+					<u--input placeholder="生日" border="surround" v-model="valueAge" @focus="open()">
+					</u--input>
+				</view>
 			</view>
 			<view class="itemBox">
 				<text class="textBox">邮箱</text>
-				<u--input class="inputBox" placeholder="邮箱" border="surround" v-model="valueEmail">
-				</u--input>
+				<view class="inputBox">
+					<u--input placeholder="邮箱" border="surround" v-model="valueEmail">
+					</u--input>
+				</view>
 			</view>
 		</view>
 		<!--注册按钮-->
@@ -251,7 +263,7 @@
 		align-items: center;
 		justify-content: center;
 		margin-top: 25%;
-		height: 420rpx;
+		height: 420px;
 		flex-flow: row wrap;
 	}
 
@@ -267,23 +279,26 @@
 	.itemBox {
 		display: flex;
 		flex-direction: row;
-		height: 90rpx;
+		height: 90px;
 		width: 660rpx;
 	}
 
 	.textBox {
-		width: 160rpx;
+		display: flex;
+		align-items: center;
 		text-align: center;
-		padding-top: 28rpx;
+		width: 160rpx;
 	}
 
 	.inputBox {
+		display: flex;
+		align-items: center;
+		text-align: center;
 		width: 500rpx;
-		height: 50rpx;
 	}
 
 	.sexChoosing {
-		margin-top: 20rpx;
+		
 		margin-right: 120rpx;
 	}
 </style>
