@@ -587,6 +587,7 @@
 					success: (res) => {
 						if (res.data.infoAmount == 0) {
 							uni.showToast({
+								icon:"none",
 								title: "已经没有更多评论了，快去评论吧！"
 							})
 						}

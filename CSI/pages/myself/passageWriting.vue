@@ -2,9 +2,9 @@
 	<view class="passageWriting">
 		<!-- 编辑文章内容区域 -->
 		<view class="writingArea">
-			<u--input class="infoAge" placeholder="请输入文章标题" border="surround" v-model="title">
+			<u--input class="infoAge" placeholder="请输入文章标题" border="surround" maxlength=12 v-model="title">
 			</u--input>
-			<u--input class="infoAge" placeholder="请输入文章简介" border="surround" v-model="abstract">
+			<u--input class="infoAge" placeholder="请输入文章简介" border="surround" maxlength=15 v-model="abstract">
 			</u--input>
 			<u--textarea v-model="passageContent" placeholder="请输入内容" height=180 maxlength=512 :count="true"
 				confirmType="done">
@@ -70,10 +70,11 @@
 			},
 			getVoiceSetting() {
 				let _this = this;
-				_this.voiceSetting=uni.getStorageSync('voice_setting');
+				_this.voiceSetting = uni.getStorageSync('voice_setting');
 			},
 			generate() { //生成音频
 				this.getVoiceSetting();
+				let _this=this;
 				if (this.passageContent == "") {
 					uni.showToast({
 						icon: "error",
@@ -96,13 +97,22 @@
 							postContent: passContent
 						},
 						success: (res) => {
-							this.current.src = res.data.postTts;
-							uni.showToast({
-								title: "已生成",
-								icon: "success",
-								duration: 2000
-							})
-							this.show = true;
+							console.log(res.data);
+							if("postTts" in res.data && res.data.postTts !="") {
+								this.current.src = res.data.postTts;
+								uni.showToast({
+									title: "已生成",
+									icon: "success",
+									duration: 2000
+								})
+								this.show = true;
+							}
+							else{
+								uni.showToast({
+									icon: "none",
+									title: "请不要只输入敏感信息或表情！"
+								})
+							}
 						}
 					})
 				}
@@ -113,14 +123,11 @@
 						icon: "error",
 						title: '内容不能为空!'
 					});
-				}
-				else if(this.current.src == ""){
+				} else if (this.current.src == "") {
 					uni.showToast({
-						icon: "error",
 						title: '请先生成音频!'
 					});
-				}
-				else {
+				} else {
 					let passTitle = this.title;
 					let passAb = this.abstract;
 					let text = this.passageContent;

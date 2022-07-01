@@ -82,18 +82,6 @@
 					{
 						name: 'volume-fill',
 						title: '度米朵' //度米朵
-					},
-					{
-						name: 'volume-fill',
-						title: '度博文' //度博文
-					},
-					{
-						name: 'volume-fill',
-						title: '度小童' //度小童
-					},
-					{
-						name: 'volume-fill',
-						title: '度小萌' //度小萌
 					}
 				],
 				testLis: { //播放器ui元素的来源
@@ -157,7 +145,6 @@
 				let passSpd = _this.speed;
 				let passPit = _this.tune;
 				let passVol = _this.volume;
-				console.log(passSpd);
 				let passContent = "衬衫的价格为九镑十五便士，所以你选择C项，并将其标在试卷上。";
 				uni.request({ //请求音频
 					url: 'http://106.14.62.110:8080/sound/generate',
@@ -199,7 +186,6 @@
 				let _this = this;
 				let loginSet = uni.getStorageSync('login_token');
 				_this.token = loginSet;
-				console.log(_this.token);
 				var voiceSetting = { //语音设置
 					ttsSpd: _this.speed,
 					ttsPit: _this.tune,
@@ -211,7 +197,6 @@
 					data: voiceSetting,
 					success() {}
 				});
-				console.log(_this.speed);
 				uni.request({
 					url: 'http://106.14.62.110:8080/sound/setting',
 					method: "POST",
@@ -223,6 +208,7 @@
 						ttsPer: _this.timbre
 					},
 					success: res => {
+						console.log(res.data);
 						if (res.statusCode == 404) {
 							uni.showToast({
 								icon: "error",

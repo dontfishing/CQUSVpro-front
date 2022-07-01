@@ -115,7 +115,6 @@
 					tmp3.likesSum = ob.essayPostLike3; // 点赞数
 					tmp3.commentSum = ob.essayComment3; // 评论数
 					tmp3.id = ob.essayPostId3; //文章id
-					
 					tmp3.poster = ob.essayUserImg3; // 播放背景图片,默认为用户头像
 					tmp3.src =
 						'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3'; // 音频来源
@@ -171,10 +170,9 @@
 			goToDetail(index) { //加载文章详情页
 				let tmp =this.passageList[index];
 				uni.setStorage({
-					key: 'passage_detail',
-					data: tmp,
+					key: 'postID',
+					data: tmp.id,
 					success: function() {
-						
 					}
 				});
 				uni.navigateTo({

@@ -92,13 +92,20 @@
 						},
 						success: (res) => {
 							console.log(res.data);
-							_this.current.src = res.data.postTts;
-							uni.showToast({
-								title: "已生成",
-								icon: "success",
-								duration: 2000
-							})
-							_this.show = true;
+							if ("postTts" in res.data && res.data.postTts != "") {
+								_this.current.src = res.data.postTts;
+								uni.showToast({
+									title: "已生成",
+									icon: "success",
+									duration: 2000
+								})
+								_this.show = true;
+							} else {
+								uni.showToast({
+									icon: "none",
+									title: "请不要只输入敏感信息或表情！"
+								})
+							}
 						}
 					})
 				}

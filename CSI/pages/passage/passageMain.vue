@@ -2,13 +2,12 @@
 	<view class="passageGround">
 
 		<!-- 搜索区域 -->
-		<view class="searchArea">
-			<!-- 搜索栏 -->
+		<!-- <view class="searchArea">
 			<view class="searchBar">
 				<u-search placeholder="请输入搜索关键词" borderColor="#e9e9e9" shape="square" v-model="keyword" clearabled
 					bgColor="white"></u-search>
 			</view>
-		</view>
+		</view> -->
 
 		<!-- 具体内容 -->
 		<view class="contentArea">
@@ -159,7 +158,6 @@
 						postId: postId
 					},
 					success: (res) => {
-						// console.log(res.data);
 						_this.updatePass(res.data);
 					}
 				})
@@ -209,7 +207,6 @@
 
 			onReachBottom() { // 上划加载
 				var len = this.passageList.length;
-				// console.log(JSON.stringify(this.passageList[len - 1]));
 				this.refresh(this.passageList[len - 1]);
 			},
 		}
@@ -233,12 +230,6 @@
 		flex-direction: row;
 	}
 
-	/* 	.progressLine{
-		margin: 2px 2px 0px 0px;
-		
-		justify-content: center;
-	}
- */
 	.comAndLikes {
 		display: flex;
 		flex-direction: row;
