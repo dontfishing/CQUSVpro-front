@@ -66,6 +66,7 @@
 							});
 							//return;
 						} else {
+							console.log(res.data.admin);
 							uni.showToast({
 								icon: 'none',
 								title: '登录成功'

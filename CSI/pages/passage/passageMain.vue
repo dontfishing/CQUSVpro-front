@@ -1,13 +1,12 @@
 <template>
 	<view class="passageGround">
 
-		<!-- 搜索区域 -->
-		<!-- <view class="searchArea">
+		<view class="searchArea">
 			<view class="searchBar">
 				<u-search placeholder="请输入搜索关键词" borderColor="#e9e9e9" shape="square" v-model="keyword" clearabled
 					bgColor="white"></u-search>
 			</view>
-		</view> -->
+		</view>
 
 		<!-- 具体内容 -->
 		<view class="contentArea">
@@ -36,7 +35,6 @@
 							<u-icon name="thumb-up" size="25"></u-icon>
 							<!-- 点赞数 -->
 							<text>{{passageList[index].likesSum}}</text>
-							<!-- <u--text :v-text="passageList[index].likesSum"></u--text> -->
 						</view>
 					</view>
 				</uni-card>

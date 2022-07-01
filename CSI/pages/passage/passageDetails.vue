@@ -37,6 +37,8 @@
 				<u-icon :name="likeIcon" :label="likeSum" labelSize="14" labelColor="rgb(100,100,100)" size="25"
 					@click="clickLikeIcon()"></u-icon>
 			</view>
+			<u-button class="deleteBtn" v-show="admin" type="primary" size="mini" color="#f56c6c"
+				@click="deletePass(postID)" text="删除"></u-button>
 		</view>
 
 		<!-- 评论区 -->
@@ -56,11 +58,15 @@
 				</view>
 
 				<!-- 点赞踩栏 -->
-				<view class="LikesAndDisl">
-					<u-icon :name="commentList[index].cmtDisLikeState ?'thumb-down-fill':'thumb-down'" size="25"
-						@click="clickComDislikeIcon(index)"></u-icon>
-					<u-icon :name="commentList[index].cmtLikeState?'thumb-up-fill':'thumb-up'" size="25"
-						@click="clickComLikeIcon(index)"></u-icon>
+				<view class="cardBottom">
+					<u-button class="deleteBtn" type="mini" v-show="admin" size="mini" color="#f56c6c"
+						@click="deleteCmt(commentList[index].cmtId)" text="删除"></u-button>
+					<view class="LikesAndDisl">
+						<u-icon :name="commentList[index].cmtDisLikeState ?'thumb-down-fill':'thumb-down'" size="25"
+							@click="clickComDislikeIcon(index)"></u-icon>
+						<u-icon :name="commentList[index].cmtLikeState?'thumb-up-fill':'thumb-up'" size="25"
+							@click="clickComLikeIcon(index)"></u-icon>
+					</view>
 				</view>
 			</uni-card>
 		</view>
@@ -72,7 +78,6 @@
 
 	</view>
 </template>
-
 <script>
 	export default {
 		data() {
@@ -445,7 +450,6 @@
 								})
 							} else {
 								this.commentList[index].cmtLikeState = true;
-
 							}
 						},
 
@@ -569,6 +573,56 @@
 					}
 				}
 			},
+			deletePass(id) {
+				let Token = uni.getStorageSync('login_token');
+				uni.request({
+					url: 'http://106.14.62.110:8080/admin/DeletePost',
+					method: "POST",
+					data: {
+						token: Token,
+						postId: id
+					},
+					success: (res) => {
+						console.log(res.data);
+						if ("success" in res.data) {
+							uni.showToast({
+								icon: "none",
+								title: "删除成功！"
+							})
+							uni.switchTab({
+								url: './passageMain',
+								success() {
+									console.log("管理员成功删除文章")
+								}
+							})
+						}
+					}
+				})
+			},
+			deleteCmt(id) {
+				let num = id;
+				let _this = this;
+				let Token = uni.getStorageSync('login_token');
+				uni.request({
+					url: 'http://106.14.62.110:8080/admin/DeleteComment',
+					method: "POST",
+					data: {
+						token: Token,
+						cmtId: num
+					},
+					success: (res) => {
+						console.log(res.data);
+						if ("success" in res.data) {
+							uni.showToast({
+								icon: "none",
+								title: "删除成功！"
+							})
+							_this.commentList=[];
+							_this.getPassageInfo()
+						}
+					}
+				})
+			},
 			getCom(index) { //获取评论
 				let _this = this;
 				let postTime = _this.commentList[index].cmtTime;
@@ -587,7 +641,7 @@
 					success: (res) => {
 						if (res.data.infoAmount == 0) {
 							uni.showToast({
-								icon:"none",
+								icon: "none",
 								title: "已经没有更多评论了，快去评论吧！"
 							})
 						}
@@ -746,5 +800,13 @@
 		border-radius: 1%;
 		padding: 1% 2% 1% 2%;
 		background-color: white;
+	}
+
+	.deleteBtn {
+		width: 100rpx;
+		margin-left: 10rpx;
+	}
+	.cardBottom{
+		display: flex;
 	}
 </style>

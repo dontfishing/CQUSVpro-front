@@ -2,8 +2,8 @@
     "name" : "语音心情吧",
     "appid" : "__UNI__F31E0F8",
     "description" : "",
-    "versionName" : "1.0.6",
-    "versionCode" : 160,
+    "versionName" : "1.0.8",
+    "versionCode" : 180,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {

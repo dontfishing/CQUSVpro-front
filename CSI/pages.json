@@ -5,7 +5,8 @@
 			"path": "pages/passage/passageMain",
 			"style": {
 				"navigationBarTitleText": "文章广场",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 150
 			}
 		},
 		{
@@ -76,6 +77,12 @@
 			"path": "pages/myself/myComment",
 			"style": {
 				"navigationBarTitleText": "我的评论"
+			}
+		},
+		{
+			"path": "pages/set/adminMain",
+			"style": {
+				"navigationBarTitleText": "管理员页面"
 			}
 		}
 	],
