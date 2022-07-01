@@ -10,10 +10,9 @@
 		<view class="oper-wrapper" :style="{display: sD, top:tp}">
 			<view class="oper">
 				<view class="btn-wrapper" v-if="sO">
-					<view @click="fSelect" hover-class="hover" :style="{width: bW}"><text>重选</text></view>
 					<view @click="fClose" hover-class="hover" :style="{width: bW}"><text>关闭</text></view>
+					<view @click="fSelect" hover-class="hover" :style="{width: bW}"><text>重选</text></view>
 					<view @click="fRotate" hover-class="hover" :style="{width: bW, display: bD}"><text>旋转</text></view>
-					<view @click="fPreview" hover-class="hover" :style="{width: bW}"><text>预览</text></view>
 					<view @click="fUpload" hover-class="hover" :style="{width: bW}"><text>上传</text></view>
 				</view>
 				<view class="clr-wrapper" v-else>
@@ -1294,7 +1293,7 @@
 	.oper-wrapper {
 		height: 50px;
 		position: fixed;
-		bottom: 0px;
+		bottom: 10px;
 		box-sizing: border-box;
 		border: 1px solid #F1F1F1;
 		background: #ffffff;

@@ -20,7 +20,7 @@
 					<view class="player">
 						<audio style="text-align: left" :src="passageList[index].src" :poster="passageList[index].poster"
 							:name="passageList[index].title" :author="passageList[index].abstract" :loop="false"
-							controls="true" @play="play()"></audio>
+							controls="true"></audio>
 					</view>
 					
 					<!-- 点赞评论栏 -->
@@ -152,8 +152,6 @@
 			refresh(ob) { //上划加载更多的函数，会传入最下面文章的id
 				let _this = this;
 				const postId = ob.id;
-				console.log("main:", postId);
-
 				uni.request({ //获取远端数据
 					url: 'http://106.14.62.110:8080/essay/afterRefresh',
 					method: "POST",

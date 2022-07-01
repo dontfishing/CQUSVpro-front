@@ -340,11 +340,6 @@ var render = function() {
                           loop: false,
                           controls: "true",
                           _i: "8-" + $30
-                        },
-                        on: {
-                          play: function($event) {
-                            return _vm.$handleViewEvent($event)
-                          }
                         }
                       })
                     ],
@@ -2310,6 +2305,9 @@ var render = function() {
             on: {
               play: function($event) {
                 return _vm.$handleViewEvent($event)
+              },
+              pause: function($event) {
+                return _vm.$handleViewEvent($event)
               }
             }
           })
@@ -2398,6 +2396,9 @@ var render = function() {
                         _i: "21-" + $30
                       },
                       on: {
+                        pause: function($event) {
+                          return _vm.$handleViewEvent($event)
+                        },
                         play: function($event) {
                           return _vm.$handleViewEvent($event)
                         }
@@ -8435,7 +8436,7 @@ var render = function() {
                         },
                         [
                           _c("v-uni-text", { attrs: { _i: 9 } }, [
-                            _vm._v("重选")
+                            _vm._v("关闭")
                           ])
                         ],
                         1
@@ -8453,7 +8454,7 @@ var render = function() {
                         },
                         [
                           _c("v-uni-text", { attrs: { _i: 11 } }, [
-                            _vm._v("关闭")
+                            _vm._v("重选")
                           ])
                         ],
                         1
@@ -8489,24 +8490,6 @@ var render = function() {
                         },
                         [
                           _c("v-uni-text", { attrs: { _i: 15 } }, [
-                            _vm._v("预览")
-                          ])
-                        ],
-                        1
-                      ),
-                      _c(
-                        "uni-view",
-                        {
-                          style: _vm._$g(16, "s"),
-                          attrs: { "hover-class": "hover", _i: 16 },
-                          on: {
-                            click: function($event) {
-                              return _vm.$handleViewEvent($event)
-                            }
-                          }
-                        },
-                        [
-                          _c("v-uni-text", { attrs: { _i: 17 } }, [
                             _vm._v("上传")
                           ])
                         ],
@@ -8517,10 +8500,10 @@ var render = function() {
                   )
                 : _c(
                     "uni-view",
-                    { staticClass: _vm._$g(18, "sc"), attrs: { _i: 18 } },
+                    { staticClass: _vm._$g(16, "sc"), attrs: { _i: 16 } },
                     [
                       _c("v-uni-slider", {
-                        staticClass: _vm._$g(19, "sc"),
+                        staticClass: _vm._$g(17, "sc"),
                         attrs: {
                           "block-size": "25",
                           value: "0",
@@ -8530,7 +8513,7 @@ var render = function() {
                           backgroundColor: "green",
                           "block-color": "grey",
                           "show-value": true,
-                          _i: 19
+                          _i: 17
                         },
                         on: {
                           change: function($event) {
@@ -8541,8 +8524,8 @@ var render = function() {
                       _c(
                         "uni-view",
                         {
-                          style: _vm._$g(20, "s"),
-                          attrs: { "hover-class": "hover", _i: 20 },
+                          style: _vm._$g(18, "s"),
+                          attrs: { "hover-class": "hover", _i: 18 },
                           on: {
                             click: function($event) {
                               return _vm.$handleViewEvent($event)
@@ -8550,7 +8533,7 @@ var render = function() {
                           }
                         },
                         [
-                          _c("v-uni-text", { attrs: { _i: 21 } }, [
+                          _c("v-uni-text", { attrs: { _i: 19 } }, [
                             _vm._v("上传")
                           ])
                         ],
@@ -8657,7 +8640,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../hb/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\nbody[data-v-795a15bc]{\n}\n.my-canvas[data-v-795a15bc] {\n\tdisplay: flex;\n\tposition: fixed !important;\n\tbackground: #000000;\n\tleft: 0;\n\tz-index: 100000;\n\twidth: 100%;\n}\n.my-avatar[data-v-795a15bc] {\n\twidth: 150upx;\n\theight: 150upx;\n\tborder-radius: 100%;\n}\n.oper-canvas[data-v-795a15bc] {\n\tdisplay: flex;\n\tposition: fixed !important;\n\tleft: 0;\n\tz-index: 100001;\n\twidth: 100%;\n}\n.prv-canvas[data-v-795a15bc] {\n\tdisplay: flex;\n\tposition: fixed !important;\n\tbackground: #000000;\n\tleft: 0;\n\tz-index: 200000;\n\twidth: 100%;\n}\n.oper-wrapper[data-v-795a15bc] {\n\theight: 50px;\n\tposition: fixed;\n\tbottom: 0px;\n\tbox-sizing: border-box;\n\tborder: 1px solid #F1F1F1;\n\tbackground: #ffffff;\n\twidth: 100%;\n\tleft: 0%;\n\tz-index: 300000;\n\tflex-direction: row;\n}\n.oper[data-v-795a15bc] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tjustify-content: center;\n\tpadding: 10upx 20upx;\n\twidth: 100%;\n\theight: 100%;\n\tbox-sizing: border-box;\n\talign-self: center;\n}\n.btn-wrapper[data-v-795a15bc] {\n\tdisplay: flex;\n\tflex-direction: row;\n\n\tflex-grow: 1;\n\n\n\n\n\tjustify-content: space-between;\n}\n.btn-wrapper uni-view[data-v-795a15bc] {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tfont-size: 16px;\n\tcolor: #333;\n\tborder: 1px solid #f1f1f1;\n\tborder-radius: 6%;\n}\n.hover[data-v-795a15bc] {\n\tbackground: #f1f1f1;\n\tborder-radius: 6%;\n}\n.clr-wrapper[data-v-795a15bc] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-grow: 1;\n}\n.clr-wrapper uni-view[data-v-795a15bc] {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tfont-size: 16px;\n\tcolor: #333;\n\tborder: 1px solid #f1f1f1;\n\tborder-radius: 6%;\n}\n.my-slider[data-v-795a15bc] {\n\tflex-grow: 1;\n}\n", ""]);
+exports.push([module.i, "\nbody[data-v-795a15bc]{\n}\n.my-canvas[data-v-795a15bc] {\n\tdisplay: flex;\n\tposition: fixed !important;\n\tbackground: #000000;\n\tleft: 0;\n\tz-index: 100000;\n\twidth: 100%;\n}\n.my-avatar[data-v-795a15bc] {\n\twidth: 150upx;\n\theight: 150upx;\n\tborder-radius: 100%;\n}\n.oper-canvas[data-v-795a15bc] {\n\tdisplay: flex;\n\tposition: fixed !important;\n\tleft: 0;\n\tz-index: 100001;\n\twidth: 100%;\n}\n.prv-canvas[data-v-795a15bc] {\n\tdisplay: flex;\n\tposition: fixed !important;\n\tbackground: #000000;\n\tleft: 0;\n\tz-index: 200000;\n\twidth: 100%;\n}\n.oper-wrapper[data-v-795a15bc] {\n\theight: 50px;\n\tposition: fixed;\n\tbottom: 10px;\n\tbox-sizing: border-box;\n\tborder: 1px solid #F1F1F1;\n\tbackground: #ffffff;\n\twidth: 100%;\n\tleft: 0%;\n\tz-index: 300000;\n\tflex-direction: row;\n}\n.oper[data-v-795a15bc] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tjustify-content: center;\n\tpadding: 10upx 20upx;\n\twidth: 100%;\n\theight: 100%;\n\tbox-sizing: border-box;\n\talign-self: center;\n}\n.btn-wrapper[data-v-795a15bc] {\n\tdisplay: flex;\n\tflex-direction: row;\n\n\tflex-grow: 1;\n\n\n\n\n\tjustify-content: space-between;\n}\n.btn-wrapper uni-view[data-v-795a15bc] {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tfont-size: 16px;\n\tcolor: #333;\n\tborder: 1px solid #f1f1f1;\n\tborder-radius: 6%;\n}\n.hover[data-v-795a15bc] {\n\tbackground: #f1f1f1;\n\tborder-radius: 6%;\n}\n.clr-wrapper[data-v-795a15bc] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-grow: 1;\n}\n.clr-wrapper uni-view[data-v-795a15bc] {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tfont-size: 16px;\n\tcolor: #333;\n\tborder: 1px solid #f1f1f1;\n\tborder-radius: 6%;\n}\n.my-slider[data-v-795a15bc] {\n\tflex-grow: 1;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -11516,7 +11499,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../hb/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.btnText {\n\tmargin-top: 6%;\n\tmargin-right: 2%;\n\tmargin-left: 2%;\n\tfont-size: 20px;\n}\n.sliderSet {\n\tborder-radius: 5%;\n\tmargin-left: 3%;\n\tmargin-right: 3%;\n\tmargin-top: 5%;\n}\n.grid-text {\n\tfont-size: 14px;\n\tcolor: #909399;\n\tpadding: 10rpx 0 20rpx 0rpx;\n}\n.player {\n\tmargin-top: 15px;\n\tmargin-left: 20%;\n}\n.btn {\n\tmargin-top: 10%;\n\tmargin-left: 30%;\n\tmargin-right: 30%;\n}\n.tryListen {\n\tmargin-top: 10%;\n\tmargin-left: 30%;\n\tmargin-right: 30%;\n\tmargin-bottom: 10%;\n}\n", ""]);
+exports.push([module.i, "\n.btnText {\n\tmargin-top: 6%;\n\tmargin-right: 2%;\n\tmargin-left: 2%;\n\tfont-size: 20px;\n}\n.sliderSet {\n\tborder-radius: 5%;\n\tmargin-left: 3%;\n\tmargin-right: 3%;\n\tmargin-top: 5%;\n}\n.grid-text {\n\tfont-size: 14px;\n\tcolor: #909399;\n\tpadding: 10rpx 0 20rpx 0rpx;\n}\n.player {\n\tdisplay: flex;\n\tjustify-content: center;\n\tmargin-top: 15px;\n}\n.btn {\n\tmargin-top: 10%;\n\tmargin-left: 30%;\n\tmargin-right: 30%;\n}\n.tryListen {\n\tmargin-top: 10%;\n\tmargin-left: 30%;\n\tmargin-right: 30%;\n\tmargin-bottom: 10%;\n}\n", ""]);
 // Exports
 module.exports = exports;
 

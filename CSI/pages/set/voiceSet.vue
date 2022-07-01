@@ -104,36 +104,36 @@
 				}
 			}
 		},
-		
+
 		onLoad() { //刚进入界面
 			let _this = this;
 			let loginSet = uni.getStorageSync('login_token');
 			_this.token = loginSet;
 			uni.request({
-				url:'http://106.14.62.110:8080/sound/info',
-				method:"POST",
-				data:{
+				url: 'http://106.14.62.110:8080/sound/info',
+				method: "POST",
+				data: {
 					token: _this.token
 				},
 				success: res => {
-					if(res.statusCode == 404) {
+					if (res.statusCode == 404) {
 						uni.showToast({
-							icon:"none",
-							title:"404 not found"
+							icon: "none",
+							title: "404 not found"
 						})
-					} else{
+					} else {
 						_this.speed = res.data.ttsSpd;
 						_this.tune = res.data.ttsPit;
 						_this.volume = res.data.ttsVol;
 						_this.timbre = res.data.ttsPer;
 						_this.timbreDisplay = _this.baseList[_this.timbre].title;
 					}
-					
+
 				}
 			})
 			_this.generate();
 		},
-		
+
 		methods: {
 			sliderChangeS(e) { //传语速设置
 				this.speed = e.detail.value;
@@ -280,8 +280,9 @@
 	}
 
 	.player {
+		display: flex;
+		justify-content: center;
 		margin-top: 15px;
-		margin-left: 20%;
 	}
 
 	.btn {

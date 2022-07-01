@@ -19,7 +19,7 @@
 		<!-- 语音播放 -->
 		<view class="player">
 			<audio style="text-align: left" :src="current.src" :poster="current.poster" :loop="false"
-				:action="audioAction" :name="current.name" controls @play="play()"></audio>
+				:action="audioAction" :name="current.name" controls @play="play()" @pause="pause()"></audio>
 		</view>
 
 		<!-- 文章内容 -->
@@ -52,7 +52,7 @@
 				<!-- 语音播放 -->
 				<view class="player">
 					<audio style="text-align: left" :src="commentList[index].cmtTts" :loop="false"
-						:poster="commentList[index].poster" controls @play="play()"></audio>
+						:poster="commentList[index].poster" controls @pause="pause()" @play="play()"></audio>
 				</view>
 
 				<!-- 点赞踩栏 -->

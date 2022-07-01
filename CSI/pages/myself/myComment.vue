@@ -167,6 +167,7 @@
  								duration: 2000
  							})
  						} else {
+							console.log(res.data);
  							uni.showToast({
  								title: '刷新成功',
  								duration: 2000
