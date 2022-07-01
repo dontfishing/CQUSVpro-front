@@ -7,13 +7,12 @@
  				<uni-card :title="passageList[index].commentId + ''" :sub-title="passageList[index].time"
  					:thumbnail="userImg">
  					<!--对方文章标题-->
- 					<u-text v-text="passageList[index].postTitle" @click="goToDetail(index)"></u-text>
+ 					<u-text class="passTitle" v-text="passageList[index].postTitle" @click="goToDetail(index)"></u-text>
  					<!--评论内容-->
  					<u-text v-text="passageList[index].cmtContent" @click="goToDetail(index)"></u-text>
  					<!-- 语音播放 -->
  					<view class="player" @click="goToDetail(index)">
- 						<audio style="text-align: left" :src="passageList[index].src" :poster="userImg"
- 							:name="passageList[index].postTitle" :author="passageList[index].postId + ''" :loop="false"
+ 						<audio style="text-align: left" :src="passageList[index].src" :poster="userImg" :loop="false"
  							controls @play="play()"></audio>
  					</view>
  					<!-- 点赞评论栏 -->
@@ -203,19 +202,21 @@
  			deletePass(index) {
  				var len = this.passageList.length;
  				let _this = this;
+				let cmdId = _this.passageList[index].commentId;
  				uni.request({
  					url: 'http://106.14.62.110:8080/comment/delete',
  					method: 'POST',
  					data: {
- 						cmtId: _this.passageList[index].commentId
+ 						cmtId: cmdId
  					},
  					success: res => {
+						console.log(res.data);
  						if (res.statusCode == 404) {
  							uni.showToast({
  								icon: 'error',
  								title: '404 not found'
  							})
- 						} else if ("Info" in res.data && res.data[Info] == "delete failed") {
+ 						} else if ("info" in res.data && res.data.info == "delete failed") {
  							uni.showToast({
  								icon: 'error',
  								title: '删除失败'
@@ -225,12 +226,12 @@
  								icon: 'success',
  								title: '删除成功'
  							})
+							_this.passageList = [];	//更新评论列表
+							_this.pullDownRefresh();
+							_this.refresh(this.passageList[len - 1]);
  						}
  					}
  				})
- 				this.passageList = [];
- 				this.pullDownRefresh();
- 				this.refresh(this.passageList[len - 1]);
  			}
  		}
  	}
@@ -277,6 +278,11 @@
  		margin-top: 20%;
  	}
 
+	.passTitle{
+		color: black;
+		font-size: 40rpx;
+		font-weight: bold;
+	}
  	.Likes {
  		//点赞数
  		display: flex;
@@ -287,7 +293,8 @@
  		display: flex;
  	}
 
- 	.deleteBtn {
+ 	.deleteBtn {	
+		//删除按钮
  		margin-left: 60%;
  		margin-right: 16%;
  	}

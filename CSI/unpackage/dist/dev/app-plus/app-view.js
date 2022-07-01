@@ -8657,7 +8657,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../hb/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\nbody[data-v-795a15bc]{\n}\n.my-canvas[data-v-795a15bc] {\n\tdisplay: flex;\n\tposition: fixed !important;\n\tbackground: #000000;\n\tleft: 0;\n\tz-index: 100000;\n\twidth: 100%;\n}\n.my-avatar[data-v-795a15bc] {\n\twidth: 150upx;\n\theight: 150upx;\n\tborder-radius: 100%;\n}\n.oper-canvas[data-v-795a15bc] {\n\tdisplay: flex;\n\tposition: fixed !important;\n\tleft: 0;\n\tz-index: 100001;\n\twidth: 100%;\n}\n.prv-canvas[data-v-795a15bc] {\n\tdisplay: flex;\n\tposition: fixed !important;\n\tbackground: #000000;\n\tleft: 0;\n\tz-index: 200000;\n\twidth: 100%;\n}\n.oper-wrapper[data-v-795a15bc] {\n\theight: 50px;\n\tposition: fixed;\n\tbottom: 10px;\n\tbox-sizing: border-box;\n\tborder: 1px solid #F1F1F1;\n\tbackground: #ffffff;\n\twidth: 100%;\n\tleft: 0%;\n\tz-index: 9999999;\n\tflex-direction: row;\n}\n.oper[data-v-795a15bc] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tjustify-content: center;\n\tpadding: 10upx 20upx;\n\twidth: 100%;\n\theight: 100%;\n\tbox-sizing: border-box;\n\talign-self: center;\n}\n.btn-wrapper[data-v-795a15bc] {\n\tdisplay: flex;\n\tflex-direction: row;\n\n\tflex-grow: 1;\n\n\n\n\n\tjustify-content: space-between;\n}\n.btn-wrapper uni-view[data-v-795a15bc] {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tfont-size: 16px;\n\tcolor: #333;\n\tborder: 1px solid #f1f1f1;\n\tborder-radius: 6%;\n}\n.hover[data-v-795a15bc] {\n\tbackground: #f1f1f1;\n\tborder-radius: 6%;\n}\n.clr-wrapper[data-v-795a15bc] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-grow: 1;\n}\n.clr-wrapper uni-view[data-v-795a15bc] {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tfont-size: 16px;\n\tcolor: #333;\n\tborder: 1px solid #f1f1f1;\n\tborder-radius: 6%;\n}\n.my-slider[data-v-795a15bc] {\n\tflex-grow: 1;\n}\n", ""]);
+exports.push([module.i, "\nbody[data-v-795a15bc]{\n}\n.my-canvas[data-v-795a15bc] {\n\tdisplay: flex;\n\tposition: fixed !important;\n\tbackground: #000000;\n\tleft: 0;\n\tz-index: 100000;\n\twidth: 100%;\n}\n.my-avatar[data-v-795a15bc] {\n\twidth: 150upx;\n\theight: 150upx;\n\tborder-radius: 100%;\n}\n.oper-canvas[data-v-795a15bc] {\n\tdisplay: flex;\n\tposition: fixed !important;\n\tleft: 0;\n\tz-index: 100001;\n\twidth: 100%;\n}\n.prv-canvas[data-v-795a15bc] {\n\tdisplay: flex;\n\tposition: fixed !important;\n\tbackground: #000000;\n\tleft: 0;\n\tz-index: 200000;\n\twidth: 100%;\n}\n.oper-wrapper[data-v-795a15bc] {\n\theight: 50px;\n\tposition: fixed;\n\tbottom: 0px;\n\tbox-sizing: border-box;\n\tborder: 1px solid #F1F1F1;\n\tbackground: #ffffff;\n\twidth: 100%;\n\tleft: 0%;\n\tz-index: 300000;\n\tflex-direction: row;\n}\n.oper[data-v-795a15bc] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tjustify-content: center;\n\tpadding: 10upx 20upx;\n\twidth: 100%;\n\theight: 100%;\n\tbox-sizing: border-box;\n\talign-self: center;\n}\n.btn-wrapper[data-v-795a15bc] {\n\tdisplay: flex;\n\tflex-direction: row;\n\n\tflex-grow: 1;\n\n\n\n\n\tjustify-content: space-between;\n}\n.btn-wrapper uni-view[data-v-795a15bc] {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tfont-size: 16px;\n\tcolor: #333;\n\tborder: 1px solid #f1f1f1;\n\tborder-radius: 6%;\n}\n.hover[data-v-795a15bc] {\n\tbackground: #f1f1f1;\n\tborder-radius: 6%;\n}\n.clr-wrapper[data-v-795a15bc] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-grow: 1;\n}\n.clr-wrapper uni-view[data-v-795a15bc] {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tfont-size: 16px;\n\tcolor: #333;\n\tborder: 1px solid #f1f1f1;\n\tborder-radius: 6%;\n}\n.my-slider[data-v-795a15bc] {\n\tflex-grow: 1;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -10584,7 +10584,11 @@ var render = function() {
         "uni-view",
         { staticClass: _vm._$g(1, "sc"), attrs: { _i: 1 } },
         [
-          _c("v-uni-text", { attrs: { _i: 2 } }, [_vm._v("语速")]),
+          _c(
+            "v-uni-text",
+            { staticClass: _vm._$g(2, "sc"), attrs: { _i: 2 } },
+            [_vm._v("语速")]
+          ),
           _c("v-uni-slider", {
             attrs: {
               value: _vm._$g(3, "a-value"),
@@ -10606,7 +10610,11 @@ var render = function() {
         "uni-view",
         { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
         [
-          _c("v-uni-text", { attrs: { _i: 5 } }, [_vm._v("音调")]),
+          _c(
+            "v-uni-text",
+            { staticClass: _vm._$g(5, "sc"), attrs: { _i: 5 } },
+            [_vm._v("音调")]
+          ),
           _c("v-uni-slider", {
             attrs: {
               value: _vm._$g(6, "a-value"),
@@ -10628,7 +10636,11 @@ var render = function() {
         "uni-view",
         { staticClass: _vm._$g(7, "sc"), attrs: { _i: 7 } },
         [
-          _c("v-uni-text", { attrs: { _i: 8 } }, [_vm._v("音量")]),
+          _c(
+            "v-uni-text",
+            { staticClass: _vm._$g(8, "sc"), attrs: { _i: 8 } },
+            [_vm._v("音量")]
+          ),
           _c("v-uni-slider", {
             attrs: {
               value: _vm._$g(9, "a-value"),
@@ -10671,15 +10683,30 @@ var render = function() {
         "uni-view",
         { staticClass: _vm._$g(14, "sc"), attrs: { _i: 14 } },
         [
+          _c("u-button", {
+            attrs: { _i: 15 },
+            on: {
+              click: function($event) {
+                return _vm.$handleViewEvent($event)
+              }
+            }
+          })
+        ],
+        1
+      ),
+      _c(
+        "uni-view",
+        { staticClass: _vm._$g(16, "sc"), attrs: { _i: 16 } },
+        [
           _c("v-uni-audio", {
             staticStyle: { "text-align": "left" },
             attrs: {
-              src: _vm._$g(15, "a-src"),
-              poster: _vm._$g(15, "a-poster"),
-              name: _vm._$g(15, "a-name"),
-              author: _vm._$g(15, "a-author"),
+              src: _vm._$g(17, "a-src"),
+              poster: _vm._$g(17, "a-poster"),
+              name: _vm._$g(17, "a-name"),
+              author: _vm._$g(17, "a-author"),
               controls: true,
-              _i: 15
+              _i: 17
             },
             on: {
               pause: function($event) {
@@ -10695,10 +10722,10 @@ var render = function() {
       ),
       _c(
         "uni-view",
-        { staticClass: _vm._$g(16, "sc"), attrs: { _i: 16 } },
+        { staticClass: _vm._$g(18, "sc"), attrs: { _i: 18 } },
         [
           _c("u-button", {
-            attrs: { _i: 17 },
+            attrs: { _i: 19 },
             on: {
               click: function($event) {
                 return _vm.$handleViewEvent($event)
@@ -10711,7 +10738,7 @@ var render = function() {
       _c(
         "u-popup",
         {
-          attrs: { _i: 18 },
+          attrs: { _i: 20 },
           on: {
             close: function($event) {
               return _vm.$handleViewEvent($event)
@@ -10724,25 +10751,25 @@ var render = function() {
         [
           _c(
             "uni-view",
-            { attrs: { _i: 19 } },
+            { attrs: { _i: 21 } },
             [
               _c(
                 "u-grid",
                 {
-                  attrs: { _i: 20 },
+                  attrs: { _i: 22 },
                   on: {
                     click: function($event) {
                       return _vm.$handleViewEvent($event)
                     }
                   },
                   model: {
-                    value: _vm._$g(20, "v-model"),
+                    value: _vm._$g(22, "v-model"),
                     callback: function() {},
                     expression: "timbreDisplay"
                   }
                 },
                 [
-                  _vm._l(_vm._$g(21, "f"), function(
+                  _vm._l(_vm._$g(23, "f"), function(
                     baseListItem,
                     baseListIndex,
                     $20,
@@ -10750,22 +10777,22 @@ var render = function() {
                   ) {
                     return _c(
                       "u-grid-item",
-                      { key: baseListItem, attrs: { _i: "21-" + $30 } },
+                      { key: baseListItem, attrs: { _i: "23-" + $30 } },
                       [
-                        _c("u-icon", { attrs: { _i: "22-" + $30 } }),
+                        _c("u-icon", { attrs: { _i: "24-" + $30 } }),
                         _c(
                           "v-uni-text",
                           {
-                            staticClass: _vm._$g("23-" + $30, "sc"),
-                            attrs: { _i: "23-" + $30 }
+                            staticClass: _vm._$g("25-" + $30, "sc"),
+                            attrs: { _i: "25-" + $30 }
                           },
-                          [_vm._v(_vm._$g("23-" + $30, "t0-0"))]
+                          [_vm._v(_vm._$g("25-" + $30, "t0-0"))]
                         )
                       ],
                       1
                     )
                   }),
-                  _c("u-toast", { ref: "uToast", attrs: { _i: 24 } })
+                  _c("u-toast", { ref: "uToast", attrs: { _i: 26 } })
                 ],
                 2
               )
@@ -11489,7 +11516,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../hb/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\nuni-text {\n\tmargin-top: 6%;\n\tmargin-right: 2%;\n\tmargin-left: 2%;\n\tfont-size: 20px;\n}\n.sliderSet {\n\tborder-radius: 5%;\n\tmargin-left: 3%;\n\tmargin-right: 3%;\n\tmargin-top: 5%;\n}\n.grid-text {\n\tfont-size: 14px;\n\tcolor: #909399;\n\tpadding: 10rpx 0 20rpx 0rpx;\n}\n.player {\n\tmargin-top: 15px;\n\tmargin-left: 20%;\n}\n.btn {\n\tmargin-top: 10%;\n}\n", ""]);
+exports.push([module.i, "\n.btnText {\n\tmargin-top: 6%;\n\tmargin-right: 2%;\n\tmargin-left: 2%;\n\tfont-size: 20px;\n}\n.sliderSet {\n\tborder-radius: 5%;\n\tmargin-left: 3%;\n\tmargin-right: 3%;\n\tmargin-top: 5%;\n}\n.grid-text {\n\tfont-size: 14px;\n\tcolor: #909399;\n\tpadding: 10rpx 0 20rpx 0rpx;\n}\n.player {\n\tmargin-top: 15px;\n\tmargin-left: 20%;\n}\n.btn {\n\tmargin-top: 10%;\n\tmargin-left: 30%;\n\tmargin-right: 30%;\n}\n.tryListen {\n\tmargin-top: 10%;\n\tmargin-left: 30%;\n\tmargin-right: 30%;\n\tmargin-bottom: 10%;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -11788,7 +11815,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../hb/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* \tpage {\n\tbackground-color: #f5f6f7;\n} */\n.allInput {\n\tdisplay: flex;\n\tflex-direction: column;\n\tmargin: 20%;\n\tjustify-content: center;\n\talign-items: center;\n}\n.title {\n\tmargin-top: 80rpx;\n\tmargin-left: 40rpx;\n\tfont-family: Harrington;\n}\n.welcome {\n\tfont-size: 50px;\n\tcolor: #212121;\n\tfont-weight: bold;\n}\n.voice {\n\tfont-size: 20px;\n\tcolor: #212121;\n}\n.Input {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: nowrap;\n\tmargin-top: 10%;\n\tmargin-left: 8%;\n\tmargin-right: 8%;\n}\n.uButton {\n\tmargin-left: 20%;\n}\n.reg {\n\tmargin-top: 8%;\n\tmargin-left: 30%;\n\tmargin-right: 30%;\n}\n.uReg {\n\twidth: 40%;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* \tpage {\n\tbackground-color: #f5f6f7;\n} */\n.allInput {\n\tdisplay: flex;\n\tflex-direction: column;\n\tmargin: 20%;\n\tjustify-content: center;\n\talign-items: center;\n}\n.title {\n\tmargin-top: 80rpx;\n\tmargin-left: 40rpx;\n\tfont-family: Harrington;\n}\n.welcome {\n\tfont-size: 50px;\n\tcolor: #212121;\n\tfont-weight: bold;\n}\n.voice {\n\tfont-size: 20px;\n\tcolor: #212121;\n}\n.Input {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: nowrap;\n\tmargin-top: 10%;\n\tmargin-left: 8%;\n\tmargin-right: 8%;\n}\n.uButton {\n\tmargin-left: 20%;\n}\n.reg {\n\tmargin-top: 8%;\n\tmargin-left: 30%;\n\tmargin-right: 30%;\n}\n.uReg {\n\twidth: 40%;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -11915,93 +11942,137 @@ var render = function() {
             "uni-view",
             { staticClass: _vm._$g(2, "sc"), attrs: { _i: 2 } },
             [
-              _c("v-uni-text", { attrs: { _i: 3 } }, [_vm._v("账号")]),
-              _c("br", { attrs: { _i: 4 } }),
-              _c("v-uni-text", { attrs: { _i: 5 } }, [_vm._v("密码")]),
-              _c("br", { attrs: { _i: 6 } }),
-              _c("v-uni-text", { attrs: { _i: 7 } }, [_vm._v("确认密码")]),
-              _c("br", { attrs: { _i: 8 } }),
-              _c("v-uni-text", { attrs: { _i: 9 } }, [_vm._v("性别")]),
-              _c("br", { attrs: { _i: 10 } }),
-              _c("v-uni-text", { attrs: { _i: 11 } }, [_vm._v("生日")]),
-              _c("br", { attrs: { _i: 12 } }),
-              _c("v-uni-text", { attrs: { _i: 13 } }, [_vm._v("邮箱")])
+              _c(
+                "v-uni-text",
+                { staticClass: _vm._$g(3, "sc"), attrs: { _i: 3 } },
+                [_vm._v("账号")]
+              ),
+              _c("u--input", {
+                staticClass: _vm._$g(4, "sc"),
+                attrs: { _i: 4 },
+                model: {
+                  value: _vm._$g(4, "v-model"),
+                  callback: function() {},
+                  expression: "valueAc"
+                }
+              })
             ],
             1
           ),
           _c(
             "uni-view",
-            { staticClass: _vm._$g(14, "sc"), attrs: { _i: 14 } },
+            { staticClass: _vm._$g(5, "sc"), attrs: { _i: 5 } },
             [
+              _c(
+                "v-uni-text",
+                { staticClass: _vm._$g(6, "sc"), attrs: { _i: 6 } },
+                [_vm._v("密码")]
+              ),
               _c("u--input", {
-                staticClass: _vm._$g(15, "sc"),
-                attrs: { _i: 15 },
+                staticClass: _vm._$g(7, "sc"),
+                attrs: { _i: 7 },
                 model: {
-                  value: _vm._$g(15, "v-model"),
-                  callback: function() {},
-                  expression: "valueAc"
-                }
-              }),
-              _c("br", { attrs: { _i: 16 } }),
-              _c("u--input", {
-                staticClass: _vm._$g(17, "sc"),
-                attrs: { _i: 17 },
-                model: {
-                  value: _vm._$g(17, "v-model"),
+                  value: _vm._$g(7, "v-model"),
                   callback: function() {},
                   expression: "valuePsw"
                 }
-              }),
-              _c("br", { attrs: { _i: 18 } }),
+              })
+            ],
+            1
+          ),
+          _c(
+            "uni-view",
+            { staticClass: _vm._$g(8, "sc"), attrs: { _i: 8 } },
+            [
+              _c(
+                "v-uni-text",
+                { staticClass: _vm._$g(9, "sc"), attrs: { _i: 9 } },
+                [_vm._v("确认密码")]
+              ),
               _c("u--input", {
-                staticClass: _vm._$g(19, "sc"),
-                attrs: { _i: 19 },
+                staticClass: _vm._$g(10, "sc"),
+                attrs: { _i: 10 },
                 model: {
-                  value: _vm._$g(19, "v-model"),
+                  value: _vm._$g(10, "v-model"),
                   callback: function() {},
                   expression: "valuePwAgain"
                 }
-              }),
-              _c("br", { attrs: { _i: 20 } }),
+              })
+            ],
+            1
+          ),
+          _c(
+            "uni-view",
+            { staticClass: _vm._$g(11, "sc"), attrs: { _i: 11 } },
+            [
+              _c(
+                "v-uni-text",
+                { staticClass: _vm._$g(12, "sc"), attrs: { _i: 12 } },
+                [_vm._v("性别")]
+              ),
               _c(
                 "u-radio-group",
                 {
-                  attrs: { _i: 21 },
+                  staticClass: _vm._$g(13, "sc"),
+                  attrs: { _i: 13 },
                   model: {
-                    value: _vm._$g(21, "v-model"),
+                    value: _vm._$g(13, "v-model"),
                     callback: function() {},
                     expression: "valueGend"
                   }
                 },
-                _vm._l(_vm._$g(22, "f"), function(item, index, $20, $30) {
+                _vm._l(_vm._$g(14, "f"), function(item, index, $20, $30) {
                   return _c("u-radio", {
                     key: item,
-                    attrs: { _i: "22-" + $30 }
+                    staticClass: _vm._$g("14-" + $30, "sc"),
+                    attrs: { _i: "14-" + $30 }
                   })
                 }),
                 1
+              )
+            ],
+            1
+          ),
+          _c(
+            "uni-view",
+            { staticClass: _vm._$g(15, "sc"), attrs: { _i: 15 } },
+            [
+              _c(
+                "v-uni-text",
+                { staticClass: _vm._$g(16, "sc"), attrs: { _i: 16 } },
+                [_vm._v("生日")]
               ),
-              _c("br", { attrs: { _i: 23 } }),
               _c("u--input", {
-                staticClass: _vm._$g(24, "sc"),
-                attrs: { _i: 24 },
+                staticClass: _vm._$g(17, "sc"),
+                attrs: { _i: 17 },
                 on: {
                   focus: function($event) {
                     return _vm.$handleViewEvent($event)
                   }
                 },
                 model: {
-                  value: _vm._$g(24, "v-model"),
+                  value: _vm._$g(17, "v-model"),
                   callback: function() {},
                   expression: "valueAge"
                 }
-              }),
-              _c("br", { attrs: { _i: 25 } }),
+              })
+            ],
+            1
+          ),
+          _c(
+            "uni-view",
+            { staticClass: _vm._$g(18, "sc"), attrs: { _i: 18 } },
+            [
+              _c(
+                "v-uni-text",
+                { staticClass: _vm._$g(19, "sc"), attrs: { _i: 19 } },
+                [_vm._v("邮箱")]
+              ),
               _c("u--input", {
-                staticClass: _vm._$g(26, "sc"),
-                attrs: { _i: 26 },
+                staticClass: _vm._$g(20, "sc"),
+                attrs: { _i: 20 },
                 model: {
-                  value: _vm._$g(26, "v-model"),
+                  value: _vm._$g(20, "v-model"),
                   callback: function() {},
                   expression: "valueEmail"
                 }
@@ -12014,10 +12085,10 @@ var render = function() {
       ),
       _c(
         "uni-view",
-        { staticClass: _vm._$g(27, "sc"), attrs: { _i: 27 } },
+        { staticClass: _vm._$g(21, "sc"), attrs: { _i: 21 } },
         [
           _c("u-button", {
-            attrs: { _i: 28 },
+            attrs: { _i: 22 },
             on: {
               click: function($event) {
                 return _vm.$handleViewEvent($event)
@@ -12029,8 +12100,8 @@ var render = function() {
       ),
       _c("uni-calendar", {
         ref: "calendar",
-        staticClass: _vm._$g(29, "sc"),
-        attrs: { _i: 29 },
+        staticClass: _vm._$g(23, "sc"),
+        attrs: { _i: 23 },
         on: {
           confirm: function($event) {
             return _vm.$handleViewEvent($event)
@@ -12132,7 +12203,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../hb/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* 总页面 */\n.reg {\n\tcolor: black;\n\t-webkit-text-decoration-color: white;\n\t        text-decoration-color: white;\n}\n\n/* 注册标题 */\n.title {\n\tmargin: 10%;\n\tmargin-left: 36%;\n\tfont-size: 50px;\n}\n\n/* 注册信息总界面 */\n.info {\n\tdisplay: flex;\n\tflex-direction: row;\n\talign-items: center;\n\tjustify-content: center;\n\tmargin-top: 25%;\n}\n\n/* 注册信息文字提示 */\n.infoVal {\n\tdisplay: flex;\n\tflex-direction: column;\n\n\tfont-size: 45rpx;\n\tpadding: 10px 10px 10px 10px;\n\talign-items: center;\n\tjustify-content: center;\n}\n\n/* 输入框 */\n.input {\n\tdisplay: flex;\n\tflex-direction: column;\n\tpadding: 10px 10px 10px 10px;\n\n\tsize: 20rpx;\n}\n\n/* 注册按钮 */\n.btnRgs {\n\tmargin-top: 40px;\n\tmargin-right: 10%;\n\tmargin-bottom: 10px;\n\tmargin-left: 10%;\n\ttext-align: right;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* 总页面 */\n.reg {\n\tcolor: black;\n\t-webkit-text-decoration-color: white;\n\t        text-decoration-color: white;\n}\n\n/* 注册标题 */\n.title {\n\tmargin: 10%;\n\tmargin-left: 36%;\n\tfont-size: 50px;\n}\n\n/* 注册信息总界面 */\n.info {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tmargin-top: 25%;\n\theight: 420rpx;\n\tflex-flow: row wrap;\n}\n\n/* 注册按钮 */\n.btnRgs {\n\tmargin-top: 240rpx;\n\tmargin-right: 10%;\n\tmargin-bottom: 10px;\n\tmargin-left: 10%;\n\ttext-align: right;\n}\n.itemBox {\n\tdisplay: flex;\n\tflex-direction: row;\n\theight: 90rpx;\n\twidth: 660rpx;\n}\n.textBox {\n\twidth: 160rpx;\n\ttext-align: center;\n\tpadding-top: 28rpx;\n}\n.inputBox {\n\twidth: 500rpx;\n\theight: 50rpx;\n}\n.sexChoosing {\n\tmargin-top: 20rpx;\n\tmargin-right: 120rpx;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -12591,6 +12662,7 @@ var render = function() {
                 { attrs: { _i: "3-" + $30 } },
                 [
                   _c("u-text", {
+                    staticClass: _vm._$g("4-" + $30, "sc"),
                     attrs: { _i: "4-" + $30 },
                     domProps: {
                       textContent: _vm._s(_vm._$g("4-" + $30, "v-text"))
@@ -12629,8 +12701,6 @@ var render = function() {
                         attrs: {
                           src: _vm._$g("7-" + $30, "a-src"),
                           poster: _vm._$g("7-" + $30, "a-poster"),
-                          name: _vm._$g("7-" + $30, "a-name"),
-                          author: _vm._$g("7-" + $30, "a-author"),
                           loop: false,
                           controls: true,
                           _i: "7-" + $30
@@ -12808,7 +12878,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../hb/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.passageGround {}\n.searchArea {\n \t\tbackground-color: #e9e9e9;\n}\n.searchBar {\n \t\tmargin: 5px 10px 20px 5px;\n}\n.contentArea {}\n.player {\n \t\tdisplay: flex;\n \t\tflex-direction: row;\n}\n\n \t/* \t.progressLine{\n\t\tmargin: 2px 2px 0px 0px;\n\t\t\n\t\tjustify-content: center;\n\t}\n */\n.comAndLikes {\n \t\tdisplay: flex;\n \t\tflex-direction: row;\n \t\tmargin: 2px 10% 2px 2px;\n}\n.Comment {\n \t\tmargin: 0px 6% 0px 5%;\n}\n.loadmore {\n \t\tdisplay: flexbox;\n \t\tflex-direction: column-reverse;\n \t\tmargin-top: 20%;\n}\n.Likes {\n \t\t/*点赞数 */\n \t\tdisplay: flex;\n}\n.Comment {\n \t\t/*评论数 */\n \t\tdisplay: flex;\n}\n.deleteBtn {\n \t\tmargin-left: 60%;\n \t\tmargin-right: 16%;\n}\n ", ""]);
+exports.push([module.i, "\n.passageGround {}\n.searchArea {\n \t\tbackground-color: #e9e9e9;\n}\n.searchBar {\n \t\tmargin: 5px 10px 20px 5px;\n}\n.contentArea {}\n.player {\n \t\tdisplay: flex;\n \t\tflex-direction: row;\n}\n\n \t/* \t.progressLine{\n\t\tmargin: 2px 2px 0px 0px;\n\t\t\n\t\tjustify-content: center;\n\t}\n */\n.comAndLikes {\n \t\tdisplay: flex;\n \t\tflex-direction: row;\n \t\tmargin: 2px 10% 2px 2px;\n}\n.Comment {\n \t\tmargin: 0px 6% 0px 5%;\n}\n.loadmore {\n \t\tdisplay: flexbox;\n \t\tflex-direction: column-reverse;\n \t\tmargin-top: 20%;\n}\n.passTitle{\n\t\tcolor: black;\n\t\tfont-size: 40rpx;\n\t\tfont-weight: bold;\n}\n.Likes {\n \t\t/*点赞数 */\n \t\tdisplay: flex;\n}\n.Comment {\n \t\t/*评论数 */\n \t\tdisplay: flex;\n}\n.deleteBtn {\t\n\t\t/*删除按钮 */\n \t\tmargin-left: 60%;\n \t\tmargin-right: 16%;\n}\n ", ""]);
 // Exports
 module.exports = exports;
 

@@ -18,8 +18,8 @@
 
 		<!-- 语音播放 -->
 		<view class="player">
-			<audio style="text-align: left" :src="current.src" :poster="current.poster" :loop="false" :action="audioAction"
-				:name="current.name" controls @play="play()"></audio>
+			<audio style="text-align: left" :src="current.src" :poster="current.poster" :loop="false"
+				:action="audioAction" :name="current.name" controls @play="play()"></audio>
 		</view>
 
 		<!-- 文章内容 -->
@@ -27,7 +27,6 @@
 			<!-- <text selectable="true">{{psgContent}}</text> -->
 			<u--text :text="psgContent" margin="1% 1% 1% 1%"></u--text>
 		</view>
-
 		<!-- 点赞、点踩区 -->
 		<view class="LikesAndDisl">
 			<view class="Like">
@@ -42,7 +41,7 @@
 
 		<!-- 评论区 -->
 		<view v-for="(item, index) in commentList" :key="index">
-			<uni-card :title="commentList[index].cmtAuthorName" :sub-title="commentList[index].cmtTime" 
+			<uni-card :title="commentList[index].cmtAuthorName" :sub-title="commentList[index].cmtTime"
 				:thumbnail="commentList[index].cmtAuthorImg">
 				<!-- 评论 -->
 				<u-read-more>
@@ -53,9 +52,9 @@
 				<!-- 语音播放 -->
 				<view class="player">
 					<audio style="text-align: left" :src="commentList[index].cmtTts" :loop="false"
-						:poster="current.poster" controls @play="play()"></audio>
+						:poster="commentList[index].poster" controls @play="play()"></audio>
 				</view>
- 
+
 				<!-- 点赞踩栏 -->
 				<view class="LikesAndDisl">
 					<u-icon :name="commentList[index].cmtDisLikeState ?'thumb-down-fill':'thumb-down'" size="25"
@@ -84,9 +83,9 @@
 				userName: "", //用户名
 				submitTime: "", //提交时间
 				current: { //当前文章音频信息
-					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3', //音频来源
+					src: '', //音频来源
 					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png', //音频图片
-					name:"",	//文章标题
+					name: "", //文章标题
 					// loop: true, //是否循环
 				},
 				audioAction: {
@@ -97,12 +96,15 @@
 				likeSum: 0,
 				dislikeIcon: "thumb-down",
 				infoAmount: 0,
-				commentList: []
+				commentList: [],
+				admin: false
 			}
 		},
 		onLoad: function() {
 			let that = this;
 			that.getPassageInfo();
+			let isAdmin = uni.getStorageSync('admin');
+			that.admin = isAdmin;
 		},
 		methods: {
 			// 获取文章信息，包括头像、用户名、时间、音频
@@ -110,9 +112,9 @@
 				// 获取缓存中的postID
 				let _this = this;
 				let postID = uni.getStorageSync('postID');
-				let Token=uni.getStorageSync('login_token');
-				this.token=Token;
-				this.postID=postID;
+				let Token = uni.getStorageSync('login_token');
+				this.token = Token;
+				this.postID = postID;
 				uni.request({ // 获取文章
 					url: 'http://106.14.62.110:8080/essay/detail', //api地址
 					method: "POST",
@@ -148,7 +150,8 @@
 									cmtAuthorImg: '',
 									cmtTime: '',
 									cmtLikeState: false,
-									cmtDisLikeState: false
+									cmtDisLikeState: false,
+									poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'
 								};
 								tmp1.cmtId = res.data["cmtId1"];
 								tmp1.cmtContent = res.data["cmtContent1"];
@@ -158,12 +161,9 @@
 								tmp1.cmtTime = res.data["cmtTime1"];
 								tmp1.cmtLikeState = res.data["cmtLikeState1"];
 								tmp1.cmtDisLikeState = res.data["cmtDisLikeState1"];
-								// this.commLikeIcon = tmp1.cmtLikeState ? "thumb-up-fill" : "thumb-up";
-								// this.commDislikeIcon = tmp1.cmtDisLikeState ? "thumb-down-fill" : "thumb-down";
 								_this.commentList.push(tmp1);
 							}
 							if (infoAmount > 1) { //加载评论2
-							console.log(res.data["cmtTts2"]);
 								var tmp2 = {
 									cmtId: 123,
 									cmtContent: "",
@@ -172,7 +172,8 @@
 									cmtAuthorImg: '',
 									cmtTime: '',
 									cmtLikeState: false,
-									cmtDisLikeState: false
+									cmtDisLikeState: false,
+									poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'
 								};
 								tmp2.cmtId = res.data["cmtId2"];
 								tmp2.cmtContent = res.data["cmtContent2"];
@@ -193,8 +194,8 @@
 									cmtAuthorImg: '',
 									cmtTime: '',
 									cmtLikeState: false,
-									cmtDisLikeState: false
-
+									cmtDisLikeState: false,
+									poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'
 								};
 								tmp3.cmtId = res.data["cmtId3"];
 								tmp3.cmtContent = res.data["cmtContent3"];
@@ -235,12 +236,11 @@
 									icon: 'error',
 									title: '网页失踪了',
 								});
-							}else if('erro'in res.data){
+							} else if ('erro' in res.data) {
 								uni.showToast({
 									title: 'error'
 								})
-							}
-							 else {
+							} else {
 								this.likeIcon = "thumb-up";
 								this.likeSum--;
 							}
@@ -255,7 +255,7 @@
 						method: "POST",
 						data: {
 							postId: this.postID,
-							token:this.token
+							token: this.token
 						},
 						success: res => {
 							console.log("点赞");
@@ -266,7 +266,7 @@
 									icon: 'error',
 									title: '网页失踪了',
 								});
-							}else if('erro'in res.data){
+							} else if ('erro' in res.data) {
 								uni.showToast({
 									title: 'error'
 								})
@@ -284,7 +284,7 @@
 						method: "POST",
 						data: {
 							postId: this.postID,
-							token:this.token
+							token: this.token
 						},
 						success: res => {
 							// console.log(res.data);
@@ -293,7 +293,7 @@
 									icon: 'error',
 									title: '网页失踪了',
 								});
-							}else if('erro'in res.data){
+							} else if ('erro' in res.data) {
 								uni.showToast({
 									title: 'error'
 								})
@@ -315,7 +315,7 @@
 						method: "POST",
 						data: {
 							postId: this.postID,
-							token:this.token
+							token: this.token
 						},
 						success: res => {
 							console.log(res.data);
@@ -324,7 +324,7 @@
 									icon: 'error',
 									title: '网页失踪了',
 								});
-							}else if('erro'in res.data){
+							} else if ('erro' in res.data) {
 								uni.showToast({
 									title: 'error'
 								})
@@ -342,7 +342,7 @@
 						method: "POST",
 						data: {
 							postId: this.postID,
-							token:this.token
+							token: this.token
 						},
 						success: res => {
 							console.log(res.data);
@@ -351,7 +351,7 @@
 									icon: 'error',
 									title: '网页失踪了',
 								});
-							}else if('erro'in res.data){
+							} else if ('erro' in res.data) {
 								uni.showToast({
 									title: 'error'
 								})
@@ -363,34 +363,35 @@
 
 						}
 					});
-					if (this.likeIcon == "thumb-up-fill")
-					{uni.request({
-						url: 'http://106.14.62.110:8080/post/like/cancel', //api地址
-						method: "POST",
-						data: {
-							postId: this.postID,
-							token:this.token
-						},
-						success: res => {
-							console.log(res.data);
-							if (res.statusCode == 404) { //返回的状态码
-								uni.showToast({
-									icon: 'error',
-									title: '网页失踪了',
-								});
-							}else if('erro'in res.data){
-								uni.showToast({
-									title: 'error'
-								})
-							}else {
-								this.likeIcon = "thumb-up";
-								this.likeSum--;
-							}
-						},
-						fail: () => {
+					if (this.likeIcon == "thumb-up-fill") {
+						uni.request({
+							url: 'http://106.14.62.110:8080/post/like/cancel', //api地址
+							method: "POST",
+							data: {
+								postId: this.postID,
+								token: this.token
+							},
+							success: res => {
+								console.log(res.data);
+								if (res.statusCode == 404) { //返回的状态码
+									uni.showToast({
+										icon: 'error',
+										title: '网页失踪了',
+									});
+								} else if ('erro' in res.data) {
+									uni.showToast({
+										title: 'error'
+									})
+								} else {
+									this.likeIcon = "thumb-up";
+									this.likeSum--;
+								}
+							},
+							fail: () => {
 
-						}
-					});}
+							}
+						});
+					}
 				}
 			},
 			clickComLikeIcon(index) { // 点击评论点赞按钮
@@ -400,7 +401,7 @@
 						method: "POST",
 						data: {
 							cmtId: this.commentList[index]["cmtId"],
-							token:this.token
+							token: this.token
 						},
 						success: res => {
 							console.log(res.data);
@@ -409,7 +410,7 @@
 									icon: 'error',
 									title: '网页失踪了',
 								});
-							}else if('erro'in res.data){
+							} else if ('erro' in res.data) {
 								uni.showToast({
 									title: 'error'
 								})
@@ -429,7 +430,7 @@
 						method: "POST",
 						data: {
 							cmtId: this.commentList[index]["cmtId"],
-							token:this.token
+							token: this.token
 						},
 						success: res => {
 							console.log(res.data);
@@ -438,7 +439,7 @@
 									icon: 'error',
 									title: '网页失踪了',
 								});
-							}else if('erro'in res.data){
+							} else if ('erro' in res.data) {
 								uni.showToast({
 									title: 'error'
 								})
@@ -452,34 +453,35 @@
 
 						}
 					});
-					uni.request({
-						url: 'http://106.14.62.110:8080/comment/dislike/cancel', //api地址
-						method: "POST",
-						data: {
-							cmtId: this.commentList[index]["cmtId"],
-							token:this.token
-						},
-						success: res => {
-							console.log(res.data);
-							if (res.statusCode == 404) { //返回的状态码
-								uni.showToast({
-									icon: 'error',
-									title: '网页失踪了',
-								});
-							} else if('erro'in res.data){
-								uni.showToast({
-									title: 'error'
-								})
-							}else {
-								this.commentList[index].cmtDisLikeState = false;
+					if (this.commentList[index].cmtDisLikeState == true) {
+						uni.request({
+							url: 'http://106.14.62.110:8080/comment/dislike/cancel', //api地址
+							method: "POST",
+							data: {
+								cmtId: this.commentList[index]["cmtId"],
+								token: this.token
+							},
+							success: res => {
+								console.log(res.data);
+								if (res.statusCode == 404) { //返回的状态码
+									uni.showToast({
+										icon: 'error',
+										title: '网页失踪了',
+									});
+								} else if ('erro' in res.data) {
+									uni.showToast({
+										title: 'error'
+									})
+								} else {
+									this.commentList[index].cmtDisLikeState = false;
+								}
+							},
+
+							fail: () => {
+
 							}
-						},
-
-						fail: () => {
-
-						}
-					});
-
+						});
+					}
 				}
 			},
 			clickComDislikeIcon(index) { //评论点击点踩
@@ -489,7 +491,7 @@
 						method: "POST",
 						data: {
 							cmtId: this.commentList[index]["cmtId"],
-							token:this.token
+							token: this.token
 						},
 						success: res => {
 							console.log(res.data);
@@ -498,12 +500,12 @@
 									icon: 'error',
 									title: '网页失踪了',
 								});
-							}else if('erro'in res.data){
+							} else if ('erro' in res.data) {
 								uni.showToast({
 									title: 'error'
 								})
 							} else {
-								this.commentList[index].cmtDisLikeState  = false;
+								this.commentList[index].cmtDisLikeState = false;
 							}
 						},
 
@@ -518,7 +520,7 @@
 						method: "POST",
 						data: {
 							cmtId: this.commentList[index]["cmtId"],
-							token:this.token
+							token: this.token
 						},
 						success: res => {
 							console.log(res.data);
@@ -527,7 +529,7 @@
 									icon: 'error',
 									title: '网页失踪了',
 								});
-							}else if('erro'in res.data){
+							} else if ('erro' in res.data) {
 								uni.showToast({
 									title: 'error'
 								})
@@ -540,29 +542,31 @@
 
 						}
 					});
-					uni.request({
-						url: 'http://106.14.62.110:8080/comment/like/cancel', //api地址
-						method: "POST",
-						data: {
-							cmtId: this.commentList[index]["cmtId"],
-							token:this.token
-						},
-						success: res => {
-							console.log(res.data);
-							if (res.statusCode == 404) { //返回的状态码
-								uni.showToast({
-									icon: 'error',
-									title: '网页失踪了',
-								});
-							} else {
-								this.commentList[index].cmtLikeState = false;
+					if (this.commentList[index].cmtLikeState == true) {
+						uni.request({
+							url: 'http://106.14.62.110:8080/comment/like/cancel', //api地址
+							method: "POST",
+							data: {
+								cmtId: this.commentList[index]["cmtId"],
+								token: this.token
+							},
+							success: res => {
+								console.log(res.data);
+								if (res.statusCode == 404) { //返回的状态码
+									uni.showToast({
+										icon: 'error',
+										title: '网页失踪了',
+									});
+								} else {
+									this.commentList[index].cmtLikeState = false;
+								}
+							},
+
+							fail: () => {
+
 							}
-						},
-
-						fail: () => {
-
-						}
-					});
+						});
+					}
 				}
 			},
 			getCom(index) { //获取评论
@@ -570,8 +574,8 @@
 				let postTime = _this.commentList[index].cmtTime;
 				let postID = uni.getStorageSync('postID');
 				let Token = uni.getStorageSync('login_token');
-				this.postID=postID;
-				this.token=Token;
+				this.postID = postID;
+				this.token = Token;
 				uni.request({
 					url: 'http://106.14.62.110:8080/essay/detail/refresh', //api地址
 					method: "POST",
@@ -595,8 +599,8 @@
 								cmtAuthorImg: '',
 								cmtTime: '',
 								cmtLikeState: false,
-								cmtDisLikeState: false
-
+								cmtDisLikeState: false,
+								poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'
 							};
 							tmp1.cmtId = res.data["cmtId1"];
 							tmp1.cmtContent = res.data["cmtContent1"];
@@ -617,8 +621,8 @@
 								cmtAuthorImg: '',
 								cmtTime: '',
 								cmtLikeState: false,
-								cmtDisLikeState: false
-
+								cmtDisLikeState: false,
+								poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'
 							};
 							tmp2.cmtId = res.data["cmtId2"];
 							tmp2.cmtContent = res.data["cmtContent2"];
@@ -639,8 +643,8 @@
 								cmtAuthorImg: '',
 								cmtTime: '',
 								cmtLikeState: false,
-								cmtDisLikeState: false
-
+								cmtDisLikeState: false,
+								poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png'
 							};
 							tmp3.cmtId = res.data["cmtId3"];
 							tmp3.cmtContent = res.data["cmtContent3"];
@@ -655,7 +659,7 @@
 					}
 				})
 			},
-			
+
 			Comment() {
 				uni.redirectTo({
 					url: '/pages/passage/commentWriting'

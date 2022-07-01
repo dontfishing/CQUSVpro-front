@@ -324,7 +324,6 @@
 			 * 回到今天
 			 */
 			backtoday() {
-				console.log(this.cale.getDate(new Date()).fullDate);
 				let date = this.cale.getDate(new Date()).fullDate
 				// this.cale.setDate(date)
 				this.init(date)

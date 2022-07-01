@@ -42,7 +42,7 @@
 				passageContent: '', //文章内容
 				current: { //提供播放器的标题，作者，资源
 					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png',
-					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
+					src: '',
 				},
 				voiceSetting: { //语音设置
 					ttsSpd: 5,
@@ -68,7 +68,7 @@
 			},
 			generate() { //生成音频
 				this.getVoiceSetting();
-				let _this=this;
+				let _this = this;
 				let passPer = _this.voiceSetting.ttsPer;
 				let passSpd = _this.voiceSetting.ttsSpd;
 				let passPit = _this.voiceSetting.ttsPit;
@@ -77,7 +77,7 @@
 				if (this.passageContent == "") {
 					uni.showToast({
 						icon: "error",
-						title: '文章内容不能为空!'
+						title: '内容不能为空!'
 					});
 				} else {
 					uni.request({ //请求音频
@@ -109,9 +109,13 @@
 						icon: "error",
 						title: '文章内容不能为空!'
 					});
+				} else if (this.current.src == "") {
+					uni.showToast({
+						icon: "error",
+						title: '请先生成音频!'
+					});
 				} else {
 					let _this = this;
-					this.generate(); //先生成音频
 					let text = _this.passageContent;
 					let passTts = _this.current.src;
 					let postID = uni.getStorageSync('postID');

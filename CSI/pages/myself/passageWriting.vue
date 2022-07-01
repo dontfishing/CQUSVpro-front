@@ -48,7 +48,7 @@
 				passageContent: '', //文章内容
 				current: { //提供播放器的标题，作者，资源
 					poster: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/7fbf26a0-4f4a-11eb-b680-7980c8a877b8.png',
-					src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
+					src: '',
 				},
 				voiceSetting: { //语音设置
 					ttsSpd: 5,
@@ -111,10 +111,16 @@
 				if (this.passageContent == "") {
 					uni.showToast({
 						icon: "error",
-						title: '文章内容不能为空!'
+						title: '内容不能为空!'
 					});
-				} else {
-					this.generate(); //先生成音频
+				}
+				else if(this.current.src == ""){
+					uni.showToast({
+						icon: "error",
+						title: '请先生成音频!'
+					});
+				}
+				else {
 					let passTitle = this.title;
 					let passAb = this.abstract;
 					let text = this.passageContent;

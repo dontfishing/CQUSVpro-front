@@ -1294,13 +1294,13 @@
 	.oper-wrapper {
 		height: 50px;
 		position: fixed;
-		bottom: 10px;
+		bottom: 0px;
 		box-sizing: border-box;
 		border: 1px solid #F1F1F1;
 		background: #ffffff;
 		width: 100%;
 		left: 0%;
-		z-index: 9999999;
+		z-index: 300000;
 		flex-direction: row;
 	}
 

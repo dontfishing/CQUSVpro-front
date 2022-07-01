@@ -1,49 +1,40 @@
 <template>
 	<view class="reg">
-		<!-- style="{background: 'url('+imageURL+')'}" -->
-		<!-- 如果是设置background-image则写成：<view class="content" :style="{backgroundImage: 'url('+imageURL+')'}"> -->
 		<!-- 注册基本信息填入 -->
 		<view class="info">
-
-			<!-- 输入信息文字提示 -->
-			<view class="infoVal">
-				<text>账号</text></br>
-				<text>密码</text></br>
-				<text>确认密码</text></br>
-				<text>性别</text></br>
-				<text>生日</text></br>
-				<text>邮箱</text>
+			<!-- 输入信息 -->
+			<view class="itemBox">
+				<text class="textBox">账号</text>
+				<u--input class="inputBox" placeholder="6-16位,大小写字母、数字" border="surround" v-model="valueAc">
+				</u--input>
 			</view>
-
-			<!-- 输入框 -->
-			<view class="input">
-				<!-- 用户名 -->
-				<u--input class="infoAc" placeholder="6-16位,大小写字母、数字" border="surround" v-model="valueAc">
-				</u--input></br>
-				<!-- 密码 -->
-				<u--input class="infoPsw" type="password" placeholder="6-16位,大小写字母、数字" border="surround"
-					v-model="valuePsw"></u--input></br>
-
-				<!-- 确认密码 -->
-				<u--input class="infoPwAgain" type="password" placeholder="确认密码" border="surround"
-					v-model="valuePwAgain">
-				</u--input></br>
-				<!-- 性别 -->
-				<u-radio-group v-model="valueGend" placement="row">
-					<u-radio :customStyle="{margin:'10px 50% 10px 0px'}" v-for="(item, index) in genderList"
-						:key="index" :label="item.name" :name="item.name">
+			<view class="itemBox">
+				<text class="textBox">密码</text>
+				<u--input class="inputBox" type="password" placeholder="6-16位,大小写字母、数字" border="surround"
+					v-model="valuePsw"></u--input>
+			</view>
+			<view class="itemBox">
+				<text class="textBox">确认密码</text>
+				<u--input class="inputBox" type="password" placeholder="确认密码" border="surround" v-model="valuePwAgain">
+				</u--input>
+			</view>
+			<view class="itemBox">
+				<text class="textBox">性别</text>
+				<u-radio-group class="inputBox" v-model="valueGend" placement="row">
+					<u-radio class="sexChoosing" v-for="(item, index) in genderList" :key="index" :label="item.name"
+						:name="item.name">
 					</u-radio>
 				</u-radio-group>
-				<!-- <u--input class="infoGend" placeholder="性别" border="surround" v-model="valueGend"></br>
-				</u--input> -->
-				</br>
-				<!-- 生日 -->
-				<u--input class="infoAge" placeholder="生日" border="surround" v-model="valueAge" @focus="open()">
-				</u--input></br>
-				<!-- 邮箱 -->
-				<u--input class="infoEmail" placeholder="邮箱" border="surround" v-model="valueEmail">
+			</view>
+			<view class="itemBox">
+				<text class="textBox">生日</text>
+				<u--input class="inputBox" placeholder="生日" border="surround" v-model="valueAge" @focus="open()">
 				</u--input>
-
+			</view>
+			<view class="itemBox">
+				<text class="textBox">邮箱</text>
+				<u--input class="inputBox" placeholder="邮箱" border="surround" v-model="valueEmail">
+				</u--input>
 			</view>
 		</view>
 		<!--注册按钮-->
@@ -105,6 +96,7 @@
 					disabled: true
 				}],
 				valueGend: '男',
+				postGend: 'm'
 			};
 		},
 		methods: {
@@ -116,30 +108,29 @@
 			confirm(e) {
 				this.valueAge = e["fulldate"];
 			},
-			
+
 			close() {
-				
+
 			},
 
 			register() {
+				// 切换性别
+				if (this.valueGend == "女") {
+					this.postGend = "f";
+				} else {
+					this.postGend = "m";
+				}
 				var data = {
 					useraccount: this.valueAc,
 					password: this.valuePsw,
 					passwordAgain: this.valuePwAgain,
-					gender: this.valueGend,
+					gender: this.postGend,
 					birthday: this.valueAge,
 					email: this.valueEmail
 				};
-				// 切换性别
-				if (this.valueGend == "女") {
-					this.valueGend = "f";
-				} else {
-					this.valueGend = "m";
-				}
-
 				// 判断输入不为空
 				if (data.useraccount == "" || data.password == "" || data.passwordAgain == "" || data.valueAge == "" ||
-					data.valueEmail == ""||data.gender=="") {
+					data.valueEmail == "" || data.gender == "") {
 					uni.showToast({
 						icon: 'error',
 						title: '输入不可以为空'
@@ -147,7 +138,7 @@
 				}
 
 				// 判断用户名是否符号要求
-				else if (!(/^[A-Za-z\d]{6,16}$/.test(this.valueAc)) || this.valueAc.length < 4 || this.valueAc.length >
+				else if (!(/^[A-Za-z\d]{6,16}$/.test(this.valueAc)) || this.valueAc.length < 6 || this.valueAc.length >
 					16) {
 					uni.showToast({
 						icon: 'error',
@@ -176,7 +167,7 @@
 				else if (data.password != data.passwordAgain) {
 					uni.showToast({
 						icon: 'error',
-						title: '确认密码与密码不一致'
+						title: '两次密码不一致'
 					});
 				} else {
 					uni.request({
@@ -185,7 +176,7 @@
 						data: {
 							useraccount: this.valueAc,
 							password: this.valuePsw,
-							gender: this.valueGend,
+							gender: this.postGend,
 							birthday: this.valueAge,
 							email: this.valueEmail
 						},
@@ -257,40 +248,42 @@
 	/* 注册信息总界面 */
 	.info {
 		display: flex;
-		flex-direction: row;
 		align-items: center;
 		justify-content: center;
 		margin-top: 25%;
-	}
-
-	/* 注册信息文字提示 */
-	.infoVal {
-		display: flex;
-		flex-direction: column;
-
-		font-size: 45rpx;
-		padding: 10px 10px 10px 10px;
-		align-items: center;
-		justify-content: center;
-	}
-
-	/* 输入框 */
-	.input {
-		display: flex;
-		flex-direction: column;
-		padding: 10px 10px 10px 10px;
-
-		size: 20rpx;
-
+		height: 420rpx;
+		flex-flow: row wrap;
 	}
 
 	/* 注册按钮 */
 	.btnRgs {
-		margin-top: 40px;
+		margin-top: 240rpx;
 		margin-right: 10%;
 		margin-bottom: 10px;
 		margin-left: 10%;
 		text-align: right;
+	}
 
+	.itemBox {
+		display: flex;
+		flex-direction: row;
+		height: 90rpx;
+		width: 660rpx;
+	}
+
+	.textBox {
+		width: 160rpx;
+		text-align: center;
+		padding-top: 28rpx;
+	}
+
+	.inputBox {
+		width: 500rpx;
+		height: 50rpx;
+	}
+
+	.sexChoosing {
+		margin-top: 20rpx;
+		margin-right: 120rpx;
 	}
 </style>

@@ -79,6 +79,10 @@
 								data: res.data.userName
 							});
 							uni.setStorage({
+								key: 'admin',
+								data: res.data.admin
+							});
+							uni.setStorage({
 								key: 'voice_setting',
 								data: {
 									ttsSpd: 5,
