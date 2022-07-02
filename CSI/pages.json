@@ -79,25 +79,27 @@
 			}
 		},
 		{
-			"path": "./pages/mood/moodChoosing",
+			"path": "pages/mood/moodChoosing",
 			"style": {
 				"navigationBarTitleText": "标签选择"
 			}
 		},
 		{
-			"path": "./pages/mood/moodMain",
+			"path": "pages/mood/moodMain",
 			"style": {
-				"navigationBarTitleText": "心情广场"
+				"navigationBarTitleText": "心情广场",
+				"enablePullDownRefresh": true
+				
 			}
 		},
 		{
-			"path": "./pages/mood/moodWriting",
+			"path": "pages/mood/moodWriting",
 			"style": {
 				"navigationBarTitleText": "写心情"
 			}
 		},
 		{
-			"path": "./pages/mood/moodDetails",
+			"path": "pages/mood/moodDetails",
 			"style": {
 				"navigationBarTitleText": "心情详情"
 			}
@@ -114,7 +116,7 @@
 			"selectedIconPath": "static/ground_1.png",
 			"text": "文章广场"
 		}, {
-			"pagePath": "./pages/mood/moodChoosing",
+			"pagePath": "pages/mood/moodChoosing",
 			"iconPath": "./static/mood_2.png",
 			"selectedIconPath": "./static/mood_1.png",
 			"text": "心情广场"
