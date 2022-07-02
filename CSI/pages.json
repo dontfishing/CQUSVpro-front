@@ -88,7 +88,9 @@
 		{
 			"path": "pages/mood/moodMain",
 			"style": {
-				"navigationBarTitleText": "心情广场"
+				"navigationBarTitleText": "心情广场",
+				"enablePullDownRefresh": true
+				
 			}
 		},
 		{
@@ -122,30 +124,26 @@
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"list": [{
-				"pagePath": "pages/passage/passageMain",
-				"iconPath": "static/ground_2.png",
-				"selectedIconPath": "static/ground_1.png",
-				"text": "文章广场"
-			},
-			{
-				"pagePath": "/pages/mood/moodChoosing",
-				"iconPath": "/static/mood_2.png",
-				"selectedIconPath": "./static/mood_1.png",
-				"text": "心情广场"
-			},
-			{
-				"pagePath": "pages/myself/myselfMain",
-				"iconPath": "static/mine_2.png",
-				"selectedIconPath": "static/mine_1.png",
-				"text": "与我相关"
-			},
-			{
-				"pagePath": "pages/set/setMain",
-				"iconPath": "static/setting_2.png",
-				"selectedIconPath": "static/setting_1.png",
-				"text": "设置"
-			}
-		]
+			"pagePath": "pages/passage/passageMain",
+			"iconPath": "static/ground_2.png",
+			"selectedIconPath": "static/ground_1.png",
+			"text": "文章广场"
+		}, {
+			"pagePath": "pages/mood/moodChoosing",
+			"iconPath": "./static/mood_2.png",
+			"selectedIconPath": "./static/mood_1.png",
+			"text": "心情广场"
+		}, {
+			"pagePath": "pages/myself/myselfMain",
+			"iconPath": "static/mine_2.png",
+			"selectedIconPath": "static/mine_1.png",
+			"text": "与我相关"
+		}, {
+			"pagePath": "pages/set/setMain",
+			"iconPath": "static/setting_2.png",
+			"selectedIconPath": "static/setting_1.png",
+			"text": "设置"
+		}]
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
