@@ -2,7 +2,7 @@
 	<view>
 		<!--文本内容-->
 		<view>
-			<u--textarea class="content" v-model="cmtContent" placeholder="请输入内容" height=200px maxlength=200 count>
+			<u--textarea class="content" v-model="moodContent" placeholder="请输入内容" height=200px maxlength=200 count>
 			</u--textarea>
 		</view>
 		<!--按钮区域-->
@@ -40,12 +40,12 @@
 					let moodId = uni.getStorageSync('moodId');
 					let Token = uni.getStorageSync('login_token');
 					uni.request({ //请求发表评论
-						url: 'http://106.14.62.110:8080/writeComment',
+						url: 'http://106.14.62.110:8080/mood/comment',
 						method: "POST",
 						data: {
 							token: Token,
 							moodId: moodId,
-							cmtContent: text,
+							moodCmt: text,
 						},
 						success: (res) => {
 							if ("commenterName" in res.data) {

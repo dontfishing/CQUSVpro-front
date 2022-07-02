@@ -15,14 +15,14 @@
 			<view v-for="(item, index) in passageList" :key="index">
 				<uni-card :title="passageList[index].userName" :sub-title="passageList[index].time"
 					@click="goToDetail(index)" :thumbnail="passageList[index].poster">
-					
+
 					<!-- 语音播放 -->
 					<view class="player">
-						<audio style="text-align: left" :src="passageList[index].src" :poster="passageList[index].poster"
-							:name="passageList[index].title" :author="passageList[index].abstract" :loop="false"
-							controls="true" @play="play()"></audio>
+						<audio style="text-align: left" :src="passageList[index].src"
+							:poster="passageList[index].poster" :name="passageList[index].title"
+							:author="passageList[index].abstract" :loop="false" controls="true" @play="play()"></audio>
 					</view>
-					
+
 					<!-- 点赞评论栏 -->
 					<view class="comAndLikes">
 						<!-- 评论 -->
@@ -66,9 +66,9 @@
 			play() { // 播放音频
 			},
 			updatePass(ob) {
-				if(ob.infoAmount == 0){
-					this.loadMoreStatus='noMore';
-					
+				if (ob.infoAmount < 3) {
+					this.loadMoreStatus = 'noMore';
+
 				}
 				if (ob.infoAmount > 0) { //更新第一篇
 					var tmp1 = {
@@ -192,8 +192,7 @@
 				uni.setStorage({ //存入缓存
 					key: 'postID',
 					data: tmp,
-					success: function() {
-					}
+					success: function() {}
 				});
 
 				uni.navigateTo({

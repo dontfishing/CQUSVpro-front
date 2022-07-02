@@ -1,23 +1,26 @@
 <template>
 	<view class="myself">
 		<view class="row1">
+			
 			<view class="myPassage" @click="gotoMyP()">
 				<image src="../../static/passage.png" style="height: 60px; width: 70px;"></image>
 				</br><text>我的文章</text>
 			</view>
+			
 			<view class="myComment" @click="gotoMyC() ">
 				<image src="../../static/comment.png" style="height: 60px; width: 70px;"></image>
-				<!-- <u--text text="我的评论"></u--text> -->
 				</br>
 				<text class="comText">我的评论</text>
 			</view>
 
 		</view>
 		<view class="row2">
+			
 			<view class="writePassage" @click="gotoMyW()">
 				<image src="../../static/edit.png" style="height: 60px; width: 70px;"></image>
 				</br><text>发表文章</text>
 			</view>
+			
 			<view class="writeMood" @click="gotoMood()">
 				<image src="../../static/mood_2.png" style="height: 60px; width: 70px;"></image>
 				</br><text>发布心情</text>
@@ -29,29 +32,25 @@
 
 <script>
 	export default {
-		// data() : {
-		// 	return 
-		// }
-
 		methods: {
-			gotoMyP() {
+			gotoMyP() { //进入我的文章页面
 				uni.navigateTo({
 					url: 'myPassage'
 				})
 			},
 
-			gotoMyC() {
+			gotoMyC() { //进入我的评论页面
 				uni.navigateTo({
 					url: 'myComment'
 				})
 			},
 
-			gotoMyW() {
+			gotoMyW() { //进入发表文章页面
 				uni.navigateTo({
 					url: 'passageWriting'
 				})
 			},
-			gotoMood() {
+			gotoMood() { //进入发布心情页面
 				uni.navigateTo({
 					url: 'pages/mood/moodWriting'
 				});
@@ -79,10 +78,11 @@
 
 	}
 
+	/* 我的文章页面 */
 	.myPassage {
 		background-color: #c3b4e4;
 		padding: 10% 10% 10% 10%;
-		margin: 10% 5% 10% 5%;
+		margin: 15% 35rpx 5% 35rpx;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -90,30 +90,33 @@
 
 	}
 
+	/* 我的评论页面 */
 	.myComment {
 		background-color: #d3d6f6;
 		padding: 10% 10% 10% 10%;
-		margin: 10% 5% 10% 5%;
+		margin: 15% 35rpx 5% 35rpx;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 	}
 
+	/* 发表文章页面 */
 	.writePassage {
 		background-color: #a5bae3;
 		padding: 10% 10% 10% 10%;
-		margin: 10% 5% 10% 5%;
+		margin: 15% 35rpx 5% 35rpx;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 	}
 
+	/* 发布心情页面 */
 	.writeMood {
 		background-color: rgb(212, 213, 208);
 		padding: 10% 10% 10% 10%;
-		margin: 10% 5% 10% 5%;
+		margin: 15% 35rpx 5% 35rpx;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -124,9 +127,10 @@
 	.comTextz {
 		padding: 5% 6% 6% 6%;
 		font-size: 20px;
-		box-sizing: 100px,100px;
+		box-sizing: 100px, 100px;
 	}
 
+	/* 所有图片 */
 	image {
 		padding: 5% 5% 6% 6%;
 	}
@@ -135,6 +139,7 @@
 		border-radius: 5%;
 	}
 
+	/* 所有文本 */
 	text {
 		padding: 5% 6% 6% 6%;
 		font-size: 20px;

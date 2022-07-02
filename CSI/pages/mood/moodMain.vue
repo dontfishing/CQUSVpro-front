@@ -67,7 +67,7 @@
 			play() { // 播放音频
 			},
 			updateMood(ob) {
-				if (ob.infoAmount == 0) {
+				if (ob.infoAmount <3) {
 					this.loadMoreStatus = 'noMore';
 				}
 				if (ob.infoAmount > 0) { //更新第一篇
@@ -164,7 +164,6 @@
 					tmp3.moodComment = ob.moodComment3; // 评论数
 					tmp3.moodId = ob.moodId3; //心情id
 					this.moodList.push(tmp3); //更新心情列表
-
 				}
 
 
@@ -289,7 +288,7 @@
 	.loadmore {
 		display: flexbox;
 		flex-direction: column-reverse;
-		margin-top: 30%;
+		margin-top: 10%;
 	}
 
 	.Likes {
