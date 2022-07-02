@@ -4,7 +4,7 @@
 		<view class="searchArea">
 			<view class="searchBar">
 				<u-search placeholder="请输入搜索关键词" borderColor="#e9e9e9" shape="square" v-model="keyword" clearabled
-					bgColor="white"></u-search>
+					@search="search()" bgColor="white"></u-search>
 			</view>
 		</view>
 
@@ -13,14 +13,14 @@
 			<view v-for="(item, index) in passageList" :key="index">
 				<uni-card :title="passageList[index].userName" :sub-title="passageList[index].time"
 					@click="goToDetail(index)" :thumbnail="passageList[index].poster">
-					
+
 					<!-- 语音播放 -->
 					<view class="player">
 						<audio style="text-align: left" :src="posterNull" :poster="passageList[index].poster"
 							:name="passageList[index].title" :author="passageList[index].abstract" :loop="false"
 							controls="true"></audio>
 					</view>
-					
+
 					<!-- 点赞评论栏 -->
 					<view class="comAndLikes">
 						<!-- 评论 -->
@@ -53,6 +53,7 @@
 	export default {
 		data() {
 			return {
+				isSearch: false,
 				posterNull: "",
 				keyword: "", // 搜索关键词
 				passageList: [],
@@ -64,9 +65,9 @@
 			play() { // 播放音频
 			},
 			updatePass(ob) {
-				if(ob.infoAmount == 0){
-					this.loadMoreStatus='noMore';
-					
+				if (ob.infoAmount == 0) {
+					this.loadMoreStatus = 'noMore';
+
 				}
 				if (ob.infoAmount > 0) { //更新第一篇
 					var tmp1 = {
@@ -158,17 +159,78 @@
 					},
 					success: (res) => {
 						_this.updatePass(res.data);
+						if (res.data.infoAmount == 0) {
+							un.showToast({
+								icon: "none",
+								title: '没有更多了QAQ',
+								duration: 2000
+							})
+						}
+					}
+				})
+			},
+			search() { //文章搜索
+				let _this = this;
+				let content = _this.keyword;
+				_this.isSearch = true;
+				_this.passageList = [];
+				uni.request({
+					url: 'http://106.14.62.110:8080/essay/search',
+					data: {
+						searchWord: content
+					},
+					method: 'POST',
+					success: (res) => {
+						_this.updatePass(res.data);
+						if (res.data.infoAmount == 0) {
+							un.showToast({
+								icon: "none",
+								title: '没有更多了QAQ',
+								duration: 2000
+							})
+						} else {
+							uni.showToast({
+								title: '搜索成功',
+								duration: 2000
+							});
+						}
+					}
+				})
+			},
+			searchRefresh(ob) { //搜索后文章
+				let _this = this;
+				const postId = ob.id;
+				let content = _this.keyword;
+				uni.request({ //获取远端数据
+					url: 'http://106.14.62.110:8080/essay/search/refresh',
+					method: "POST",
+					data: {
+						postId: postId,
+						searchWord: content
+					},
+					success: (res) => {
+						_this.updatePass(res.data);
+						if (res.data.infoAmount == 0) {
+							un.showToast({
+								icon: "none",
+								title: '没有更多了QAQ',
+								duration: 2000
+							})
+						}
 					}
 				})
 			},
 			pullDownRefresh() { //下拉刷新的函数
 				let _this = this;
+				_this.keyword = "";
 				uni.request({
 					url: 'http://106.14.62.110:8080/essay/refresh',
+					method: 'GET',
 					success: (res) => {
 						_this.updatePass(res.data);
 						if (res.data.infoAmount == 0) {
 							un.showToast({
+								icon: "none",
 								title: '没有更多了QAQ',
 								duration: 2000
 							})
@@ -187,8 +249,7 @@
 				uni.setStorage({ //存入缓存
 					key: 'postID',
 					data: tmp,
-					success: function() {
-					}
+					success: function() {}
 				});
 
 				uni.navigateTo({
@@ -205,8 +266,14 @@
 			},
 
 			onReachBottom() { // 上划加载
-				var len = this.passageList.length;
-				this.refresh(this.passageList[len - 1]);
+				let _this = this;
+				if (_this.isSearch) {
+					var len = this.passageList.length;
+					this.searchRefresh(this.passageList[len - 1]);
+				} else {
+					var len = this.passageList.length;
+					this.refresh(this.passageList[len - 1]);
+				}
 			},
 		}
 	}

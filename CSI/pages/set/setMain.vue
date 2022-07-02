@@ -18,7 +18,7 @@
 			<u-cell-group>
 				<u-cell class="cell" icon="setting-fill" title="个人信息" url="/pages/set/userInfo" :isLink="true"></u-cell>
 				<u-cell class="cell" icon="volume-fill" title="语音设置" url="/pages/set/voiceSet" :isLink="true"></u-cell>
-				<u-cell class="cell" v-show="admin" icon="setting" title="管理员页面" url="/pages/set/voiceSet" :isLink="true"></u-cell>
+				<u-cell class="cell" v-show="admin" icon="setting" title="管理员页面" url="/pages/set/adminMain" :isLink="true"></u-cell>
 				<u-cell class="cell-end" icon="trash-fill" title="退出登录" @click="changeShowEnd()"></u-cell>
 			</u-cell-group>
 		</view>
