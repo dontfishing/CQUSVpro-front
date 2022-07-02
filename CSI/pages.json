@@ -1,6 +1,6 @@
 {
-
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/passage/passageMain",
 			"style": {
@@ -12,7 +12,6 @@
 			"path": "pages/passage/passageDetails",
 			"style": {
 				"navigationBarTitleText": "文章详情"
-
 			}
 		},
 		{
@@ -38,7 +37,8 @@
 			"style": {
 				"navigationBarTitleText": "设置"
 			}
-		}, {
+		},
+		{
 			"path": "pages/set/userInfo",
 			"style": {
 				"navigationBarTitleText": "个人信息"
@@ -49,7 +49,8 @@
 			"style": {
 				"navigationBarTitleText": "语音设置"
 			}
-		}, {
+		},
+		{
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "登录",
@@ -79,27 +80,39 @@
 			}
 		},
 		{
-			"path": "./pages/mood/moodChoosing",
+			"path": "pages/mood/moodChoosing",
 			"style": {
 				"navigationBarTitleText": "标签选择"
 			}
 		},
 		{
-			"path": "./pages/mood/moodMain",
+			"path": "pages/mood/moodMain",
 			"style": {
 				"navigationBarTitleText": "心情广场"
 			}
 		},
 		{
-			"path": "./pages/mood/moodWriting",
+			"path": "pages/mood/moodWriting",
 			"style": {
 				"navigationBarTitleText": "写心情"
 			}
 		},
 		{
-			"path": "./pages/mood/moodDetails",
+			"path": "pages/mood/moodDetails",
 			"style": {
 				"navigationBarTitleText": "心情详情"
+			}
+		},
+		{
+			"path": "pages/mood/moodWriting",
+			"style": {
+				"navigationBarTitleText": "写心情"
+			}
+		},
+		{
+			"path": "pages/mood/moodCmtWrite",
+			"style": {
+				"navigationBarTitleText": "写评论"
 			}
 		}
 	],
@@ -109,26 +122,30 @@
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"list": [{
-			"pagePath": "pages/passage/passageMain",
-			"iconPath": "static/ground_2.png",
-			"selectedIconPath": "static/ground_1.png",
-			"text": "文章广场"
-		}, {
-			"pagePath": "./pages/mood/moodChoosing",
-			"iconPath": "./static/mood_2.png",
-			"selectedIconPath": "./static/mood_1.png",
-			"text": "心情广场"
-		}, {
-			"pagePath": "pages/myself/myselfMain",
-			"iconPath": "static/mine_2.png",
-			"selectedIconPath": "static/mine_1.png",
-			"text": "与我相关"
-		}, {
-			"pagePath": "pages/set/setMain",
-			"iconPath": "static/setting_2.png",
-			"selectedIconPath": "static/setting_1.png",
-			"text": "设置"
-		}]
+				"pagePath": "pages/passage/passageMain",
+				"iconPath": "static/ground_2.png",
+				"selectedIconPath": "static/ground_1.png",
+				"text": "文章广场"
+			},
+			{
+				"pagePath": "/pages/mood/moodChoosing",
+				"iconPath": "/static/mood_2.png",
+				"selectedIconPath": "./static/mood_1.png",
+				"text": "心情广场"
+			},
+			{
+				"pagePath": "pages/myself/myselfMain",
+				"iconPath": "static/mine_2.png",
+				"selectedIconPath": "static/mine_1.png",
+				"text": "与我相关"
+			},
+			{
+				"pagePath": "pages/set/setMain",
+				"iconPath": "static/setting_2.png",
+				"selectedIconPath": "static/setting_1.png",
+				"text": "设置"
+			}
+		]
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -139,7 +156,8 @@
 	"easycom": {
 		"^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
 	},
-	"condition": { //模式配置，仅开发期间生效
+	"condition": {
+		//模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式(list 的索引项)
 		"list": [{
 			"name": "", //模式名称

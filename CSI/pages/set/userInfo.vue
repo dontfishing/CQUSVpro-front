@@ -28,7 +28,7 @@
 			<u-popup :show="showCommom" @close="close" @open="openCommom" mode="center">
 				<view class="popInput">
 					<!--指示和输入-->
-					<text>{{modifyValue[popNum].newInfo}}</text>
+					<text class="textPop">{{modifyValue[popNum].newInfo}}</text>
 					<u-input v-model="modifyValue[popNum].newInput"></u-input>
 				</view>
 				<!--取消和确认按钮-->
@@ -48,7 +48,7 @@
 			<u-popup :show="showSex" @close="close" @open="openGender" mode="center">
 				<view class="popInput">
 					<!--指示和输入-->
-					<text>{{modifyValue[popNum].newInfo}}</text>
+					<text class="textPop">{{modifyValue[popNum].newInfo}}</text>
 					<u-radio-group style="width:240px" v-model="modifyValue[popNum].newInput" placement="row">
 						<u-radio :customStyle="{margin:'10px 60% 10px 0px'}" v-for="(item, index) in genderList"
 							:key="index" :label="item.name" :name="item.name">
@@ -72,15 +72,15 @@
 			<u-popup :show="showPassword" @close="close" @open="openPass" mode="center">
 				<view class="popPassword">
 					<view class="inputPassword">
-						<text>旧密码</text>
+						<text class="textPop">旧密码</text>
 						<u-input v-model="oldPassword"></u-input>
 					</view>
 					<view class="inputPassword">
-						<text>新密码</text>
+						<text class="textPop">新密码</text>
 						<u-input v-model="password"></u-input>
 					</view>
 					<view class="inputPassword">
-						<text>确认密码</text>
+						<text class="textPop">确认密码</text>
 						<u-input v-model="passwordAgain"></u-input>
 					</view>
 					<!--取消和确认按钮-->
@@ -604,7 +604,7 @@
 		height: 100rpx;
 	}
 
-	text {
+	.textPop {
 		margin-top: 4%;
 		margin-right: 5%;
 	}

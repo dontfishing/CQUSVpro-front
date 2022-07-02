@@ -107,22 +107,31 @@
 		
 		onLoad() { //刚进入界面
 			let _this = this;
-			try { //获取缓存成功
-				let voiceSet = uni.getStorageSync('voice_setting');
-				if(voiceSet) {
-					_this.speed = voiceSet.ttsSpd;
-					_this.tune = voiceSet.ttsPit;
-					_this.volume = voiceSet.ttsPit;
-					_this.timbre = voiceSet.ttsPit;
-					_this.generate();
+			let loginSet = uni.getStorageSync('login_token');
+			_this.token = loginSet;
+			uni.request({
+				url:'http://106.14.62.110:8080/sound/info',
+				method:"POST",
+				data:{
+					token: _this.token
+				},
+				success: res => {
+					if(res.statusCode == 404) {
+						uni.showToast({
+							icon:"none",
+							title:"404 not found"
+						})
+					} else{
+						_this.speed = res.data.ttsSpd;
+						_this.tune = res.data.ttsPit;
+						_this.volume = res.data.ttsVol;
+						_this.timbre = res.data.ttsPer;
+						_this.timbreDisplay = _this.baseList[_this.timbre].title;
+					}
+					
 				}
-			} catch(e) { //获取缓存失败返回默认值
-				_this.speed = 5
-				_this.tune = 5
-				_this.volume = 5
-				_this.timbre = 0
-				_this.generate();
-			}
+			})
+			_this.generate();
 		},
 		
 		methods: {
@@ -148,16 +157,17 @@
 				let passSpd = _this.speed;
 				let passPit = _this.tune;
 				let passVol = _this.volume;
+				console.log(passSpd);
 				let passContent = "衬衫的价格为九镑十五便士，所以你选择C项，并将其标在试卷上。";
 				uni.request({ //请求音频
 					url: 'http://106.14.62.110:8080/sound/generate',
 					method: "POST",
 					data: {
-						ttsPer: passPer,
+						postContent: passContent,
 						ttsSpd: passSpd,
 						ttsPit: passPit,
 						ttsVol: passVol,
-						postContent: passContent
+						ttsPer: passPer
 					},
 					success: (res) => {
 						_this.testLis.src = res.data.postTts;
@@ -189,6 +199,7 @@
 				let _this = this;
 				let loginSet = uni.getStorageSync('login_token');
 				_this.token = loginSet;
+				console.log(_this.token);
 				var voiceSetting = { //语音设置
 					ttsSpd: _this.speed,
 					ttsPit: _this.tune,
