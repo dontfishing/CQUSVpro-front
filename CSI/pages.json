@@ -82,7 +82,7 @@
 		{
 			"path": "pages/set/adminMain",
 			"style": {
-				"navigationBarTitleText": "管理员页面"
+				"navigationBarTitleText": "用户信息统计"
 			}
 		}
 	],
