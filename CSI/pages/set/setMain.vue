@@ -18,13 +18,14 @@
 			<u-cell-group>
 				<u-cell class="cell" icon="setting-fill" title="个人信息" url="/pages/set/userInfo" :isLink="true"></u-cell>
 				<u-cell class="cell" icon="volume-fill" title="语音设置" url="/pages/set/voiceSet" :isLink="true"></u-cell>
-				<u-cell class="cell" v-show="admin" icon="setting" title="管理员页面" url="/pages/set/adminMain" :isLink="true"></u-cell>
+				<u-cell class="cell" v-show="admin" icon="setting" title="管理员页面" url="/pages/set/adminMain"
+					:isLink="true"></u-cell>
 				<u-cell class="cell-end" icon="trash-fill" title="退出登录" @click="changeShowEnd()"></u-cell>
 			</u-cell-group>
 		</view>
 		<view>
 			<u-action-sheet :actions="endList" @select="selectClick" :closeOnClickOverlay="true"
-				:closeOnClickAction="true" :show="showEnd" cancelText="取消"  @close="showEnd=false">
+				:closeOnClickAction="true" :show="showEnd" cancelText="取消" @close="showEnd=false">
 			</u-action-sheet>
 		</view>
 	</view>
@@ -52,9 +53,10 @@
 
 			};
 		},
-		onLoad() { //每次加载都会重新刷新
-			var _this =this;
-			_this.admin = uni.getStorageSync('admin');
+		onLoad() { //每次加载都s会重新刷新
+			var _this = this;
+			let isAdmin = uni.getStorageSync('admin');
+			_this.admin = isAdmin;
 			uni.getStorage({ // 获取缓存中的图片url
 				key: 'ImgUrl',
 				success: function(getImgRes) {
@@ -92,7 +94,7 @@
 					}
 				});
 			},
-			myUpload(rsp) {	//点击头像更改并上传
+			myUpload(rsp) { //点击头像更改并上传
 				let _this = this;
 				_this.imageURL = rsp.path;
 				let Token = uni.getStorageSync('login_token');
@@ -130,8 +132,14 @@
 				});
 			},
 			gotoPhoto() { //跳转到更改头像
-			let avatar = this.$refs.avatar;
-			avatar.fChooseImg(1, {selWidth: "200px", selHeight: "200px", expWidth: "160rpx", expHeight: "160rpx", inner:false});
+				let avatar = this.$refs.avatar;
+				avatar.fChooseImg(1, {
+					selWidth: "200px",
+					selHeight: "200px",
+					expWidth: "160rpx",
+					expHeight: "160rpx",
+					inner: false
+				});
 			},
 			changeShowEnd() { //显示退出登录菜单
 				this.showEnd = true;

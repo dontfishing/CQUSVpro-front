@@ -66,7 +66,6 @@
 							});
 							//return;
 						} else {
-							console.log(res.data.admin);
 							uni.showToast({
 								icon: 'none',
 								title: '登录成功'
@@ -97,7 +96,7 @@
 								data: res.data.userImg
 							})
 							uni.reLaunch({
-								url: '/pages/set/setMain'
+								url: '/pages/passage/passageMain'
 							});
 						}
 					},

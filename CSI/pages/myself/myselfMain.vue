@@ -1,91 +1,149 @@
 <template>
-	<view>
-		<view class="myPassage" @click="gotoMyP()">
-			<image src="../../static/passage.png" style="height: 70px; width: 80px;"></image>
-			<text>我的文章</text>
+	<view class="myself">
+		<view class="row1">
+			
+			<view class="myPassage" @click="gotoMyP()">
+				<image src="../../static/passage.png" style="height: 60px; width: 70px;"></image>
+				</br><text>我的文章</text>
+			</view>
+			
+			<view class="myComment" @click="gotoMyC() ">
+				<image src="../../static/comment.png" style="height: 60px; width: 70px;"></image>
+				</br>
+				<text class="comText">我的评论</text>
+			</view>
+
 		</view>
-		<view class="myComment" @click="gotoMyC() ">
-			<image src="../../static/comment.png" style="height: 70px; width: 80px;"></image>
-			<text>我的评论</text>
-		</view>
-		<view class="writePassage" @click="gotoMyW()">
-			<image src="../../static/edit.png" style="height: 70px; width: 80px;"></image>
-			<text>写文章</text>
+		<view class="row2">
+			
+			<view class="writePassage" @click="gotoMyW()">
+				<image src="../../static/edit.png" style="height: 60px; width: 70px;"></image>
+				</br><text>发表文章</text>
+			</view>
+			
+			<view class="writeMood" @click="gotoMood()">
+				<image src="../../static/mood_2.png" style="height: 60px; width: 70px;"></image>
+				</br><text>发布心情</text>
+			</view>
+
 		</view>
 	</view>
 </template>
 
 <script>
 	export default {
-		// data() : {
-		// 	return 
-		// }
-		
-		methods : {
-			gotoMyP () {
+		methods: {
+			gotoMyP() { //进入我的文章页面
 				uni.navigateTo({
 					url: 'myPassage'
 				})
 			},
-			
-			gotoMyC () {
+
+			gotoMyC() { //进入我的评论页面
 				uni.navigateTo({
 					url: 'myComment'
-				})				
+				})
 			},
-			
-			gotoMyW () {
+
+			gotoMyW() { //进入发表文章页面
 				uni.navigateTo({
 					url: 'passageWriting'
 				})
+			},
+			gotoMood() { //进入发布心情页面
+				uni.navigateTo({
+					url: '/pages/mood/moodWriting'
+				});
 			}
 		}
-		
+
 	}
 </script>
 
 <style>
+	.myself {
+		display: flex;
+		flex-direction: column;
+
+	}
+
+	.row1 {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.row2 {
+		display: flex;
+		flex-direction: row;
+
+	}
+
+	/* 我的文章页面 */
 	.myPassage {
-		background-color: #a0dce4;
-		margin-top: 5%;
-		margin-left: 2%;
-		margin-right: 2%;
+		background-color: #c3b4e4;
+		padding: 10% 10% 10% 10%;
+		margin: 15% 35rpx 5% 35rpx;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
 	}
-	
+
+	/* 我的评论页面 */
 	.myComment {
-		background-color: #a3bb89;
-		margin-top: 5%;
-		margin-left: 2%;
-		margin-right: 2%;
+		background-color: #d3d6f6;
+		padding: 10% 10% 10% 10%;
+		margin: 15% 35rpx 5% 35rpx;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 	}
-	
+
+	/* 发表文章页面 */
 	.writePassage {
-		background-color: #9fad90;
-		margin-top: 5%;
-		margin-left: 2%;
-		margin-right: 2%;
+		background-color: #a5bae3;
+		padding: 10% 10% 10% 10%;
+		margin: 15% 35rpx 5% 35rpx;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 	}
-	
+
+	/* 发布心情页面 */
+	.writeMood {
+		background-color: rgb(212, 213, 208);
+		padding: 10% 10% 10% 10%;
+		margin: 15% 35rpx 5% 35rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+	}
+
+	.comTextz {
+		padding: 5% 6% 6% 6%;
+		font-size: 20px;
+		box-sizing: 100px, 100px;
+	}
+
+	/* 所有图片 */
 	image {
-		margin-top: 15%;
-		margin-bottom: 15%;
-		margin-right: 15%;
-		margin-left: 15%;
+		padding: 5% 5% 6% 6%;
 	}
-	
+
 	view {
 		border-radius: 5%;
 	}
-	
+
+	/* 所有文本 */
 	text {
-		font-size: 30px;
-		margin-top: 20%;
-		margin-right: 5%;
+		padding: 5% 6% 6% 6%;
+		font-size: 20px;
+		width: 80px;
+		height: 50rpx;
 	}
 </style>

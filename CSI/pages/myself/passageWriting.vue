@@ -155,7 +155,7 @@
 											uni.switchTab({
 												url: './myselfMain',
 											})
-										}, 2000);
+										}, 1000);
 									}
 								})
 							} else {
