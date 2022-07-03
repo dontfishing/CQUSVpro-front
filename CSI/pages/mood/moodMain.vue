@@ -67,7 +67,7 @@
 			play() { // 播放音频
 			},
 			updateMood(ob) {
-				if (ob.infoAmount == 0) {
+				if (ob.infoAmount < 3) {
 					this.loadMoreStatus = 'noMore';
 				}
 				if (ob.infoAmount > 0) { //更新第一篇
@@ -86,14 +86,22 @@
 					tmp1.moodAuthorImg = ob.moodAuthorImg1; //头像
 					tmp1.moodContent = ob.moodContent1; // 心情主题
 					//标签
-					if(ob.moodTag1.moodTagMood=="life"){
+					if (ob.moodTag1.moodTagMood == "life") {
 						tmp1.moodTag.push("life");
-					}
-					else{
-						tmp1.moodTag.push(ob.moodTag1.moodTagAge);
-						tmp1.moodTag.push(ob.moodTag1.moodTagLevel);
-						tmp1.moodTag.push(ob.moodTag1.moodDetailMood);
-						tmp1.moodTag.push(ob.moodTag1.moodTagShape);
+					} else {
+						if ("moodTagAge" in ob.moodTag1) {
+							tmp1.moodTag.push(ob.moodTag1.moodTagAge);
+						}
+						if ("moodTagLevel" in ob.moodTag1) {
+							tmp1.moodTag.push(ob.moodTag1.moodTagLevel);
+						}
+						if ("moodDetailMood" in ob.moodTag1) {
+							tmp1.moodTag.push(ob.moodTag1.moodDetailMood);
+						}
+						if ("moodTagShape" in ob.moodTag1) {
+							tmp1.moodTag.push(ob.moodTag1.moodTagShape);
+						}
+
 					}
 					tmp1.moodTime = ob.moodTime1; // 发布时间
 					tmp1.moodImg = ob.moodImg1; //心情图片
@@ -117,14 +125,21 @@
 					tmp2.moodAuthorName = ob.moodAuthorName2; //用户名
 					tmp2.moodAuthorImg = ob.moodAuthorImg2; //头像
 					tmp2.moodContent = ob.moodContent2; // 心情主题
-					if(ob.moodTag2.moodTagMood=="life"){
+					if (ob.moodTag2.moodTagMood == "life") {
 						tmp2.moodTag.push("life");
-					}
-					else{
-						tmp2.moodTag.push(ob.moodTag2.moodTagAge);
-						tmp2.moodTag.push(ob.moodTag2.moodTagLevel);
-						tmp2.moodTag.push(ob.moodTag2.moodDetailMood);
-						tmp2.moodTag.push(ob.moodTag2.moodTagShape);
+					} else {
+						if ("moodTagAge" in ob.moodTag2) {
+							tmp2.moodTag.push(ob.moodTag2.moodTagAge);
+						}
+						if ("moodTagLevel" in ob.moodTag2) {
+							tmp2.moodTag.push(ob.moodTag2.moodTagLevel);
+						}
+						if ("moodDetailMood" in ob.moodTag2) {
+							tmp2.moodTag.push(ob.moodTag2.moodDetailMood);
+						}
+						if ("moodTagShape" in ob.moodTag2) {
+							tmp2.moodTag.push(ob.moodTag2.moodTagShape);
+						}
 					}
 					tmp2.moodTime = ob.moodTime2; // 发布时间
 					tmp2.moodImg = ob.moodImg2; //心情图片
@@ -149,14 +164,21 @@
 					tmp3.moodAuthorName = ob.moodAuthorName3; //用户名
 					tmp3.moodAuthorImg = ob.moodAuthorImg3; //头像
 					tmp3.moodContent = ob.moodContent3; // 心情主题
-					if(ob.moodTag3.moodTagMood=="life"){
+					if (ob.moodTag3.moodTagMood == "life") {
 						tmp3.moodTag.push("life");
-					}
-					else{
-						tmp3.moodTag.push(ob.moodTag3.moodTagAge);
-						tmp3.moodTag.push(ob.moodTag3.moodTagLevel);
-						tmp3.moodTag.push(ob.moodTag3.moodDetailMood);
-						tmp3.moodTag.push(ob.moodTag3.moodTagShape);
+					} else {
+						if ("moodTagAge" in ob.moodTag3) {
+							tmp3.moodTag.push(ob.moodTag3.moodTagAge);
+						}
+						if ("moodTagLevel" in ob.moodTag3) {
+							tmp3.moodTag.push(ob.moodTag3.moodTagLevel);
+						}
+						if ("moodDetailMood" in ob.moodTag3) {
+							tmp3.moodTag.push(ob.moodTag3.moodDetailMood);
+						}
+						if ("moodTagShape" in ob.moodTag3) {
+							tmp3.moodTag.push(ob.moodTag3.moodTagShape);
+						}
 					}
 					tmp3.moodTime = ob.moodTime3; // 发布时间
 					tmp3.moodImg = ob.moodImg3; //心情图片
@@ -164,7 +186,6 @@
 					tmp3.moodComment = ob.moodComment3; // 评论数
 					tmp3.moodId = ob.moodId3; //心情id
 					this.moodList.push(tmp3); //更新心情列表
-
 				}
 
 
@@ -188,14 +209,14 @@
 						moodId: moodId
 					},
 					success: (res) => {
-						console.log("上划",res.data);
+						console.log("上划", res.data);
 						_this.updateMood(res.data);
 					}
 				})
 			},
 			pullDownRefresh() { //下拉刷新的函数
 				let selectedList = uni.getStorageSync('selectedList');
-				
+
 				let ageList = selectedList.age;
 				let moodList = selectedList.mood;
 				let shapeList = selectedList.shape;
@@ -209,12 +230,12 @@
 						moodTag: moodList
 					},
 					success: (res) => {
-						console.log("下拉:",res.data);
+						console.log("下拉:", res.data);
 						_this.updateMood(res.data);
 						if (res.data.infoAmount == 0) {
 							uni.showToast({
 								title: '没有更多了QAQ',
-								icon:'fail',
+								icon: 'fail',
 								duration: 2000
 							})
 						} else {
@@ -260,19 +281,19 @@
 	.contentArea {
 		flex-direction: column;
 	}
-	
-	.labelArea{
+
+	.labelArea {
 		margin: 2% 2% 2% 2%;
 		flex-wrap: wrap;
 		display: flex;
 		flex-direction: row;
 	}
-	
-	.eachLabel{
+
+	.eachLabel {
 		margin: 2rpx 2rpx 2rpx 2rpx;
 		display: flex;
 		flex-direction: row;
-		
+
 	}
 
 	.comAndLikes {
@@ -289,7 +310,7 @@
 	.loadmore {
 		display: flexbox;
 		flex-direction: column-reverse;
-		margin-top: 30%;
+		margin-top: 10%;
 	}
 
 	.Likes {
