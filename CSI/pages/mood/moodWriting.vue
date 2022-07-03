@@ -8,14 +8,18 @@
 		<view class="photoAndTags">
 			<!--发布照片-->
 			<view class="imgLoad">
-				<u-avatar :text="text" shape="square" size="150" bg-color="#f3f4f6" @click="chooseImg()" color="black"
+				<u-avatar shape="square" size="150" bg-color="#f3f4f6" @click="chooseImg()" color="black"
 					:src="src">
 				</u-avatar>
 			</view>
 			<!--标签区域-->
 			<view class="tags">
-				<u-tag class="miniTag" v-for="(item, index) in tagList" :key="index" :text="tagList[index]"
-				closable :show="close1[index]" @close="close(index)" plain borderColor="#909399" color="#909399" v-if="close2[index]"></u-tag>
+				<u-tag :text="emoType" size="mini" closable :show="close1" @close="closeTag1()" plain borderColor="#909399" color="#909399" ></u-tag>
+				<u-tag :text="faceType" size="mini" closable :show="close2" @close="closeTag2()" plain borderColor="#909399" color="#909399" ></u-tag>
+				<u-tag :text="beauty" size="mini" closable :show="close3" @close="closeTag3()" plain borderColor="#909399" color="#909399" ></u-tag>
+				<u-tag :text="age" size="mini" closable :show="close4" @close="closeTag4()" plain borderColor="#909399" color="#909399" ></u-tag>
+				<u-tag :text="emoTag" size="mini" closable :show="close5" @close="closeTag5()" plain borderColor="#909399" color="#909399" ></u-tag>
+				<u-tag text="life" size="mini" :show="close6" plain borderColor="#909399" color="#909399" ></u-tag>
 			</view>
 		</view>
 		<!--取消和确认按钮-->
@@ -33,8 +37,12 @@
 				moodContent: '', //文本内容
 				text: '发布照片', //发布照片文字
 				src: '', //照片来源
-				tagList:[], //标签列表
-				close1: [true,true,true,true,true] ,//标签可删除	
+				close1: false,
+				close2: false,
+				close3: false,
+				close4: false,
+				close5: false,
+				close6: false,
 				emoType: '', //心情类型
 				faceType: '', //脸型
 				beauty: '', //颜值
@@ -42,7 +50,6 @@
 				emoTag: '', //心情标签
 				picUrl: '' ,//上传图片返回的url
 				count: 0, //记录删除的标签数量
-				close2: [true,true,true,true,true],
 				iniBeauty: 1.5,
 				iniAge: 0,
 			}
@@ -62,32 +69,27 @@
 							filePath: tmpChoose[0],
 							fileType: "image",
 							name: "image",
-							header: {
-								
-							},
 							success: (uploadFileRes) => {
 								let tmp=JSON.parse(uploadFileRes.data);
-								console.log(tmp.url);
 								_this.emoType = tmp.EMOTION_TYPE;
 								_this.faceType = tmp.FACE_TYPE;
 								_this.beauty = "颜值:" + tmp.BEAUTY + "";
 								_this.age = "年龄:" + tmp.AGE + "";
 								_this.emoTag = tmp.EMO_TAG;
 								_this.src = tmp.url;
+								_this.picUrl = tmp.url;
 								_this.iniBeauty = tmp.BEAUTY;
 								_this.iniAge = tmp.AGE;
-								_this.tagList.push(_this.emoType);
-								_this.tagList.push(_this.faceType);
-								_this.tagList.push(_this.beauty);
-								_this.tagList.push(_this.age);
-								_this.tagList.push(_this.emoTag);
-								console.log(_this.src)
+								_this.close1 = true;
+								_this.close2 = true;
+								_this.close3 = true;
+								_this.close4 = true;
+								_this.close5 = true;
 							}
 						})	
 					}
 
 				})
-				console.log(_this.src);
 			},
 			
 			cancel() { //取消，跳转到与我相关
@@ -99,21 +101,26 @@
 			publish() { //发表
 				let _this = this;
 				let Token = uni.getStorageSync('login_token');
+				let tmpPicUrl = _this.picUrl;
+				let tmpMoodContent = _this.moodContent;
+				let tmpEmoType = _this.emoType;
+				let tmpFaceType = _this.faceType;
+				let tmpBeauty = _this.iniBeauty;
+				let tmpAge = _this.iniAge;
+				let tmpEmoTag = _this.emoTag;
 				console.log(Token);
-				console.log(_this.iniAge);
-				console.log(_this.iniBeauty);
 				uni.request({
 					url:'http://106.14.62.110:8080/moodPublish',
 					method:"POST",
 					data: {
 						token: Token,
-						url: _this.picUrl,
-						moodContent: _this.moodContent,
-						EMOTION_TYPE: _this.emoType,
-						FACE_TYPE: _this.faceType,
-						BEAUTY: _this.iniBeauty,
-						AGE: _this.iniAge,
-						EMO_TAG: _this.emoTag
+						url: tmpPicUrl,
+						moodContent: tmpMoodContent,
+						EMOTION_TYPE: tmpEmoType,
+						FACE_TYPE: tmpFaceType,
+						BEAUTY: tmpBeauty,
+						AGE: tmpAge,
+						EMO_TAG: tmpEmoTag
 					},
 					success: res => {
 						console.log(res.data);
@@ -122,7 +129,7 @@
 								icon:"none",
 								title: "404 not found"
 							})
-						} else if("info" in res.data && rea.data.info == "failed") {
+						} else if("info" in res.data && res.data.info == "failed") {
 							uni.showToast({
 								icon:"none",
 								title:"发表失败"
@@ -130,26 +137,69 @@
 						} else {
 							uni.showToast({
 								icon:"none",
-								title:"发表成功"
+								title:"发表成功",
+								duration: 1000,
+								success: function() {
+									setTimeout(function() {
+										uni.redirectTo({
+											url: "../myself/myselfMain"
+										})
+									}, 2000);
+								}
 							})
-							// uni.navigateTo({
-							// 	url:
-							// })
 						}
 					}
 				})
 			},
 			
-			close(index) { //删除标签
+			closeTag1() { //删除标签
 				let _this = this;
-				_this.close1[index] = false;
-				_this.close2[index] = false;
-				_this.tagList[index] = ""; //删除后变成空字符串
+				_this.close1 = false;
 				_this.count ++;
-				console.log(_this.count);
 				if(_this.count == 5){
-					_this.tagList.push("life");
+					_this.close6 = true;
 				}
+				_this.emoType = "";
+			},
+				
+			closeTag2() { //删除标签
+				let _this = this;
+				_this.close2 = false;
+				_this.count ++;
+				if(_this.count == 5){
+					_this.close6 = true;
+				}
+				_this.faceType = "";
+			},
+
+			closeTag3() { //删除标签
+				let _this = this;
+				_this.close3 = false;
+				_this.count ++;
+				if(_this.count == 5){
+					_this.close6 = true;
+				}
+				_this.iniBeauty = -1; 
+			},
+				
+			closeTag4() { //删除标签
+				let _this = this;
+				_this.close4 = false;
+				_this.count ++;
+				if(_this.count == 5){
+					_this.close6 = true;
+				}
+				_this.iniAge = -1;
+			},
+
+			closeTag5() { //删除标签
+				let _this = this;
+				_this.close5 = false;
+				_this.count ++;
+				if(_this.count == 5){
+					_this.close6 = true;
+				}
+				_this.emoTag = "";
 			}
 		}
 	}

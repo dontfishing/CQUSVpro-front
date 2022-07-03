@@ -53,7 +53,7 @@
 			},
 			gotoMood() {
 				uni.navigateTo({
-					url: 'pages/mood/moodWriting'
+					url: '/pages/mood/moodWriting'
 				});
 			}
 		}
